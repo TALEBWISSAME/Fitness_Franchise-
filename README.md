@@ -1,75 +1,80 @@
-# Fitness Franchise Platform
+# Fitness Franchise
 
-Projet réalisé dans le cadre du module
-**Processus du développement logiciel — M1 Informatique 2026-2027**.
+Application fitness connectée destinée à une franchise de salles de sport.
+
+Projet réalisé dans le cadre du module **Processus du développement logiciel**
+— Master 1 Informatique, année universitaire 2026-2027.
 
 ## Contexte
 
-Le projet porte sur le développement d'une application fitness
-destinée à une franchise de salles de sport.
+Le projet consiste à concevoir une application fitness destinée à une franchise
+de salles de sport.
 
-L'application vise à enrichir l'expérience des adhérents grâce
-au suivi de leurs activités physiques et à l'intégration avec
-les équipements disponibles dans les salles de la franchise.
+L'objectif est d'enrichir l'expérience des adhérents grâce au suivi de leurs
+activités physiques, de leur régularité et de leur progression, ainsi qu'à
+l'intégration avec les équipements sportifs disponibles dans les salles de
+la franchise.
+
+Le projet est développé progressivement selon les besoins et les orientations
+définis avec le Product Owner.
 
 ## Product Goal
 
-À définir et valider avec le Product Owner.
+Le Product Goal sera précisé et validé avec le Product Owner au cours du projet.
 
-## Acteurs
+## Acteurs identifiés
 
 - Adhérent
 - Administrateur
 - Équipements sportifs connectés
 
-D'autres acteurs pourront être ajoutés après validation
-avec le Product Owner.
+D'autres acteurs pourront être ajoutés selon l'évolution des besoins.
 
 ## Fonctionnalités actuellement envisagées
 
 - suivi des activités physiques ;
-- connexion avec les équipements de la franchise ;
-- récupération de données d'entraînement via API ;
 - suivi de la régularité et de la progression ;
+- connexion avec les équipements sportifs de la franchise ;
+- récupération des données d'entraînement via API ;
 - calcul d'indicateurs liés aux entraînements ;
-- badges et récompenses ;
-- administration des adhérents ;
-- gestion des salles et équipements ;
-- protection des données personnelles ;
-- fonctionnalités complémentaires autour des objectifs
-  et de la nutrition à étudier avec le Product Owner.
+- système de badges et de récompenses ;
+- gestion des adhérents par un administrateur ;
+- gestion des salles et des équipements ;
+- prise en compte de la protection des données personnelles ;
+- fonctionnalités complémentaires autour des objectifs et de la nutrition
+  à étudier avec le Product Owner.
 
 ## Méthodologie
 
-Le projet est conduit avec le framework Scrum.
+Le projet est conduit avec le framework **Scrum**.
 
-Chaque séance de TP correspond à un sprint comprenant
-notamment une revue avec le Product Owner afin de présenter
-l'incrément et d'adapter le Product Backlog.
+Chaque séance de TP correspond à un sprint. Les résultats du sprint précédent
+sont présentés au Product Owner afin de recueillir son retour et d'adapter
+le Product Backlog et le sprint suivant.
 
 ## Équipe
 
-| Membre | Responsabilité Scrum |
+| Membre | Rôle |
 |---|---|
-| Wissame Taleb | Scrum Master / Developer |
-| Membre 2 | Developer |
-| Membre 3 | Developer |
-| Membre 4 | Developer |
+| Taleb Wissame | Scrum Master / Developer |
+| Taleb Lamia | Developer |
+| Meriem Takdjerad | Developer |
+| À compléter | Developer |
 
 **Product Owner :** enseignant du module.
 
 ## Documentation
 
-La documentation du projet est disponible dans le dossier `docs/`.
+La documentation du projet sera disponible dans le dossier `docs/`.
 
-Elle contient notamment :
+Elle regroupera notamment :
 
-- besoins et décisions produit ;
-- comptes rendus des échanges avec le Product Owner ;
-- documentation des sprints ;
-- décisions techniques ;
-- documentation des tests.
+- les besoins et décisions produit ;
+- les comptes rendus des échanges avec le Product Owner ;
+- le suivi des sprints ;
+- les décisions techniques et architecturales ;
+- les rapports de tests.
 
 ## État du projet
 
-Projet en cours de cadrage.
+🟡 **Phase actuelle : cadrage initial du produit et constitution du Product Backlog.**
