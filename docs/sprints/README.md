@@ -10,6 +10,7 @@ Elle pourra évoluer en fonction de l'avancement du projet et des retours
 du Product Owner.
 
 | Sprint | Titre | Durée |
+|--------|-------|-------|
 | Sprint 1 | Socle technique et premier flux d'activité connectée | 1 semaine |
 | Sprint 2 | Gestion des adhérents et authentification | 1 semaine |
 | Sprint 3 | Suivi des activités et de la progression | 1 semaine |
