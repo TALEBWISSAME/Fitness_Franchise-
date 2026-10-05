@@ -486,7 +486,7 @@ Les durées indiquées constituent notre budget prévisionnel. Elles pourront
 être comparées au temps réellement consacré à chaque tâche à la fin du sprint.
 
 | ID | Tâche | Responsable | Budget estimé |
-
+|----|-------|-------------|----------------|
 | T1 | Valider l'architecture et les technologies | Toute l'équipe | 1 h |
 | T2 | Initialiser le backend Spring Boot | Wissame | 1 h |
 | T3 | Initialiser le frontend React | Lamia | 1 h |
