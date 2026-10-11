@@ -1,6 +1,7 @@
 package com.fitnessfranchise.backend.activity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,6 +19,17 @@ import static org.mockito.Mockito.when;
 class ActivityServiceTest {
     @Mock
     private ActivityRepository repository;
+
+    @Test
+    void readsActivitiesUsingDescendingDateAndIdOrder() {
+        Activity recent = new Activity(new ActivityRequest("TREADMILL", 20, 2.5,
+                LocalDateTime.parse("2026-10-11T14:30:00")));
+        Activity older = new Activity(new ActivityRequest("TREADMILL", 15, 1.0,
+                LocalDateTime.parse("2026-10-10T14:30:00")));
+        when(repository.findAllByOrderByDateDescIdDesc()).thenReturn(List.of(recent, older));
+        assertThat(new ActivityService(repository).findAll()).containsExactly(recent, older);
+        verify(repository).findAllByOrderByDateDescIdDesc();
+    }
 
     @Test
     void savesRequestFieldsAndReturnsGeneratedId() {

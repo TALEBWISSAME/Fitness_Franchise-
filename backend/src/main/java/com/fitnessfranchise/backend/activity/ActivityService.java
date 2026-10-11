@@ -3,6 +3,7 @@ package com.fitnessfranchise.backend.activity;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
 @Service
 public class ActivityService {
@@ -11,6 +12,11 @@ public class ActivityService {
 
     public ActivityService(ActivityRepository repository) {
         this.repository = repository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Activity> findAll() {
+        return repository.findAllByOrderByDateDescIdDesc();
     }
 
     @Transactional

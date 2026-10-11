@@ -38,4 +38,20 @@ public class Activity {
     public Long getId() {
         return id;
     }
+
+    public String getEquipmentType() {
+        return equipmentType;
+    }
+
+    public Integer getDurationMinutes() {
+        return durationMinutes;
+    }
+
+    public Double getDistanceKm() {
+        return distanceKm;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
 }

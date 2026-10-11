@@ -10,6 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.json.JsonCompareMode;
 import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
+import java.util.List;
+import org.springframework.test.util.ReflectionTestUtils;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -24,6 +28,34 @@ class ActivityControllerTest {
     private ActivityService activityService;
     @Autowired
     private MockMvc mockMvc;
+
+    @Test
+    void returnsActivitiesWithAllFieldsInServiceOrder() throws Exception {
+        Activity recent = new Activity(new ActivityRequest("TREADMILL", 20, 2.5,
+                LocalDateTime.parse("2026-10-11T14:30:00")));
+        Activity older = new Activity(new ActivityRequest("TREADMILL", 15, 1.0,
+                LocalDateTime.parse("2026-10-10T14:30:00")));
+        ReflectionTestUtils.setField(recent, "id", 2L);
+        ReflectionTestUtils.setField(older, "id", 1L);
+        when(activityService.findAll()).thenReturn(List.of(recent, older));
+        mockMvc.perform(get("/api/activities").header("Origin", "http://localhost:5173"))
+                .andExpect(status().isOk())
+                .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
+                .andExpect(content().json("""
+                        [{"id":2,"equipmentType":"TREADMILL","durationMinutes":20,
+                          "distanceKm":2.5,"date":"2026-10-11T14:30:00"},
+                         {"id":1,"equipmentType":"TREADMILL","durationMinutes":15,
+                          "distanceKm":1.0,"date":"2026-10-10T14:30:00"}]
+                        """, JsonCompareMode.STRICT));
+    }
+
+    @Test
+    void returnsEmptyArrayWhenNoActivitiesExist() throws Exception {
+        when(activityService.findAll()).thenReturn(List.of());
+        mockMvc.perform(get("/api/activities"))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]", JsonCompareMode.STRICT));
+    }
 
     @ParameterizedTest
     @ValueSource(doubles = {2.5, 0.0})
@@ -79,7 +111,7 @@ class ActivityControllerTest {
                         .header("Access-Control-Request-Headers", "content-type"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
-                .andExpect(header().string("Access-Control-Allow-Methods", "POST"));
+                .andExpect(header().string("Access-Control-Allow-Methods", "GET,POST"));
     }
 
     @Test
