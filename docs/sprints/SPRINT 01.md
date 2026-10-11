@@ -10,7 +10,7 @@
 ## Équipe de développement
 
 | Membre | Rôle |
-
+|---|---|
 | Taleb Wissame | Scrum Master / Developer |
 | Taleb Lamia | Developer |
 | Meriem Takdjerad | Developer |
