@@ -1,7 +1,7 @@
 ﻿
 function Sidebar({ currentPage, onNavigate }) {
   return (
-    <header className="top-navigation">
+    <aside className="sidebar">
       <div className="brand">
         <svg
           className="brand-icon"
@@ -16,7 +16,7 @@ function Sidebar({ currentPage, onNavigate }) {
         >
           <path d="M8 12h8M3 9v6m3-8v10m12-10v10m3-8v6M3 12h3m12 0h3" />
         </svg>
-        <span>Fitness Franchise</span>
+        <span>Fitness<br />Franchise</span>
       </div>
 
       <nav aria-label="Navigation principale">
@@ -68,18 +68,11 @@ function Sidebar({ currentPage, onNavigate }) {
           </li>
         </ul>
       </nav>
-      <div className="navigation-meta">
-        <span className="prototype-label">Sprint 1 — Prototype</span>
-        <span className="user-avatar" role="img" aria-label="Profil utilisateur (à venir)">
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7H4z" />
-          </svg>
-        </span>
-      </div>
-    </header>
+      
+    </aside>
   )
 }
 
 export default Sidebar
+
 

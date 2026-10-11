@@ -20,6 +20,15 @@ function App() {
       />
 
       <div className="content-layout">
+        <header className="prototype-header">
+        <span className="prototype-label">Sprint 1 — Prototype</span>
+        <span className="user-avatar" role="img" aria-label="Profil utilisateur (à venir)">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7H4z" />
+          </svg>
+        </span>
+      </header>
 
         <main className="main" id="main-content" tabIndex={-1}>
           {currentPage === 'home' && <HomePage />}
@@ -35,4 +44,5 @@ function App() {
 }
 
 export default App
+
 
