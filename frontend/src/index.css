@@ -1,0 +1,18 @@
+﻿:root {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.5;
+  color: #F5F5F5;
+  background: #101114;
+  --background: #101114;
+  --surface: #232429;
+  --accent: #FF7518;
+  --text-primary: #F5F5F5;
+  --text-secondary: #A9A9B3;
+  --border: rgba(169, 169, 179, 0.15);
+  --accent-soft: rgba(255, 117, 24, 0.1);
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 280px; }
+button { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+::selection { background: var(--accent); color: var(--background); }
