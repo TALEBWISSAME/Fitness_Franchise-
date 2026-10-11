@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import ActivityDetailsModal from '../components/ActivityDetailsModal.jsx'
+import useActivities from '../hooks/useActivities.js'
 const formatDate = (date) => {
   return new Date(date).toLocaleString('fr-FR', {
     day: '2-digit',
@@ -12,18 +13,7 @@ const formatDate = (date) => {
 function ActivitiesPage() {
   const [selectedActivity, setSelectedActivity] = useState(null)
 
-  // En attente des activités réelles fournies par le backend.
-  // TEMPORAIRE : activité fictive pour tester l'interface
-// À supprimer lors de la connexion au backend.
-const activities = [
-  {
-    id: 1,
-    equipmentType: 'TREADMILL',
-    durationMinutes: 25,
-    distanceKm: 3.2,
-    date: '2026-10-11T14:30:00'
-  }
-]
+  const { activities, loading, error } = useActivities()
 
   return (
     <section className="activities-page" aria-labelledby="activities-title">
@@ -48,6 +38,7 @@ const activities = [
       </div>
 
       <div className="card">
+        {error && <p role="alert">{error}</p>}
         <table className="activities-table">
           <thead>
             <tr>
@@ -60,9 +51,11 @@ const activities = [
           </thead>
           
 <tbody>
-  {activities.length === 0 ? (
+  {loading ? (
+    <tr><td colSpan={5}>Chargement des activités…</td></tr>
+  ) : activities.length === 0 ? (
     <tr>
-      <td colSpan={5}>Aucune activité disponible</td>
+      <td colSpan={5}>{error ? 'Activités indisponibles' : 'Aucune activité disponible'}</td>
     </tr>
   ) : (
     activities.map((activity) => (

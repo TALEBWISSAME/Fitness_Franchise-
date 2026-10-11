@@ -1,11 +1,20 @@
+import { useEffect, useState } from 'react'
+import { getApi } from '../api.js'
 
 function ApiTestModal({ onClose }) {
-  // Données fictives pour tester l'interface uniquement
-  const mockResponse = {
-    status: 'UP',
-    message: 'Fitness Franchise API is running',
-    timestamp: '2026-10-11T14:32:10'
-  }
+  const [response, setResponse] = useState(null)
+  const [error, setError] = useState('')
+  useEffect(() => {
+    const controller = new AbortController()
+    getApi('/health', controller.signal)
+      .then(data => { if (!controller.signal.aborted) setResponse(data) })
+      .catch(err => {
+        if (!controller.signal.aborted) {
+          setError(err instanceof TypeError ? 'Connexion au backend impossible.' : err.message)
+        }
+      })
+    return () => controller.abort()
+  }, [])
 
   return (
     <div className="api-modal-overlay">
@@ -30,19 +39,14 @@ function ApiTestModal({ onClose }) {
         </div>
 
         <div className="api-modal-result">
-          <div className="api-success-icon">✓</div>
-          <h3>Connexion réussie !</h3>
-          <p>
-            Simulation : réponse fictive du backend.
-          </p>
-          <span className="api-demo-label">
-            Mode démonstration
-          </span>
+          <div className="api-success-icon">{error ? '×' : response ? '✓' : '…'}</div>
+          <h3>{error ? 'Connexion échouée' : response ? 'Connexion réussie !' : 'Test en cours…'}</h3>
+          {error && <p role="alert">{error}</p>}
         </div>
 
         <div className="api-response">
-          <h4>Réponse de l'API (simulée) :</h4>
-          <pre>{JSON.stringify(mockResponse, null, 2)}</pre>
+          <h4>Réponse de l'API :</h4>
+          <pre>{response ? JSON.stringify(response, null, 2) : 'En attente de la réponse'}</pre>
         </div>
 
         <div className="api-modal-footer">

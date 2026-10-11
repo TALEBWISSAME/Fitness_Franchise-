@@ -1,9 +1,12 @@
 ﻿import { useState } from 'react'
 import gymBanner from '../assets/gym-banner.png'
 import ApiTestModal from '../components/ApiTestModal.jsx'
+import useActivities from '../hooks/useActivities.js'
 
 function HomePage() {
   const [showApiModal, setShowApiModal] = useState(false)
+  const { activities, loading, error } = useActivities()
+  const latestActivity = activities[0]
   return (
     <>
       <section className="welcome-banner" aria-labelledby="welcome-title">
@@ -19,8 +22,8 @@ function HomePage() {
             <svg className="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0" /></svg>
             État du système
           </h2>
-          <p className="status"><span className="status-dot" aria-hidden="true" />Connexion non testée</p>
-          <p className="card-description" id="api-help">Le test sera disponible lorsque l’endpoint sera confirmé par Wissame.</p>
+          <p className="status"><span className="status-dot" aria-hidden="true" />{loading ? 'Connexion en cours…' : error ? 'Connexion indisponible' : 'Backend connecté'}</p>
+          <p className="card-description" id="api-help">Les activités sont actualisées automatiquement toutes les cinq secondes.</p>
           <button
   className="api-button"
   type="button"
@@ -42,7 +45,16 @@ function HomePage() {
             <svg className="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" focusable="false"><path d="M5 20v-5m5 5V11m5 9V7m5 13V3" /></svg>
             Dernière activité sportive
           </h2>
-          <div className="empty-state"><span className="empty-state-mark" aria-hidden="true">—</span><p>Aucune activité disponible</p></div>
+          {error && <p role="alert">{error}</p>}
+          {loading ? <p>Chargement des activités…</p> : latestActivity ? (
+            <div>
+              <p>{latestActivity.equipmentType === 'TREADMILL' ? 'Tapis de course' : latestActivity.equipmentType}</p>
+              <p>{latestActivity.durationMinutes} min · {latestActivity.distanceKm} km</p>
+              <p>{new Date(latestActivity.date).toLocaleString('fr-FR')}</p>
+            </div>
+          ) : (
+            <div className="empty-state"><span className="empty-state-mark" aria-hidden="true">—</span><p>{error ? 'Activités indisponibles' : 'Aucune activité disponible'}</p></div>
+          )}
         </section>
       </div>
       {showApiModal && (
