@@ -4,6 +4,8 @@ Date : 13 octobre 2026. **Statut : proposition non validée par le Product Owner
 
 Révision du même jour : l'équipe indique une prochaine séance le **2 novembre 2026** et demande un Sprint 2 plus riche pendant cette période de préparation. Les totaux, filtres et graphique simple passent dans le Must Have du Sprint 2 ; l'objectif hebdomadaire devient Should Have. Cette révision ne commence aucun développement.
 
+Révision des estimations : l'équipe indique que le professeur autorise l'usage des LLM. Le Sprint 2 est réestimé à **37,5 h-personnes de travail, objectif compris, plus 7 h de réserve**. Cette prévision optimiste suppose réutilisation du socle et assistance efficace ; elle inclut compréhension, relecture, intégration et tests. Les charges indicatives des sprints suivants restent à réestimer à partir du temps réellement observé.
+
 ## 1. Références et règles
 
 Le [catalogue fonctionnel](catalogue-fonctionnalites.md) est la source de l'analyse, des preuves d'implémentation et de la distinction entre intentions historiques et propositions. Le [Sprint 1](../sprints/sprint1.md) reste intact : US1 et US2 sont conservées sous PB-00. Aucun backlog formalisé n'a été trouvé dans le dépôt ni dans la recherche d'issues ; ce document constitue une proposition initiale, pas le remplacement d'exigences externes.

@@ -116,7 +116,7 @@ Pour les calories, si le PO les retient ultérieurement, une piste est une méth
 
 1. Fournir/identifier le cahier des charges et le backlog éventuellement externes, puis relier chaque exigence à une ligne PB sans en supprimer.
 2. Confirmer le parcours prioritaire : adhérent personnel ou administration de franchise.
-3. Confirmer la disponibilité individuelle d'ici au 2 novembre : cible enrichie de 64,5 h-personnes plus 13 h de réserve ; le budget du Sprint 1 n'est pas une mesure de vélocité. Les deux dates suivantes sont encore à préciser.
+3. Confirmer la disponibilité individuelle d'ici au 2 novembre : cible réestimée avec assistance LLM de 37,5 h-personnes plus 7 h de réserve. Ce gain est une hypothèse à mesurer ; compréhension, relecture, intégration et tests restent inclus. Le budget du Sprint 1 n'est pas une mesure de vélocité. Les deux dates suivantes sont encore à préciser.
 4. Définir l'affectation d'une séance à l'adhérent et le statut d'une séance simulée ; une intégration réelle d'équipement nécessitera un autre mécanisme de confiance.
 5. Arbitrer physiologie, calories, export/suppression, multi-salles et badges selon les exigences effectivement demandées.
 

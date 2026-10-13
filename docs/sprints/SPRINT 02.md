@@ -17,7 +17,7 @@ Product Owner : enseignant du module, à consulter pour l'ordre produit et les e
 
 Il reste **trois séances avec le professeur**, dont la prochaine le **2 novembre 2026**. Du 13 octobre au 2 novembre, la fenêtre de préparation est de **20 jours calendaires** ; ce n'est pas 20 jours de travail disponibles par personne. L'équipe souhaite profiter de la période de vacances qu'elle indique pour développer un incrément plus riche. La disponibilité individuelle et les dates des deux séances suivantes restent à confirmer.
 
-Budget proposé : **57,5 heures-personnes Must Have**, plus **7 heures-personnes pour l'objectif hebdomadaire Should Have**. La cible enrichie représente donc **64,5 heures-personnes de travail + 13 heures-personnes de réserve = 77,5 heures-personnes de capacité à prévoir**. Les autres options sont hors de ce budget. Il s'agit d'estimations à confronter aux disponibilités, pas d'une vélocité déduite du Sprint 1. La section 8 décrit le repli si la capacité ou l'intégration ne permettent pas toute la cible.
+Budget révisé avec assistance des LLM autorisée par le professeur, selon l'équipe : **33,5 heures-personnes Must Have**, plus **4 heures-personnes pour l'objectif hebdomadaire Should Have**. La cible représente **37,5 heures-personnes de travail + 7 heures-personnes de réserve = 44,5 heures-personnes de capacité à prévoir**. Les autres options sont hors de ce budget. C'est une estimation optimiste à vérifier pendant le sprint, pas un gain déjà mesuré. La section 8 décrit le repli si la capacité ou l'intégration ne permettent pas toute la cible.
 
 ## 2. Sprint Goal
 
@@ -164,7 +164,7 @@ Conserver une API Spring Boot avec les couches contrôleur/service/repository, P
 - Les DTO de réponse exposent uniquement les champs nécessaires ; éviter de sérialiser directement une entité adhérent liée à une activité et d'exposer son hash ou de créer une récursion JPA.
 - Convention de dates proposée pour la démo : même heure locale de référence Europe/Paris entre simulateur, API et affichage ; cette convention doit être documentée. Le modèle actuel sans fuseau ne devient pas pour autant adapté aux instants internationaux ; PB-33 conserve ce travail.
 
-### Contrat API prévisionnel à figer en T01
+### Contrat API prévisionnel à fixer lors de la planification
 
 Ces routes sont **proposées**, pas déjà développées. Si leur détail change lors de la validation, mettre à jour le contrat avant les trois implémentations.
 
@@ -193,55 +193,72 @@ Le simulateur peut réutiliser la bibliothèque standard Python avec un cookie j
 
 ## 6. Tâches, responsabilités et heures-personnes
 
-Les charges comprennent le travail indiqué dans chaque ligne. Les lignes « équipe » représentent la somme des contributions, pas une durée à compter une seule fois pour trois personnes. Tout est prévisionnel.
+Les tâches ci-dessous reprennent la répartition de l'équipe en langage simple. Les durées supposent la réutilisation du Sprint 1 et l'aide des LLM ; elles incluent la compréhension du code proposé, sa correction et ses tests. Ce sont des prévisions à comparer au temps réellement passé.
 
-| ID | Tâche et résultat attendu | Responsable | Priorité | Dépendances | Estimation |
-|---|---|---|---|---|---|
-| S2-T01 | Planification, choix capacité/version, contrat API, schéma et exemples de réponses, conventions de dates, critères et suivi. | Wissame (coordination), toute l'équipe : 0,5 h chacune | Must | Validation produit | 1,5 h |
-| S2-T02 | Tables/relations/index, scripts de création/migration, fixtures A/B fictives et conservation des anciennes séances. | Lamia | Must | T01 | 4 h |
-| S2-T03 | Comptes/inscription, hachage, Spring Security, session, login/logout, CORS/CSRF et erreurs d'authentification. | Wissame | Must | T01 ; T02 pour preuve base | 5 h |
-| S2-T04 | DTO sans secrets et lecture de profil minimal `/api/me`. | Wissame | Must | T03 | 2 h |
-| S2-T05 | Adapter modèle Java et repository : propriétaire issu de session au POST, lecture personnelle au GET. | Wissame | Must | T01, T02, T03 | 2 h |
-| S2-T06 | Formulaires inscription/connexion, session React, déconnexion, gestion credentials et CSRF. | Meriem | Must | T01 ; contrat/mock temporaire, T03 pour intégration | 4 h |
-| S2-T07 | Écran de profil minimal et identité du compte connecté. | Meriem | Must | T01 ; T04 pour intégration | 1,5 h |
-| S2-T08 | Réutiliser historique/détails, état vide/erreur, polling seulement connecté, nettoyage au changement de compte. | Meriem | Must | T01 ; T05 pour intégration | 2 h |
-| S2-T09 | Simulateur authentifié avec cookies/CSRF, compte fictif paramétrable, erreurs explicites. | Lamia | Must | T01 ; T03/T05 pour intégration | 2 h |
-| S2-T10 | Vérification SQL des clés étrangères/propriétaires, migration ancienne base et procédure reproductible. | Lamia | Must | T02, T05, T09 | 1,5 h |
-| S2-T11 | Tests backend significatifs : validation/doublon, authentification, déconnexion, contrôle serveur A/B, CSRF, régression ; test PostgreSQL sur fixtures. | Wissame | Must | T03 à T05, T02 | 3 h |
-| S2-T12 | Intégration et scénario de démonstration A/B sur données fictives ; corriger les défauts bloquants. | Toute l'équipe : 1,5 h chacune | Must | Parcours T02 à T11 | 4,5 h |
-| S2-T13 | Résultats réels, documentation de lancement/API, bilan estimé/réel, préparation revue et amélioration de rétrospective. | Wissame (coordination), toute l'équipe : 0,5 h chacune | Must | Preuves T11/T12 | 1,5 h |
-| S2-T14 | Vérifier formulaires, navigation, erreurs/expiration, changement de compte, lisibilité sur petite largeur ; corriger. | Meriem | Must | T06 à T08 | 2 h |
-| S2-T15 | Tableau de bord : agrégations personnelles et tests 1,5 h Wissame ; cartes et vérification 1,5 h Meriem. | Wissame et Meriem | Must | T05, T08, contrat période | 3 h |
-| S2-T16 | Filtres : requêtes/validation API et tests 2 h Wissame ; contrôles React et raccordement 2 h Meriem. | Wissame et Meriem | Must | T05, T08, convention dates/type | 4 h |
-| S2-T17 | Graphique hebdomadaire : API/agrégation et tests 2 h Wissame ; graphique et résumé accessible 3 h Meriem. | Wissame et Meriem | Must | T15/T16, convention semaines, T18 | 5 h |
-| S2-T18 | Jeu fictif multi-semaines/A-B, bornes et types reconnus ; contrôle des agrégations attendues. | Lamia | Must | T02, contrat T15/T17 | 3 h |
-| S2-T19 | Vérifications des nouveaux indicateurs : tests 1,5 h Wissame ; contrôle interface 0,5 h Meriem ; contrôle SQL 1 h Lamia. | Toute l'équipe | Must | T15 à T18 | 3 h |
-| S2-T20 | Cohérence visuelle/navigation, états vides/erreurs, accès clavier et petite largeur des nouveaux écrans : 2,5 h Meriem ; vérification des données affichées 0,5 h Lamia. | Meriem et Lamia | Must | T15 à T18 | 3 h |
-|  | **Total Must Have — cible enrichie** |  |  |  | **57,5 h-personnes** |
-| S2-O01 | Objectif hebdomadaire : API/calcul/tests 2,5 h Wissame ; formulaire/progression/message 2,5 h Meriem ; table/migration/fixtures/vérification 2 h Lamia. | Toute l'équipe | Should | Noyau personnel intégré, contrat semaine | 7 h |
-| S2-O02 | Modification du nom : API/tests 1,5 h Wissame ; formulaire 1,5 h Meriem ; persistance/vérification 1 h Lamia. | Wissame, Meriem, Lamia | Could | Must terminé, capacité disponible | 4 h |
-| S2-O03 | Badge première séance : règle/test 1 h Wissame ; affichage 1,5 h Meriem ; fixtures 0,5 h Lamia. | Toute l'équipe | Could | T05, T15, compte vide/non vide | 3 h |
-| S2-O04 | CSV personnel filtré : endpoint/tests 1,5 h Wissame ; téléchargement 1 h Meriem ; vérification données 0,5 h Lamia. | Toute l'équipe | Could | T16, contrôle propriétaire | 3 h |
+**Prioritaire** : à réaliser pour le Sprint Goal. **Ensuite** : objectif hebdomadaire si les fonctionnalités principales fonctionnent. **Optionnel** : seulement s'il reste du temps.
+
+Pour les lignes collectives, **1,5 h-personne = 0,5 h de travail pour chacune des trois développeuses**. Ce temps n'est pas inclus dans les sous-totaux individuels du premier tableau ; il est ajouté une seule fois dans le récapitulatif.
+
+| ID | Responsable | Tâche | Priorité | Temps estimé |
+|---|---|---|---|---|
+| W01 | Wissame | Permettre aux adhérents de créer un compte, se connecter et se déconnecter. | Prioritaire | 3 h |
+| W02 | Wissame | Enregistrer chaque séance sur le compte du bon adhérent. | Prioritaire | 1 h |
+| W03 | Wissame | Faire en sorte que chacun puisse consulter uniquement ses propres activités. | Prioritaire | 1 h |
+| W04 | Wissame | Calculer le nombre de séances, la durée totale et la distance totale. | Prioritaire | 2 h |
+| W05 | Wissame | Préparer les données nécessaires au graphique et à l'objectif hebdomadaire. | Graphique prioritaire ; objectif ensuite | 2,5 h |
+| W06 | Wissame | Tester ces fonctionnalités et suivre l'avancement de l'équipe. | Prioritaire | 3 h |
+|  | **Sous-total Wissame** | **Travail individuel, objectif compris** |  | **12,5 h** |
+| M01 | Meriem | Créer les pages d'inscription, de connexion et de profil. | Prioritaire | 3,25 h |
+| M02 | Meriem | Afficher l'historique personnel des séances. | Prioritaire | 1,5 h |
+| M03 | Meriem | Ajouter les filtres pour choisir une période ou un équipement. | Prioritaire | 1 h |
+| M04 | Meriem | Construire le tableau de bord et le graphique hebdomadaire. | Prioritaire | 2,75 h |
+| M05 | Meriem | Afficher la progression de l'objectif. | Ensuite | 1,5 h |
+| M06 | Meriem | Rendre les pages claires et utilisables sur ordinateur et téléphone. | Prioritaire | 2,5 h |
+|  | **Sous-total Meriem** | **Travail individuel, objectif compris** |  | **12,5 h** |
+| L01 | Lamia | Préparer les tables pour les comptes, les séances et les objectifs. | Comptes et séances prioritaires ; objectifs ensuite | 2 h |
+| L02 | Lamia | Relier chaque séance à son adhérent dans la base. | Prioritaire | 0,5 h |
+| L03 | Lamia | Adapter le simulateur pour envoyer une séance sur le bon compte. | Prioritaire | 1,5 h |
+| L04 | Lamia | Préparer des données fictives sur plusieurs semaines pour vérifier les statistiques. | Prioritaire | 1,5 h |
+| L05 | Lamia | Vérifier que les informations sont correctement enregistrées. | Prioritaire | 1,5 h |
+| L06 | Lamia | Documenter comment préparer la base sur une autre machine. | Prioritaire | 1 h |
+|  | **Sous-total Lamia** | **Travail individuel, objectif compris** |  | **8 h** |
+| E01 | Toute l'équipe | Relier les différentes parties et vérifier qu'elles fonctionnent ensemble. | Prioritaire | 1,5 h |
+| E02 | Toute l'équipe | Tester avec deux comptes pour vérifier que leurs activités restent séparées. | Prioritaire | 1,5 h |
+| E03 | Toute l'équipe | Corriger les problèmes et préparer la démonstration du 2 novembre. | Prioritaire | 1,5 h |
+|  | **Sous-total collectif** | **0,5 h chacune pour chaque tâche collective** |  | **4,5 h** |
+|  | **Total du travail prévu** | **Fonctionnalités principales et objectif hebdomadaire** |  | **37,5 h-personnes** |
+
+Dans W05, compter **1 h pour le graphique** et **1,5 h pour l'objectif**. Dans L01, compter **1 h pour les comptes/séances** et **1 h pour l'objectif**. Avec M05 (1,5 h), l'objectif représente donc **4 h-personnes**, déjà incluses dans les lignes ci-dessus. Les fonctionnalités principales, sans l'objectif, représentent **33,5 h-personnes**.
+
+Les détails techniques restent décrits dans les critères d'acceptation : W01/W03 couvrent la protection des accès ; W04 inclut la sélection des séances selon les filtres ; W01/W06 incluent les informations de profil renvoyées par le backend et les contrôles associés. Les tests individuels vérifient chaque partie ; E01/E02 vérifient le parcours complet ensemble. La planification et le suivi sont inclus dans W06 et les échanges collectifs.
+
+L'objectif hebdomadaire est prévu **après les fonctionnalités principales**. Le badge et l'export CSV seront ajoutés seulement s'il reste du temps.
+
+| ID | Tâche supplémentaire | Responsable | Priorité | Temps estimé hors budget principal |
+|---|---|---|---|---|
+| O01 | Permettre de modifier son nom d'affichage. | Wissame : 0,75 h ; Meriem : 0,75 h ; Lamia : 0,5 h | Optionnel | 2 h |
+| O02 | Afficher un badge après la première séance. | Wissame : 0,5 h ; Meriem : 1 h ; Lamia : 0,5 h | Optionnel | 2 h |
+| O03 | Permettre de télécharger ses séances dans un fichier CSV, ouvrable dans un tableur. | Wissame : 1 h ; Meriem : 0,5 h ; Lamia : 0,5 h | Optionnel | 2 h |
 
 ### Charge par membre et réserve
 
 | Membre | Must Have | Objectif Should Have | Réserve pour imprévus | Capacité pour la cible enrichie |
 |---|---|---|---|---|
-| Wissame | 21,5 h | 2,5 h | 5 h | 29 h |
-| Meriem | 21,5 h | 2,5 h | 5 h | 29 h |
-| Lamia | 14,5 h | 2 h | 3 h | 19,5 h |
-| **Total** | **57,5 h** | **7 h** | **13 h** | **77,5 h-personnes** |
+| Wissame | 12,5 h | 1,5 h | 2,5 h | 16,5 h |
+| Meriem | 12,5 h | 1,5 h | 2,5 h | 16,5 h |
+| Lamia | 8,5 h | 1 h | 2 h | 11,5 h |
+| **Total** | **33,5 h** | **4 h** | **7 h** | **44,5 h-personnes** |
 
-La réserve n'est pas une tâche déjà dépensée ni un budget automatique pour les Could Have. Must + Should = **64,5 h de travail prévu** ; toutes options incluses = **74,5 h**, hors réserve. Must seul avec la même réserve représente **70,5 h de capacité**. La cible enrichie demande environ 29 h à Wissame, 29 h à Meriem et 19,5 h à Lamia sur la période : les jours calendaires supplémentaires ne garantissent pas ces disponibilités. Confirmer une capacité individuelle soutenable avant de figer la sélection.
+La réserve n'est pas une tâche déjà dépensée ni un budget automatique pour les Could Have. Must + Should = **37,5 h de travail prévu** ; toutes options incluses = **43,5 h**, hors réserve. Must seul avec la même réserve représente **40,5 h de capacité**. La cible demande 16,5 h à Wissame, 16,5 h à Meriem et 11,5 h à Lamia sur la période, sous l'hypothèse d'une assistance LLM efficace et d'un périmètre limité aux critères décrits. Confirmer une disponibilité soutenable et comparer les estimations au temps réel.
 
 ## 7. Travail parallèle et jalons
 
-1. **Après validation, contrat commun T01 :** les trois développeuses fixent champs, routes, réponses, erreurs, schéma et scénarios A/B. Déposer des exemples fictifs conformes au contrat pour le travail frontend.
+1. **Après validation, planification commune :** les trois développeuses fixent champs, routes, réponses, erreurs, schéma et scénarios A/B. Wissame coordonne ce travail dans W06 et les échanges d'équipe. Déposer des exemples fictifs conformes au contrat pour le travail frontend.
 2. **Premier travail parallèle :** Lamia prépare migration/fixtures ; Wissame construit comptes/sessions/DTO à partir du schéma convenu ; Meriem développe formulaires/profil/historique avec réponses temporaires conformes au contrat. Ces réponses ne sont pas une preuve de fonctionnalité finale.
 3. **Premier raccordement tôt :** dès qu'un compte peut se connecter, tester login → `/api/me` depuis React et Python avec session/CSRF. Résoudre les questions CORS/cookies avant la dernière journée de travail.
 4. **Deuxième parallèle :** Wissame finalise propriété, filtres et agrégations ; Lamia adapte le simulateur et prépare les fixtures multi-semaines et leurs résultats attendus ; Meriem raccorde la vraie API puis construit les cartes et le graphique à partir du contrat.
 5. **Objectif Should Have :** une fois le parcours personnel intégré, Lamia prépare sa table, Wissame implémente la règle et Meriem l'interface ; le retirer si la capacité ou un défaut bloquant l'exigent.
-6. **Intégration T12/T19 et preuves T13 :** exécuter le scénario A/B et les scénarios de statistiques, les tests et le build ; enregistrer les résultats. Les Could Have ne commencent qu'après validation du Must et confirmation du temps restant.
+6. **Intégration et préparation de revue E01 à E03 :** exécuter le scénario A/B et les scénarios de statistiques, les tests et le build ; enregistrer les résultats. Les options ne commencent qu'après validation des tâches prioritaires et confirmation du temps restant.
 
 ### Planning jusqu'au 2 novembre 2026
 
@@ -262,35 +279,35 @@ Pendant le sprint, point court quotidien les jours travaillés pour adapter le p
 
 Couper d'abord les Could Have, puis l'objectif Should Have : le Must enrichi conserve le tableau de bord, les filtres et le graphique. Si cela ne suffit pas, renégocier avec le PO un Sprint Goal réduit : **recevoir ses séances, consulter son historique filtré et ses trois totaux personnels**. Dans ce repli, le graphique est différé, les comptes fictifs sont précréés et le profil se limite à l'identité du compte. Ne pas annoncer le Sprint Goal enrichi comme atteint si le graphique manque. Aucun raccourci sur l'isolation serveur, le hachage, CSRF ou la conservation des séances.
 
-Le tableau suivant chiffre la fondation minimale du repli ; les ajouts métier sont chiffrés juste après, afin que ce repli ne se limite pas à la connexion et au profil.
+Le tableau suivant chiffre la fondation minimale du repli ; les ajouts métier sont chiffrés juste après, afin que ce repli ne se limite pas à la connexion et au profil. Ses identifiants R01 à R14 désignent uniquement les tâches de ce scénario alternatif ; son budget remplace le plan principal et ne s'y ajoute pas.
 
 | Tâche | Ajustement de périmètre | Estimation réduite |
 |---|---|---|
-| T01 | Contrat et planification conservés | 1,5 h |
-| T02 | Deux comptes fictifs précréés, migration ciblée et relations | 3 h |
-| T03 | Connexion/déconnexion/sessions/CSRF, sans inscription libre | 3 h |
-| T04 | Lecture du compte connecté minimale | 1 h |
-| T05 | Propriété serveur et historique personnel conservés | 2 h |
-| T06 | Connexion/déconnexion seulement | 2,5 h |
-| T07 | Nom du compte dans l'interface, sans page dédiée | 0,5 h |
-| T08 | Historique personnel et nettoyage des anciennes données | 2 h |
-| T09 | Simulateur paramétré pour A/B | 1,5 h |
-| T10 | Vérification SQL ciblée et reproductibilité | 1 h |
-| T11 | Authentification, CSRF, isolation A/B et régression indispensables | 2 h |
-| T12 | Démonstration et intégration : 1 h chacune | 3 h |
-| T13 | Documentation/preuves/bilan : 0,5 h chacune | 1,5 h |
-| T14 | Vérification interface ciblée | 1 h |
-| **Sous-total fondation** | **Comptes précréés et historique personnel** | **25,5 h-personnes** |
+| R01 | Contrat et planification conservés | 0,75 h |
+| R02 | Deux comptes fictifs précréés, migration ciblée et relations | 2 h |
+| R03 | Connexion/déconnexion/sessions/CSRF, sans inscription libre | 2 h |
+| R04 | Lecture du compte connecté minimale | 0,5 h |
+| R05 | Propriété serveur et historique personnel conservés | 1,5 h |
+| R06 | Connexion/déconnexion seulement | 1,5 h |
+| R07 | Nom du compte dans l'interface, sans page dédiée | 0,25 h |
+| R08 | Historique personnel et nettoyage des anciennes données | 1,5 h |
+| R09 | Simulateur paramétré pour A/B | 1 h |
+| R10 | Vérification SQL ciblée et reproductibilité | 0,5 h |
+| R11 | Authentification, CSRF, isolation A/B et régression indispensables | 1,5 h |
+| R12 | Démonstration et intégration : 0,75 h chacune | 2,25 h |
+| R13 | Documentation/preuves/bilan : 0,25 h chacune | 0,75 h |
+| R14 | Vérification interface ciblée | 0,5 h |
+| **Sous-total fondation** | **Comptes précréés et historique personnel** | **16,5 h-personnes** |
 
 | Ajout métier au repli | Répartition | Estimation |
 |---|---|---|
-| Trois totaux personnels | Wissame 1,5 h ; Meriem 1,5 h | 3 h |
-| Filtres de période et type | Wissame 2 h ; Meriem 2 h | 4 h |
-| Jeu fictif ciblé aux bornes de période | Lamia 1,5 h | 1,5 h |
-| Vérification des statistiques/SQL/interface | 0,5 h chacune | 1,5 h |
-| **Total ajouts métier** |  | **10 h-personnes** |
+| Trois totaux personnels | Wissame 0,75 h ; Meriem 0,75 h | 1,5 h |
+| Filtres de période et type | Wissame 1 h ; Meriem 1 h | 2 h |
+| Jeu fictif ciblé aux bornes de période | Lamia 1 h | 1 h |
+| Vérification des statistiques/SQL/interface | Wissame 0,5 h ; Meriem 0,25 h ; Lamia 0,25 h | 1 h |
+| **Total ajouts métier** |  | **5,5 h-personnes** |
 
-Repli complet : **35,5 h-personnes**, réparties entre Wissame 14 h, Meriem 12 h et Lamia 9,5 h. Réserve supplémentaire : 3 h Wissame, 3 h Meriem, 1,5 h Lamia ; capacité visée **43 h-personnes**. Ce scénario est une solution de repli, pas la cible demandée pour le 2 novembre. Confirmer les disponibilités et l'arbitrage avec le PO si son utilisation devient nécessaire.
+Repli complet avec assistance LLM : **22 h-personnes**, réparties entre Wissame 9 h, Meriem 7 h et Lamia 6 h. Réserve supplémentaire : 2 h Wissame, 1,5 h Meriem, 1 h Lamia ; capacité visée **26,5 h-personnes**. Ce scénario est une solution de repli, pas la cible demandée pour le 2 novembre. Confirmer les disponibilités et l'arbitrage avec le PO si son utilisation devient nécessaire.
 
 ## 9. Definition of Done proposée
 
@@ -347,7 +364,7 @@ Ordres de grandeur de Sprint 3 et Sprint 4, répartition et dépendances : [Prod
 | Schéma disponible seulement sur une machine | Scripts/fixtures versionnés, migration sur copie fictive, instructions reproductibles. | Lamia |
 | Anciennes activités sans propriétaire | Conservation sans attribution arbitraire, exclusion des historiques personnels ; nouvelle propriété obligatoire côté service. | Lamia et Wissame |
 | Fuite lors du changement de compte | Filtrage backend, DTO minimaux, nettoyage React et annulation des requêtes ; scénario A/B. | Wissame et Meriem |
-| Contrat frontend/backend divergent | Contrat/exemples communs T01, raccordement tôt, erreurs cohérentes. | Toute l'équipe |
+| Contrat frontend/backend divergent | Contrat/exemples communs lors de la planification, raccordement tôt, erreurs cohérentes. | Toute l'équipe |
 | Extension aux données physiologiques/calories | Report jusqu'à besoin confirmé, finalité/méthode et protections définies ; seulement données fictives de test. | PO et équipe |
 | Totaux/graphique incohérents | Même contrat de filtres et bornes, jeu fixe multi-semaines, comparaison SQL/API/interface avant démo. | Toute l'équipe |
 | Vacances assimilées à capacité garantie | Confirmer les heures de chacune ; suivre les jalons du 20 et du 25 octobre et réestimer. | Toute l'équipe |

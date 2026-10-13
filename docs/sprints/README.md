@@ -34,10 +34,11 @@ exigences du Product Owner.
 
 Le Sprint 2 est préparé du 13 octobre au 2 novembre, soit une fenêtre de
 20 jours calendaires, sans supposer 20 jours de travail par développeuse.
-Le plan vise 64,5 h-personnes plus 13 h de réserve ; les Could Have demandent
+Le plan révisé avec assistance LLM vise 37,5 h-personnes plus 7 h de réserve ; les Could Have demandent
 une capacité supplémentaire. Les jours du 29 octobre au 1 novembre sont
 réservés aux vérifications, corrections et répétitions de démonstration.
-Ces lignes sont une proposition de livraison à confronter à la capacité réelle.
+Ces estimations optimistes incluent la compréhension, la relecture, l'intégration
+et les tests des propositions générées. Elles restent à confronter au temps réel.
 
 Documents de référence, sans réécriture du Sprint 1 :
 
