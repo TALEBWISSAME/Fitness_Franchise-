@@ -493,7 +493,7 @@ Les durées indiquées constituent notre budget prévisionnel. Elles pourront
 | T4 | Configurer PostgreSQL et la connexion au backend | Lamia | 1 h 30 |
 | T5 | Créer le modèle minimal d'une activité sportive | Lamia | 1 h |
 | T6 | Développer l'API de réception d'une activité | Wissame | 2 h |
-| T7 | Développer le simulateur minimal d'équipement | Lamia | 1 h 30 |
+| T7 | Développer le simulateur minimal d'équipement | Wissame | 1 h 30 |
 | T8 | Intégrer et tester le premier flux complet | Toute l'équipe | 2 h |
 | T9 | Documenter l'installation et préparer la démonstration | Wissame (avec contribution de toute l'équipe) | 1 h |
 
