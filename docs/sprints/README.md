@@ -16,3 +16,33 @@ du Product Owner.
 | Sprint 3 | Suivi des activités et de la progression | 1 semaine |
 | Sprint 4 | Administration et engagement des adhérents | 1 semaine |
 | Sprint 5 | Finalisation, sécurité et livraison du produit | 1 semaine |
+
+## Révision de la planification — trois séances restantes
+
+Le tableau ci-dessus est conservé comme vision initiale. Au 13 octobre 2026,
+l'équipe indique trois séances restantes, avec la prochaine le **2 novembre
+2026**, et demande un Sprint 2 enrichi pendant cette période de préparation.
+La suite proposée ne suppose pas un Sprint 5 supplémentaire ; les heures
+disponibles de chacune et les dates suivantes restent à confirmer avec les
+exigences du Product Owner.
+
+| Séance restante | Incrément proposé | Preuve principale |
+|---|---|---|
+| 1 — Sprint 2, 2 novembre 2026 | Espace adhérent, historique, tableau de bord, filtres et graphique hebdomadaire ; objectif en Should | Deux comptes A/B, jeu multi-semaines, isolation et cohérence SQL/API/interface |
+| 2 — Sprint 3, date à confirmer | Salles/équipements identifiés, droits admin minimaux et activité rattachée | Deux salles, équipement rattaché, accès autorisé/refusé et suivi personnel préservé |
+| 3 — Sprint 4 / bilan, date à confirmer | Régularité/objectif ou badge reportés, consolidation, régression et documentation finale | Parcours intégré, règles métier vérifiées, preuves de qualité et bilan Scrum |
+
+Le Sprint 2 est préparé du 13 octobre au 2 novembre, soit une fenêtre de
+20 jours calendaires, sans supposer 20 jours de travail par développeuse.
+Le plan vise 64,5 h-personnes plus 13 h de réserve ; les Could Have demandent
+une capacité supplémentaire. Les jours du 29 octobre au 1 novembre sont
+réservés aux vérifications, corrections et répétitions de démonstration.
+Ces lignes sont une proposition de livraison à confronter à la capacité réelle.
+
+Documents de référence, sans réécriture du Sprint 1 :
+
+- [Sprint 1 existant](sprint1.md).
+- [Catalogue fonctionnel et état du dépôt](../product/catalogue-fonctionnalites.md).
+- [Product Backlog priorisé proposé](../product/product-backlog.md).
+- [Sprint 2 détaillé, complet ou réduit](SPRINT%2002.md).
+- [Vérifications et limites des preuves](../tests/README.md).
