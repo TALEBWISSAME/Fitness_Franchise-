@@ -1,0 +1,102 @@
+{
+  "TREADMILL": {
+    "src": "/images/equipment/premium/treadmill.png",
+    "kind": "generated",
+    "title": "Tapis de course"
+  },
+  "BIKE": {
+    "src": "/images/equipment/premium/bike.png",
+    "kind": "generated",
+    "title": "Vélo d’appartement"
+  },
+  "ELLIPTICAL": {
+    "src": "/images/equipment/premium/elliptical.png",
+    "kind": "generated",
+    "title": "Vélo elliptique"
+  },
+  "ROWING": {
+    "src": "/images/equipment/premium/rowing.png",
+    "kind": "generated",
+    "title": "Rameur"
+  },
+  "STAIR_CLIMBER": {
+    "src": "/images/equipment/premium/stair-climber.png",
+    "kind": "generated",
+    "title": "Escalier cardio"
+  },
+  "CHEST_PRESS": {
+    "src": "/images/equipment/premium/chest-press.png",
+    "kind": "generated",
+    "title": "Développé poitrine"
+  },
+  "LAT_PULLDOWN": {
+    "src": "/images/equipment/premium/lat-pulldown.png",
+    "kind": "generated",
+    "title": "Tirage vertical"
+  },
+  "SEATED_ROW": {
+    "src": "/images/equipment/premium/seated-row.png",
+    "kind": "generated",
+    "title": "Tirage horizontal"
+  },
+  "SHOULDER_PRESS": {
+    "src": "/images/equipment/premium/shoulder-press.png",
+    "kind": "generated",
+    "title": "Développé épaules"
+  },
+  "BICEPS_CURL": {
+    "src": "/images/equipment/premium/biceps-curl.png",
+    "kind": "generated",
+    "title": "Machine à biceps"
+  },
+  "LEG_PRESS": {
+    "src": "/images/equipment/premium/leg-press.png",
+    "kind": "generated",
+    "title": "Presse à cuisses"
+  },
+  "LEG_EXTENSION": {
+    "src": "/images/equipment/premium/leg-extension.png",
+    "kind": "generated",
+    "title": "Leg extension"
+  },
+  "LEG_CURL": {
+    "src": "/images/equipment/premium/leg-curl.png",
+    "kind": "generated",
+    "title": "Leg curl"
+  },
+  "HIP_ABDUCTOR": {
+    "src": "/images/equipment/premium/hip-abductor.png",
+    "kind": "generated",
+    "title": "Machine abducteurs"
+  },
+  "CALF_RAISE": {
+    "src": "/images/equipment/premium/calf-raise.png",
+    "kind": "generated",
+    "title": "Machine à mollets"
+  },
+  "CABLE_CROSSOVER": {
+    "src": "/images/equipment/premium/cable-crossover.png",
+    "kind": "generated",
+    "title": "Poulie vis-à-vis"
+  },
+  "AB_CRUNCH": {
+    "src": "/images/equipment/premium/ab-crunch.png",
+    "kind": "generated",
+    "title": "Machine à abdominaux"
+  },
+  "BACK_EXTENSION": {
+    "src": "/images/equipment/premium/back-extension.png",
+    "kind": "generated",
+    "title": "Machine à lombaires"
+  },
+  "ASSISTED_DIP": {
+    "src": "/images/equipment/premium/assisted-dip.png",
+    "kind": "generated",
+    "title": "Machine à dips assistés"
+  },
+  "SMITH_MACHINE": {
+    "src": "/images/equipment/premium/smith-machine.png",
+    "kind": "generated",
+    "title": "Smith machine"
+  }
+}

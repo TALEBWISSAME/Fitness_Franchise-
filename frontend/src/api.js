@@ -3,8 +3,11 @@ const API_URL = 'http://localhost:8080/api'
 export async function requestApi(path, options = {}) {
   const response = await fetch(`${API_URL}${path}`, { ...options, credentials: 'include' })
   if (!response.ok) {
-    const error = new Error(response.status === 401 ? 'Session expirée ou identifiants incorrects.'
+    const error = new Error(response.status === 401 ? (path === '/auth/login' ? 'Email ou mot de passe incorrect.' : 'Votre session a expiré. Reconnectez-vous.')
       : response.status === 409 ? 'Cette adresse email est déjà utilisée.'
+        : response.status === 403 ? 'Votre demande n’a pas pu être validée. Actualisez la page et réessayez.'
+          : response.status === 400 ? 'Vérifiez les informations saisies et les dates sélectionnées.'
+            : response.status >= 500 ? 'Le service est momentanément indisponible. Réessayez dans un instant.'
         : `La demande a échoué (HTTP ${response.status}).`)
     error.status = response.status
     if (response.status === 401 && path !== '/auth/login' && path !== '/me') window.dispatchEvent(new Event('session-expired'))

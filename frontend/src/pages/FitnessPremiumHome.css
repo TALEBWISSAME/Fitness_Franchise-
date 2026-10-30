@@ -1,0 +1,120 @@
+/* Phase 1: intentionally scoped to the public home. Member pages keep their current theme. */
+.app.app-home { background:#0b0d0e; color:#f4f5f5; min-width:0; --accent:#ff6500; }
+.app-home .main,.app-home .content-layout,.app-home .main > div { min-width:0; max-width:100%; }
+.app-home .franchise-home { --fh-paper:#0b0d0e; --fh-ink:#f4f5f5; --fh-orange:#ff6500; --fh-muted:#acb0b1; color-scheme:dark; background:#0b0d0e; color:#f4f5f5; min-width:0; }
+.app-home .franchise-home * { box-sizing:border-box; }
+.app-home .franchise-home h1,.app-home .franchise-home h2,.app-home .franchise-home h3 { color:#f4f5f5; }
+.app-home .franchise-home em { color:#ff6500; font-family:inherit; font-style:normal; font-weight:inherit; }
+.app-home .fh-header { position:sticky; top:0; min-height:82px; padding:12px clamp(22px,5vw,90px); gap:28px; background:#080a0bf5; border-bottom:1px solid #ffffff12; backdrop-filter:blur(12px); }
+.app-home .brand-mark { color:#fff; }
+.app-home .brand-mark-emblem { width:52px; height:43px; }
+.app-home .brand-mark-emblem img { width:90px; }
+.app-home .brand-mark .brand-mark-name { font-size:16px; letter-spacing:.1px; }
+.app-home .brand-mark .brand-mark-name > span { font-size:9px; letter-spacing:1px; }
+.app-home .brand-mark-dot,.app-home .brand-mark-fallback { color:#ff6500; }
+.app-home .fh-navigation { gap:clamp(18px,2.4vw,36px); font-size:12px; font-weight:600; }
+.app-home .fh-navigation > a,.app-home .fh-nav-link { color:#dedfe0; padding:12px 0; border:0; border-bottom:1px solid transparent; background:none; font:inherit; white-space:nowrap; }
+.app-home .fh-navigation > a:hover,.app-home .fh-nav-link:hover { color:#ff8738; border-bottom-color:#ff6500; }
+.app-home .fh-account { background:#ff6500; border:1px solid #ff7821; color:#080a0b; border-radius:4px; padding:13px 21px; min-height:45px; gap:17px; }
+.app-home .fh-account:hover { background:#ff802d; border-color:#ff802d; box-shadow:0 5px 18px #ff650025; }
+.app-home .fh-hero { min-height:650px; background:#080a0b; border-bottom:1px solid #ffffff12; }
+.app-home .fh-hero-image { width:100%; right:0; object-position:70% center; }
+.app-home .fh-hero-wash { background:linear-gradient(90deg,#080a0b 0%,#080a0bf5 23%,#080a0bc9 39%,#080a0b26 65%,#080a0b00 85%),linear-gradient(0deg,#080a0bf5 0%,#080a0b18 30%,transparent 65%); }
+.app-home .fh-hero-content { padding:88px clamp(22px,5vw,90px) 35px; max-width:860px; }
+.app-home .fh-eyebrow { color:#ff6500; font-size:10px; font-weight:700; letter-spacing:2.7px; margin-bottom:23px; }
+.app-home .fh-hero h1 { font-family:Impact,'Arial Narrow','Franklin Gothic Medium',sans-serif; text-transform:uppercase; font-size:clamp(46px,5.2vw,76px); line-height:1.05; letter-spacing:.1px; font-weight:400; margin:0 0 25px; text-shadow:0 3px 18px #0003; }
+.app-home .fh-hero h1 em { color:#ff6500; white-space:nowrap; }
+.app-home .fh-hero-lead { font-size:16px; line-height:1.7; color:#e8e9e9; font-weight:400; max-width:460px; margin-bottom:14px; }
+.app-home .fh-hero-description { font-size:12px; color:#aeb2b4; max-width:390px; line-height:1.8; }
+.app-home .fh-actions { margin-top:29px; gap:14px; }
+.app-home .fh-primary,.app-home .fh-secondary { min-height:49px; border-radius:4px; padding:14px 22px; font-size:12px !important; font-weight:650 !important; gap:20px; }
+.app-home .fh-primary { background:#ff6500; border-color:#ff6500; color:#080a0b; }
+.app-home .fh-primary:hover { background:#ff802d; border-color:#ff802d; box-shadow:0 6px 20px #ff650025; }
+.app-home .fh-secondary { background:#0b0d0e66; border:1px solid #b7babc88; color:#f5f5f5; }
+.app-home .fh-secondary:hover { background:#ffffff0d; border-color:#ff6500; color:#ff8738; }
+.app-home .fh-hero-features { display:flex; flex-wrap:wrap; gap:24px; margin-top:51px; }
+.app-home .fh-hero-features > div { display:flex; align-items:center; gap:10px; min-width:0; }
+.app-home .fh-hero-features svg { width:29px; height:29px; color:#ff6500; }
+.app-home .fh-hero-features span { display:grid; gap:5px; }
+.app-home .fh-hero-features strong { font-size:12px; font-weight:650; }
+.app-home .fh-hero-features small { font-size:9px; color:#9ca2a4; }
+.app-home .fh-hero-caption { right:5vw; bottom:37px; padding-right:14px; border-right:3px solid #ff6500; gap:5px; letter-spacing:1.5px; text-align:right; }
+.app-home .fh-hero-caption span,.app-home .fh-hero-caption span:first-child { font-size:9px; }
+.app-home .fh-section { padding-top:75px; padding-bottom:75px; }
+.app-home .franchise-home h2 { font-size:clamp(30px,3vw,43px); font-weight:700; line-height:1.17; letter-spacing:-1.2px; }
+.app-home .fh-concept { grid-template-columns:minmax(0,1fr) minmax(0,1fr); border-bottom:1px solid #ffffff0d; }
+.app-home .fh-concept-copy { min-width:0; }
+.app-home .fh-concept-copy > p { color:#aeb2b4; }
+.app-home .fh-concept-copy > .fh-intro { color:#e7e9e9; font-size:19px; }
+.app-home .fh-text-link { border-color:#5a6063; color:#f0f2f2; font-size:12px !important; }
+.app-home .fh-text-link:hover { color:#ff8738; border-color:#ff6500; }
+.app-home .fh-section-heading { align-items:center; }
+.app-home .fh-space-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.app-home .fh-space { min-width:0; padding:25px; background:linear-gradient(150deg,#14191b,#0d1011); border:1px solid #ffffff20; border-radius:6px; color:#f4f5f5; transition:border-color 180ms,transform 180ms; }
+.app-home .fh-space:hover { border-color:#ff650090; transform:translateY(-3px); }
+.app-home .fh-space-illustration { color:#ff6500; }
+.app-home .fh-space-top { color:#a3a9ac; }
+.app-home .fh-space h3 { font-weight:650; }
+.app-home .fh-space > p { color:#aeb2b4; }
+.app-home .fh-space > button { color:#ff8738; border-color:#ffffff16; }
+.app-home .fh-progress-section { background:radial-gradient(ellipse at 0% 100%,#ff65000d,transparent 60%),#101415; border-block:1px solid #ffffff12; }
+.app-home .fh-progress-inner { grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); }
+.app-home .fh-progress-section .fh-eyebrow,.app-home .fh-progress-section h2 em { color:#ff6500; }
+.app-home .fh-progress-copy { min-width:0; }
+.app-home .fh-progress-copy > p:not(.fh-eyebrow) { color:#aeb2b4; }
+.app-home .fh-follow-card { background:#151a1c; border-color:#ffffff1c; border-radius:6px; min-width:0; }
+.app-home .fh-follow-item { border-color:#ffffff12; }
+.app-home .fh-follow-item > span { font-family:inherit; color:#ff6500; font-weight:650; }
+.app-home .fh-follow-label,.app-home .fh-follow-item p { color:#aeb2b4; }
+.app-home .fh-follow-item > svg { color:#ff6500; }
+.app-home .fh-invitation { background:radial-gradient(ellipse at 50% 100%,#ff65000b,transparent 70%); }
+.app-home .fh-invitation > p:not(.fh-eyebrow) { color:#aeb2b4; }
+.app-home .fh-footer { background:#080a0b; border-top:1px solid #ffffff16; display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr)); gap:30px; padding:45px clamp(22px,5vw,90px) 20px; }
+.app-home .fh-footer > div { display:flex; flex-direction:column; align-items:start; gap:10px; grid-column:auto; margin:0; min-width:0; color:#a6abae; font-size:12px; }
+.app-home .fh-footer-identity > p { line-height:1.8; font-size:12px; margin-top:10px; }
+.app-home .fh-footer h3 { font-size:12px; font-weight:650; margin:4px 0 7px; }
+.app-home .fh-footer button,.app-home .fh-footer a { min-height:26px; text-align:left; }
+.app-home .fh-footer button:hover,.app-home .fh-footer a:hover { color:#ff8738; }
+.app-home .fh-footer-column > p { line-height:1.8; font-size:11px; }
+.app-home .fh-footer > .fh-footer-copyright { grid-column:1/-1; border-top:1px solid #ffffff10; padding-top:19px; font-size:10px; color:#81898d; text-align:right; }
+.app-home .franchise-home :focus-visible { outline:2px solid #ff8738; outline-offset:5px; }
+.app-home .franchise-home section[id] { scroll-margin-top:95px; }
+@media (min-width:1440px) { .app-home .fh-hero-image { object-position:center 42%; } .app-home .fh-hero { min-height:710px; } }
+@media (max-width:1050px) { .app-home .fh-navigation { gap:17px; } .app-home .fh-header { padding-inline:24px; gap:20px; } .app-home .fh-hero-content { max-width:760px; } .app-home .fh-hero h1 { font-size:clamp(42px,6vw,64px); } .app-home .fh-hero-caption { display:none; } }
+@media (max-width:800px) {
+  .app-home .fh-header { min-height:76px; padding:12px 22px; }
+  .app-home .fh-menu-toggle { display:grid; place-items:center; width:44px; height:44px; border:1px solid #ffffff2b; background:#15191b; color:#fff; border-radius:4px; }
+  .app-home .fh-navigation { display:none; position:absolute; left:0; right:0; top:100%; background:#101415; padding:15px 24px 23px; border-bottom:1px solid #ffffff20; box-shadow:0 15px 30px #0006; }
+  .app-home .fh-navigation.is-open { display:grid; gap:4px; }
+  .app-home .fh-navigation > a,.app-home .fh-nav-link { padding:15px 0; text-align:left; }
+  .app-home .fh-account { margin-top:12px; }
+  .app-home .fh-hero { min-height:650px; }
+  .app-home .fh-hero-image { object-position:68% center; }
+  .app-home .fh-hero-wash { background:linear-gradient(90deg,#080a0bf2,#080a0bbd 50%,#080a0b38),linear-gradient(0deg,#080a0bf7,transparent 80%); }
+  .app-home .fh-hero-content { padding:73px 26px 35px; }
+  .app-home .fh-hero h1 { font-size:clamp(36px,7.7vw,58px); letter-spacing:0; }
+  .app-home .fh-hero-lead { font-size:15px; max-width:370px; }
+  .app-home .fh-hero-description { max-width:340px; }
+  .app-home .fh-hero-features { gap:22px; margin-top:40px; }
+  .app-home .fh-hero-features > div { flex:0 1 auto; }
+  .app-home .fh-section { padding:55px 25px; }
+  .app-home .fh-concept,.app-home .fh-progress-inner { grid-template-columns:minmax(0,1fr); gap:25px; }
+  .app-home .fh-progress-inner { padding:55px 25px; }
+  .app-home .fh-space-grid { grid-template-columns:minmax(0,1fr); }
+  .app-home .fh-space > p { min-height:0; }
+  .app-home .fh-section-heading { display:grid; gap:20px; }
+  .app-home .fh-footer { grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px 20px; padding-inline:25px; }
+}
+@media (max-width:420px) {
+  .app-home .fh-hero-content { padding:59px 21px 33px; }
+  .app-home .fh-eyebrow { font-size:9px; letter-spacing:2px; }
+  .app-home .fh-hero h1 { font-size:clamp(28px,8.6vw,36px); }
+  .app-home .fh-actions { flex-direction:column; align-items:stretch; }
+  .app-home .fh-actions > * { flex:0 0 auto; min-width:0; }
+  .app-home .fh-hero-features { display:grid; gap:19px; }
+  .app-home .fh-hero-features > div { align-items:center; }
+  .app-home .fh-hero { min-height:760px; }
+  .app-home .fh-footer { grid-template-columns:minmax(0,1fr); }
+  .app-home .fh-footer > .fh-footer-copyright { text-align:left; }
+}
+@media (prefers-reduced-motion:reduce) { .app-home .franchise-home * { transition:none !important; animation:none !important; } }

@@ -1,0 +1,179 @@
+/* Phase 2: public equipment and spaces only. Member/auth views are unchanged. */
+.app-home .premium-universes { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; }
+.app-home .premium-universe { min-width:0; display:flex; flex-direction:column; border:1px solid #ffffff25; border-radius:6px; overflow:hidden; background:linear-gradient(145deg,#14191b,#0a0e0f); transition:transform 200ms ease,border-color 200ms ease,box-shadow 200ms ease; }
+.app-home .premium-universe-photo { position:relative; height:210px; overflow:hidden; background:#15191b; }
+.app-home .premium-universe-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(0deg,#111617,transparent 65%); pointer-events:none; }
+.app-home .premium-universe-photo img,.app-home .premium-space-photo img { width:100%; height:100%; object-fit:cover; transition:transform 350ms ease; }
+.app-home .premium-universe-number { position:absolute; top:15px; right:15px; background:#080a0bbd; padding:6px 8px; color:#e5e8e9; font-size:10px; letter-spacing:2px; }
+.app-home .premium-universe-content { display:flex; flex-direction:column; align-items:flex-start; flex:1; padding:0 22px 22px; position:relative; }
+.app-home .premium-universe-icon { width:56px; height:56px; padding:14px; margin-top:-29px; margin-bottom:17px; display:grid; place-items:center; color:#ff6500; background:#090d0e; border:1px solid #ff650038; border-radius:50%; }
+.app-home .premium-universe-icon svg { width:28px; height:28px; }
+.app-home .premium-universe h3 { margin:0 0 13px; color:#fff; font-size:19px; line-height:1.25; font-weight:750; letter-spacing:-.5px; overflow-wrap:anywhere; }
+.app-home .premium-universe p { margin:0 0 23px; font-size:12px; line-height:1.8; color:#adb4b7; }
+.app-home .premium-universe button { display:flex; align-items:center; justify-content:space-between; gap:14px; width:100%; min-height:44px; padding:12px 0 0; margin-top:auto; color:#ff8738; border:0; border-top:1px solid #ffffff12; background:transparent; font-size:12px; font-weight:650; text-align:left; }
+.app-home .premium-universe button svg { width:18px; height:18px; transition:transform 200ms; }
+.app-home .premium-universe[data-selected="true"] { border-color:#ff6500; box-shadow:0 0 0 1px #ff650030; }
+.app-home .premium-section-description { color:#aeb5b8; font-size:14px; line-height:1.8; margin:18px 0 0; }
+.app-home .premium-image-note { margin:18px 0 0; color:#919a9e; font-size:11px; line-height:1.8; }
+.app-home .premium-spaces-section { position:relative; isolation:isolate; border-top:1px solid #ffffff12; }
+.app-home .premium-spaces-section::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(#0b0d0eec,#0b0d0ef2),url('/images/fitness-premium/gym-interior.png') center/cover; }
+.app-home .premium-spaces-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; }
+.app-home .premium-space-card { display:flex; flex-direction:column; min-width:0; border:1px solid #ffffff25; background:#0d1112; border-radius:6px; overflow:hidden; transition:border-color 200ms,transform 200ms; }
+.app-home .premium-space-photo { height:240px; position:relative; overflow:hidden; }
+.app-home .premium-space-photo::after { content:''; position:absolute; inset:0; background:linear-gradient(0deg,#0d1112,transparent 50%); pointer-events:none; }
+.app-home .premium-demo-label { display:inline-flex; align-items:center; padding:7px 10px; background:#101415e8; color:#ffb17d; border:1px solid #ff65004d; border-radius:3px; font-size:10px; font-weight:600; line-height:1.5; }
+.app-home .premium-space-photo > .premium-demo-label { position:absolute; top:15px; left:15px; z-index:1; }
+.app-home .premium-spaces-notice { max-width:800px; color:#b0b7ba; padding-left:14px; border-left:2px solid #ff6500; font-size:12px; line-height:1.8; margin:0 0 28px; }
+.app-home .premium-space-content { display:flex; flex-direction:column; align-items:stretch; flex:1; padding:10px 23px 23px; }
+.app-home .premium-space-content h3 { margin:0 0 12px; font-size:21px; font-weight:700; letter-spacing:-.5px; }
+.app-home .premium-space-content > p { margin:0 0 25px; color:#adb4b7; font-size:13px; line-height:1.8; }
+.app-home .premium-space-content .fh-primary { justify-content:space-between; margin-top:auto; padding-inline:16px; gap:10px; }
+.app-home .premium-space-detail-photo { display:block; width:100%; height:200px; object-fit:cover; margin:20px 0; border-radius:4px; }
+.app-home .equipment-public-shell { --background:#0b0d0e; --surface:#14191b; --surface-raised:#191f21; --surface-inset:#0b0f10; --text-primary:#fff; --text-secondary:#adb5b8; --border:#ffffff22; --border-strong:#ffffff40; --input-border:#ffffff30; --accent:#ff6500; --accent-hover:#ff8533; --accent-soft:#ff650012; --text-on-accent:#080a0b; --error:#ffb1a6; }
+.app-home .equipment-page { max-width:1440px; margin:0 auto; padding:58px clamp(22px,5vw,90px) 80px; gap:22px; }
+.app-home .equipment-page-heading { padding:0; border:0; }
+.app-home .equipment-page-heading::after { display:none; }
+.app-home .equipment-page-heading .fh-eyebrow { color:#ff6500; font-size:10px; margin-bottom:17px; }
+.app-home .equipment-page-heading h1 { font-family:Impact,'Arial Narrow',sans-serif; text-transform:uppercase; font-size:clamp(32px,4vw,53px); letter-spacing:.5px; font-weight:400; line-height:1.15; margin:0 0 16px; }
+.app-home .equipment-page-heading p { color:#aeb5b8; font-size:14px; line-height:1.8; }
+.app-home .equipment-page > .premium-image-note { margin-top:-8px; }
+.app-home .equipment-catalog-heading { display:flex; align-items:center; justify-content:space-between; gap:22px; margin-top:34px; padding-top:33px; border-top:1px solid #ffffff20; scroll-margin-top:100px; }
+.app-home .equipment-catalog-heading .fh-eyebrow { margin-bottom:12px; }
+.app-home .equipment-catalog-heading h2 { font-size:30px; letter-spacing:-.7px; }
+.app-home .equipment-category-selection { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 16px; background:#ff65000b; border:1px solid #ff650033; border-radius:5px; font-size:13px; line-height:1.7; }
+.app-home .equipment-category-selection strong { color:#ff9a57; }
+.app-home .equipment-filters,.app-home .equipment-filters:has(#equipment-status) { grid-template-columns:minmax(0,2fr) minmax(0,1fr) auto; background:#111618; border:1px solid #ffffff20; border-radius:6px; padding:20px; }
+.app-home .equipment-filters:has(#equipment-status) { grid-template-columns:minmax(0,2fr) repeat(2,minmax(0,1fr)) auto; }
+.app-home .equipment-filters .auth-field { min-width:0; margin-bottom:0; }
+.app-home .equipment-public-shell .auth-field label { color:#c5cbce; }
+.app-home .equipment-public-shell .auth-field input,.app-home .equipment-public-shell .auth-field select,.app-home .equipment-dialog .auth-field input,.app-home .equipment-dialog .auth-field select { background:#0b0f10; color:#fff; border-color:#ffffff30; min-width:0; max-width:100%; }
+.app-home .equipment-public-shell input::placeholder { color:#899397; }
+.app-home .equipment-public-shell .button-outline,.app-home .equipment-public-shell .button-secondary,.app-home .equipment-dialog .button-outline { background:transparent; border:1px solid #ffffff3b; color:#f0f2f3; border-radius:4px; min-height:44px; padding:10px 15px; font-size:12px; cursor:pointer; transition:border-color 180ms,background 180ms; }
+.app-home .equipment-public-shell .button-primary,.app-home .equipment-dialog .button-primary { background:#ff6500; color:#080a0b; border:1px solid #ff6500; min-height:44px; border-radius:4px; padding:10px 17px; font-weight:650; cursor:pointer; }
+.app-home .equipment-card { padding:23px; border-radius:6px; border:1px solid #ffffff22; background:linear-gradient(145deg,#171d1f,#0e1213); }
+.app-home .equipment-card h2 { color:#fff; font-size:20px; letter-spacing:-.5px; font-weight:700; }
+.app-home .equipment-machine-icon { background:#090e0f; color:#ff8738; border-color:#ff650033; border-radius:6px; }
+.app-home .equipment-type { color:#b2babd; font-size:9px; line-height:1.7; letter-spacing:.7px; }
+.app-home .equipment-machine-description { color:#aeb7ba; font-size:12px; line-height:1.85; margin:0 0 15px; }
+.app-home .equipment-reference-label { font-size:9px; color:#b9c0c3; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px; }
+.app-home .equipment-card-actions { border-color:#ffffff16; }
+.app-home .equipment-state,.app-home .equipment-reservation-list li { background:#121719; border-color:#ffffff22; border-radius:6px; color:#aeb7ba; }
+.app-home .equipment-state h3 { color:#fff; }
+.app-home .equipment-demo-notice { color:#b5bdc0; font-size:12px; line-height:1.8; border-left-color:#ff6500; }
+.app-home .equipment-results-heading h2 { font-size:18px; letter-spacing:-.3px; }
+.app-home .equipment-results-heading > span { color:#b4bdc1; white-space:nowrap; }
+.app-home .equipment-reservations { border-color:#ffffff22; margin-top:20px; }
+.app-home .equipment-dialog { background:linear-gradient(145deg,#192023,#0d1214); color:#d0d5d7; border-color:#ffffff35; border-radius:8px; color-scheme:dark; }
+.app-home .equipment-dialog h2 { color:#fff; font-size:22px; }
+.app-home .equipment-dialog p { font-size:13px; line-height:1.85; }
+.app-home .equipment-dialog .modal-close { background:#0c1113; color:#fff; border-color:#ffffff30; }
+.app-home .equipment-dialog .modal-header { border-color:#ffffff22; }
+.app-home .equipment-dialog .modal-header::before { background:#ff6500; }
+.app-home .equipment-dialog .profile-details dt { color:#aeb8bd; }
+.app-home .equipment-dialog .profile-details dd { color:#fff; }
+.app-home .equipment-dialog .profile-details > div { border-color:#ffffff22; min-width:0; }
+.app-home .equipment-dialog .profile-details dd { overflow-wrap:anywhere; }
+.app-home .equipment-dialog .equipment-dialog-actions { border-color:#ffffff22; }
+.app-home .equipment-dialog .auth-error { color:#ffb1a6; }
+.app-home .equipment-dialog .fh-primary { width:100%; justify-content:space-between; }
+.app-home .equipment-booking-feedback { background:#ff65000d; border-color:#ff65004d; color:#fff; }
+@media (hover:hover) {
+  .app-home .premium-universe:hover,.app-home .premium-space-card:hover { transform:translateY(-4px); border-color:#ff650090; box-shadow:0 12px 30px #0004; }
+  .app-home .premium-universe:hover img,.app-home .premium-space-card:hover img { transform:scale(1.035); }
+  .app-home .premium-universe button:hover svg { transform:translateX(4px); }
+  .app-home .equipment-public-shell .button-outline:hover:not(:disabled),.app-home .equipment-public-shell .button-secondary:hover:not(:disabled),.app-home .equipment-dialog .button-outline:hover { border-color:#ff6500; background:#ff65000d; }
+  .app-home .equipment-public-shell .button-primary:hover:not(:disabled),.app-home .equipment-dialog .button-primary:hover { background:#ff8533; }
+}
+@media (max-width:1100px) {
+  .app-home .premium-universes { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+  .app-home .premium-universe-photo { height:230px; }
+  .app-home .premium-space-photo { height:200px; }
+  .app-home .premium-space-content { padding:10px 16px 20px; }
+  .app-home .premium-space-content .fh-primary { flex-wrap:wrap; }
+  .app-home .equipment-filters,.app-home .equipment-filters:has(#equipment-status) { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media (max-width:800px) {
+  .app-home .premium-spaces-grid { grid-template-columns:minmax(0,1fr); }
+  .app-home .premium-space-photo { height:280px; }
+  .app-home .premium-space-content { padding:10px 23px 23px; }
+  .app-home .equipment-catalog-heading { align-items:flex-start; flex-direction:column; }
+  .app-home .equipment-preview-actions { max-width:100%; justify-content:flex-start; }
+  .app-home .equipment-page { padding-top:40px; padding-bottom:50px; }
+  .app-home .equipment-category-selection { align-items:flex-start; flex-wrap:wrap; }
+}
+@media (max-width:540px) {
+  .app-home .premium-universes { grid-template-columns:minmax(0,1fr); }
+  .app-home .premium-universe-photo { height:230px; }
+  .app-home .premium-universe-content { padding-inline:23px; }
+  .app-home .premium-space-photo { height:220px; }
+  .app-home .equipment-filters,.app-home .equipment-filters:has(#equipment-status) { grid-template-columns:minmax(0,1fr); padding:16px; }
+  .app-home .equipment-filters > button { justify-self:stretch; }
+  .app-home .equipment-page { gap:18px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .app-home .premium-universe,.app-home .premium-space-card,.app-home .premium-universe img,.app-home .premium-space-card img { transition:none; transform:none; }
+}
+
+/* Photo finishes: contain preserves the full apparatus, including portrait photos. */
+.app-home .equipment-card > .equipment-media { margin:-23px -23px 22px; }
+.app-home .equipment-media { min-width:0; margin:0; }
+.app-home .equipment-media-frame { position:relative; display:grid; place-items:center; min-width:0; height:220px; overflow:hidden; background:radial-gradient(ellipse at 30% 100%,#ff650010,transparent 70%),#0b0d0e; border-bottom:1px solid #ffffff1c; }
+.app-home .equipment-media-frame > img { display:block; width:100%; height:100%; min-height:0; object-fit:contain; }
+.app-home .equipment-media-label { position:absolute; left:13px; bottom:12px; padding:5px 9px; background:#0b0d0ee8; border:1px solid #ffffff25; border-radius:3px; color:#fff; font-size:9px; letter-spacing:.5px; pointer-events:none; }
+.app-home .equipment-media-unavailable { display:flex; flex-direction:column; align-items:center; gap:12px; padding:24px; text-align:center; }
+.app-home .equipment-media-unavailable > svg { width:58px; height:58px; color:#ff6500; margin-bottom:8px; }
+.app-home .equipment-media-unavailable > span { color:#fff; font-size:13px; font-weight:650; }
+.app-home .equipment-media-unavailable > small { color:#aeb7ba; font-size:11px; line-height:1.7; }
+.app-home .equipment-media figcaption { display:flex; flex-wrap:wrap; justify-content:space-between; gap:5px 12px; padding:10px 14px; background:#101517; border-bottom:1px solid #ffffff16; color:#aeb7ba; font-size:9px; line-height:1.6; overflow-wrap:anywhere; }
+.app-home .equipment-media figcaption > span:first-child { flex:1 1 100px; }
+.app-home .equipment-media figcaption > span:nth-child(2) { flex:0 1 auto; }
+.app-home .equipment-media figcaption a { color:#fff; text-decoration:underline; text-underline-offset:3px; }
+.app-home .equipment-media figcaption a:hover { color:#ff6500; }
+.app-home .equipment-media figcaption small { flex-basis:100%; font-size:10px; line-height:1.8; }
+.app-home .equipment-card .equipment-card-top { margin-bottom:13px; }
+.app-home .equipment-card .equipment-card-title { width:100%; }
+.app-home .equipment-card .equipment-card-title h2 { font-size:22px; }
+.app-home .equipment-card .equipment-type { color:#ff6500; }
+.app-home .equipment-card .equipment-card-actions > .button-outline { display:flex; justify-content:center; flex:1; align-items:center; }
+.app-home .equipment-public-shell .equipment-search-control > input { padding-inline-start:44px; padding-inline-end:14px; box-sizing:border-box; }
+.app-home .equipment-public-shell .equipment-search-control > svg { left:14px; width:17px; height:17px; z-index:1; }
+.app-home .equipment-dialog-machine { width:min(980px,calc(100% - 32px)); max-width:980px; padding:28px; background:#0b0d0e; }
+.app-home .equipment-dialog-machine > .modal-header,.app-home .equipment-dialog-space > .modal-header { padding-bottom:20px; margin-bottom:24px; align-items:flex-start; }
+.app-home .equipment-dialog-machine .modal-header h2,.app-home .equipment-dialog-space .modal-header h2 { font-size:clamp(23px,3vw,31px); font-weight:750; line-height:1.2; letter-spacing:-.8px; padding-top:3px; overflow-wrap:anywhere; }
+.app-home .equipment-dialog-machine .modal-header::before,.app-home .equipment-dialog-space .modal-header::before { height:29px; margin-top:3px; }
+.app-home .equipment-detail-layout { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:28px; align-items:start; }
+.app-home .equipment-media-detailed { border:1px solid #ffffff24; border-radius:6px; overflow:hidden; }
+.app-home .equipment-media-detailed .equipment-media-frame { height:400px; }
+.app-home .equipment-media-detailed figcaption { font-size:10px; padding:14px; }
+.app-home .equipment-detail-information { min-width:0; }
+.app-home .equipment-detail-information .equipment-detail-intro { font-size:12px; line-height:1.7; color:#fff; gap:13px; }
+.app-home .equipment-detail-information .equipment-machine-icon { width:43px; height:43px; }
+.app-home .equipment-detail-information .equipment-machine-icon svg { width:25px; height:25px; }
+.app-home .equipment-detail-information .equipment-detail-description { font-size:15px; line-height:1.9; color:#fff; margin:20px 0; }
+.app-home .equipment-detail-information .equipment-demo-notice { padding:12px 14px; background:#14191b; border-left:2px solid #ff6500; border-radius:0 4px 4px 0; margin-bottom:22px; }
+.app-home .equipment-detail-information .profile-details { display:grid; gap:0; }
+.app-home .equipment-detail-information .profile-details > div { grid-template-columns:minmax(0,1fr); gap:6px; padding:14px 0; border-bottom:1px solid #ffffff20; }
+.app-home .equipment-detail-information .profile-details dt { font-size:10px; text-transform:uppercase; letter-spacing:1px; }
+.app-home .equipment-detail-information .profile-details dd { font-size:13px; text-align:left; margin:0; line-height:1.7; }
+.app-home .equipment-dialog-space { width:min(760px,calc(100% - 32px)); max-width:760px; padding:28px; background:#0b0d0e; }
+.app-home .premium-space-detail-hero { position:relative; margin:0 0 24px; overflow:hidden; border:1px solid #ffffff24; border-radius:6px; }
+.app-home .premium-space-detail-hero > .premium-space-detail-photo { width:100%; height:310px; margin:0; border-radius:0; object-fit:cover; object-position:center 20%; }
+.app-home .premium-space-detail-hero figcaption { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:13px 16px; color:#b7bfc2; background:#14191b; font-size:10px; }
+.app-home .premium-space-detail-hero .premium-demo-label { color:#ff6500; }
+.app-home .premium-space-detail-copy { margin-bottom:24px; }
+.app-home .premium-space-detail-copy .premium-space-detail-lead { font-size:18px; line-height:1.7; color:#fff; }
+.app-home .equipment-dialog-space > .fh-primary { min-height:48px; }
+.app-home .equipment-public-shell .equipment-reservations > h2 { font-size:20px; letter-spacing:-.5px; }
+@media (max-width:700px) {
+  .app-home .equipment-dialog-machine,.app-home .equipment-dialog-space { padding:20px; }
+  .app-home .equipment-detail-layout { grid-template-columns:minmax(0,1fr); gap:24px; }
+  .app-home .equipment-media-detailed .equipment-media-frame { height:clamp(220px,55vw,340px); }
+  .app-home .premium-space-detail-hero > .premium-space-detail-photo { height:clamp(190px,50vw,290px); }
+  .app-home .equipment-dialog .modal-close { width:44px; height:44px; min-width:44px; min-height:44px; }
+}
+@media (max-width:420px) {
+  .app-home .equipment-dialog-machine,.app-home .equipment-dialog-space { padding:16px; width:100%; max-height:calc(100dvh - 32px); }
+  .app-home .equipment-dialog-machine > .modal-header,.app-home .equipment-dialog-space > .modal-header { gap:10px; }
+  .app-home .equipment-dialog-machine .modal-header h2,.app-home .equipment-dialog-space .modal-header h2 { font-size:23px; letter-spacing:-.5px; }
+  .app-home .equipment-dialog-space > .fh-primary { white-space:normal; text-align:left; }
+}

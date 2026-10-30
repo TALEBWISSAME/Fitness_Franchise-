@@ -3,7 +3,7 @@
 Fitness Franchise - Espace adhérent et suivi des entraînements  
 État du code au 30 octobre 2026 - Guide de lancement, d'utilisation et de validation
 
-**Édition textuelle.** Les captures de l'interface n'ont pas pu être produites : l'outil de contrôle du navigateur a arrêté la session car il ne pouvait pas déterminer l'URL de manière fiable. Les descriptions ci-dessous proviennent du code actuel ; elles ne constituent pas des captures ni une nouvelle validation visuelle. L'illustration de couverture est un visuel du projet, pas une capture d'écran.
+**Édition illustrée.** Seize captures réelles de l'interface actuelle sont réunies dans le parcours illustré en fin de document. Les écrans personnels utilisent un compte fictif dédié : cinq séances totalisant 150 minutes et 16,7 km. Les images de catalogue portent explicitement sur l'aperçu fictif. Aucune donnée d'un compte existant n'a été modifiée. L'illustration de couverture est un visuel du projet, pas une capture d'écran.
 
 ## 1. Objectif et bilan du sprint
 
@@ -264,8 +264,124 @@ Pour clôturer : consigner les essais A/B et mobile, relire cette procédure sur
 
 Les tâches facultatives ne conditionnent pas la clôture du périmètre prioritaire. Une refonte de l'emplacement des composants et de l'apparence pourra faire l'objet d'un travail distinct après validation de l'interface actuelle. Aucune refonte visuelle n'a été réalisée pour produire cette documentation.
 
-## Sources du projet et captures à compléter
+## Sources du projet et conditions de capture
 
 Références : docs/sprints/SPRINT 02.md ; database/migrations/tables.sql ; database/migrations/equipments_sprint2.md ; backend/W03-W05.md ; backend/W05-weekly-goal.md ; frontend/SPRINT2-INTEGRATION.md ; code frontend, backend et simulateur. Les anciens W01/W02 décrivent parfois des états historiques ; le code actuel et les notes d'intégration prennent le relais.
 
-Captures demandées restant à intégrer : accueil et menu ; inscription ; connexion ; profil connecté ; historique et filtres ; détail d'une séance ; statistiques ; objectif ; page équipements et aperçu explicitement fictif ; états vide/erreur et version mobile. Elles doivent provenir de l'interface réelle, avec un compte fictif, sans secrets visibles. Cette édition ne prétend pas les contenir.
+Les captures ont été réalisées dans Microsoft Edge sur http://localhost:5173, à un zoom de 90 %. Les captures grand format utilisent une fenêtre de 1280 × 672 pixels ; une vue complémentaire montre une fenêtre étroite de 640 × 670 pixels. Ce dernier aperçu ne constitue pas une recette sur téléphone réel.
+
+Le compte fictif de documentation a été alimenté par les vraies routes API : séances des 6, 13, 20, 27 et 30 octobre 2026. La semaine du 26 octobre contient deux séances. La cible a été enregistrée successivement à trois puis deux séances pour illustrer la progression et l'objectif atteint. Ces données sont des exemples, pas celles d'un adhérent réel.
+
+Deux anomalies de présentation sont visibles et conservées pour documenter l'état actuel : des accents mal encodés dans les filtres des statistiques, et le libellé obsolète « Vue globale · séance non associée à un compte » dans le détail d'une séance. Ce libellé ne reflète pas le filtrage personnel effectué par l'API. Leur correction et la refonte visuelle pourront être traitées séparément. Les captures ne démontrent pas à elles seules l'isolation A/B ni tous les cas d'erreur ; se reporter aux tests et à la recette.
+
+## 11. Parcours illustré - accueil et navigation
+
+### Figure 1 - Accueil
+
+![Accueil Fitness Franchise](assets/sprint2/01-accueil.png)
+
+L'utilisateur retrouve la bannière, le bouton Voir les activités et les accès rapides aux équipements et aux statistiques. Cette capture montre la partie supérieure de la page, avant connexion.
+
+### Figure 2 - Menu principal
+
+![Menu de navigation](assets/sprint2/02-navigation.png)
+
+Le bouton Menu ouvre les sept destinations de l'application. Le menu se ferme après le choix d'une page. L'icône de compte donne accès au profil ou à la connexion selon la session.
+
+## 12. Parcours illustré - créer un compte et se connecter
+
+### Figure 3 - Inscription
+
+![Formulaire de création de compte](assets/sprint2/03-inscription.png)
+
+Le formulaire demande le nom d'affichage, l'email, le mot de passe et sa confirmation. Créer mon compte soumet la demande au backend ; le bouton Se connecter permet ensuite d'ouvrir une session. Aucun âge ni genre n'est demandé.
+
+### Figure 4 - Connexion
+
+![Formulaire de connexion](assets/sprint2/04-connexion.png)
+
+L'utilisateur saisit son email et son mot de passe, puis choisit Se connecter. Créer un compte renvoie à l'inscription. Les identifiants incorrects sont refusés sans révéler si l'email existe.
+
+## 13. Parcours illustré - profil et historique personnel
+
+### Figure 5 - Profil connecté
+
+![Profil du compte fictif](assets/sprint2/05-profil.png)
+
+La session du compte fictif affiche son nom, son email et son identifiant. Le bouton Se déconnecter termine la session. Les valeurs de cette capture sont exclusivement des données de démonstration.
+
+### Figure 6 - Historique, filtres et résumé
+
+![Filtres et résumé des activités](assets/sprint2/06-activites.png)
+
+L'utilisateur filtre par date de début, date de fin ou type d'équipement. Le résumé porte sur les séances affichées : ici cinq séances, 150 minutes et 16,7 km. Réinitialiser retire les filtres.
+
+## 14. Parcours illustré - journal et détail d'une séance
+
+### Figure 7 - Fenêtre de détail
+
+![Détail de la séance du 30 octobre](assets/sprint2/07-detail-seance.png)
+
+Voir les détails ouvre une fenêtre présentant la date, la durée, la distance et la vitesse moyenne calculée. Exemple : 40 minutes, 5 km, soit 7,5 km/h. Le texte « Vue globale » est un ancien libellé à corriger, conservé dans cette capture fidèle de l'interface.
+
+### Figure 8 - Journal des cinq séances
+
+![Journal des séances du compte fictif](assets/sprint2/08-journal-seances.png)
+
+Après défilement, le tableau présente les cinq séances du compte fictif dans l'ordre décroissant. Chaque ligne dispose de son action Voir les détails. Le total de la liste reste visible au-dessus du journal.
+
+## 15. Parcours illustré - statistiques et graphique
+
+### Figure 9 - Filtres et trois indicateurs
+
+![Statistiques et sélection de période](assets/sprint2/09-statistiques-filtres.png)
+
+L'utilisateur choisit une période et un équipement. Les cartes affichent les résultats de l'API pour cette période. Des accents mal affichés sont visibles dans les libellés des filtres ; ils restent à corriger lors de la révision de l'interface.
+
+### Figure 10 - Évolution sur quatre semaines
+
+![Graphique des séances par semaine](assets/sprint2/10-graphique.png)
+
+Le graphique compte une, une, une puis deux séances entre le 5 octobre et le 1er novembre. Les trois cartes et les semaines correspondent au même jeu de données. Voir les données détaillées permet une lecture textuelle des valeurs.
+
+## 16. Parcours illustré - progression de l'objectif
+
+### Figure 11 - Objectif en cours
+
+![Objectif hebdomadaire de trois séances](assets/sprint2/11-objectif.png)
+
+Le compte fictif a réalisé deux séances sur une cible de trois dans la semaine du 26 octobre. Le champ Cible permet de saisir un entier entre 1 et 14 ; Enregistrer la cible persiste la modification pour cette semaine.
+
+### Figure 12 - Objectif atteint
+
+![Objectif atteint après changement de cible](assets/sprint2/12-objectif-atteint.png)
+
+Après modification de la cible à deux, la page affiche 2 / 2 séances, Objectif atteint et Objectif enregistré. La barre est remplie à 100 %. Ce changement concerne uniquement le compte fictif de documentation.
+
+## 17. Parcours illustré - équipements et démonstration
+
+### Figure 13 - État du catalogue réel
+
+![Catalogue non encore connecté](assets/sprint2/13-equipements-etat.png)
+
+La page affiche la recherche, le filtre de type et l'état du service. Le catalogue et les réservations réelles ne sont pas encore raccordés. Le bouton Prévisualiser les équipements ouvre un aperçu de présentation.
+
+### Figure 14 - Catalogue fictif
+
+![Aperçu des machines fictives](assets/sprint2/14-equipements-demo.png)
+
+L'aperçu montre six machines avec des statuts fictifs et des actions de détail ou de réservation locale. Le bandeau Données de démonstration précise la nature de cet écran. Ces cartes ne représentent pas les disponibilités réelles d'une salle.
+
+## 18. Parcours illustré - fiche machine et fenêtre étroite
+
+### Figure 15 - Fiche d'un équipement fictif
+
+![Fiche de démonstration du tapis Horizon](assets/sprint2/15-fiche-equipement-demo.png)
+
+La fenêtre présente le type, l'identifiant de démonstration, l'emplacement et le statut fictif de Tapis Horizon 01. Le bouton de fermeture ramène au catalogue. Aucune disponibilité réelle n'est revendiquée.
+
+### Figure 16 - Accueil dans une fenêtre étroite
+
+![Accueil en fenêtre étroite](assets/sprint2/16-accueil-fenetre-etroite.png)
+
+Cette vue de 640 pixels de large montre l'adaptation de la bannière et l'empilement des accès rapides. Il s'agit d'une fenêtre de navigateur réduite, et non d'une capture de téléphone. La recette mobile et clavier complète reste à consigner par l'équipe.

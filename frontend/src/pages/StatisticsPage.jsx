@@ -39,12 +39,12 @@ function StatisticsContent({ data }) {
 // Modèle de présentation interne : { summary: { sessionCount, durationMinutes,
 // distanceKm }, weeks: [{ startDate, endDate, sessionCount }] }.
 // Un futur adaptateur API alimentera ces propriétés ; aucun DTO serveur supposé.
-export default function StatisticsPage({ onNavigate, user = null, loading = false, error = '', data = null }) {
+export default function StatisticsPage({ onNavigate, onRetry, user = null, loading = false, error = '', data = null }) {
   let content
   if (loading) {
-    content = <div className="statistics-state" role="status"><span className="statistics-state-mark" aria-hidden="true">…</span><div><h2>Chargement de vos statistiques…</h2><p>Votre bilan sera affiché ici.</p></div></div>
+    content = <div className="statistics-state" role="status"><span className="ui-spinner" aria-hidden="true" /><div><h2>Chargement de vos statistiques…</h2><p>Nous préparons votre bilan personnel.</p></div></div>
   } else if (error) {
-    content = <div className="statistics-state statistics-state-error" role="alert"><span className="statistics-state-mark" aria-hidden="true">!</span><div><h2>Statistiques indisponibles</h2><p>Impossible de charger les statistiques : {error}</p></div></div>
+    content = <div className="statistics-state statistics-state-error" role="alert"><span className="statistics-state-mark" aria-hidden="true">!</span><div><h2>Statistiques indisponibles</h2><p>{error}</p>{onRetry && <button className="button-outline" type="button" onClick={onRetry}>Réessayer</button>}</div></div>
   } else if (!user) {
     content = (
       <div className="statistics-state">

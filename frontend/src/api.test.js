@@ -1,6 +1,19 @@
 ﻿import test from 'node:test'
 import assert from 'node:assert/strict'
 import { getApi, writeApi } from './api.js'
+import { requestApi } from './api.js'
+
+test('login and service failures return understandable messages without server details', async () => {
+  const original = globalThis.fetch
+  try {
+    globalThis.fetch = async () => ({ ok: false, status: 401 })
+    await assert.rejects(requestApi('/auth/login'), /Email ou mot de passe incorrect/)
+    globalThis.fetch = async () => ({ ok: false, status: 403 })
+    await assert.rejects(requestApi('/auth/register'), /Actualisez la page/)
+    globalThis.fetch = async () => ({ ok: false, status: 503 })
+    await assert.rejects(getApi('/activities'), /momentanément indisponible/)
+  } finally { globalThis.fetch = original }
+})
 
 test('session cookie and cancellation signal accompany personal reads', async () => {
   const original = globalThis.fetch

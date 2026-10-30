@@ -9,10 +9,10 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const controller = new AbortController()
     let active = true
-    const expire = () => { setUser(null); setError('Votre session a expirÃ©. Reconnectez-vous.') }
+    const expire = () => { setUser(null); setError('Votre session a expiré. Reconnectez-vous.') }
     window.addEventListener('session-expired', expire)
     getApi('/me', controller.signal).then(profile => { if (active) setUser(profile) })
-      .catch(err => { if (active && err.status !== 401) setError('Impossible de vÃ©rifier la session.') })
+      .catch(err => { if (active && err.status !== 401) setError('Impossible de vérifier la session.') })
       .finally(() => { if (active) setLoading(false) })
     return () => { active = false; controller.abort(); window.removeEventListener('session-expired', expire) }
   }, [])

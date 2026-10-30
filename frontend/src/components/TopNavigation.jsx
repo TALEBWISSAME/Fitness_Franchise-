@@ -1,4 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react'
+import BrandMark from './BrandMark.jsx'
 import './TopNavigation.css'
 
 const pages = [
@@ -113,8 +114,7 @@ export default function TopNavigation({ currentPage, onNavigate, user }) {
     <header className="topbar" data-hidden={hidden && !open} ref={rootRef} onFocusCapture={() => setHidden(false)}>
       <div className="topbar-inner">
         <button className="topbar-brand" type="button" onClick={() => navigate('home')} aria-label="Fitness Franchise — Accueil">
-          <svg className="topbar-mark" viewBox="0 0 40 40" fill="currentColor" aria-hidden="true" focusable="false"><path d="M5 8h14l-2 5h-7v5h7l-2 5h-5v9H5Z" /><path className="topbar-mark-accent" d="M23 8h14l-2 5h-7v5h7l-2 5h-5v9h-5Z" /></svg>
-          <span>Fitness <span>Franchise</span></span>
+          <BrandMark />
         </button>
         <button className="topnav-trigger" type="button" ref={triggerRef} aria-expanded={open} aria-controls={navigationId} aria-label={open ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation'} onClick={() => setOpen(value => !value)} onKeyDown={event => { if (event.key === 'ArrowDown') { event.preventDefault(); setOpen(true) } }}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true" focusable="false"><path d={open ? 'm6 6 12 12M6 18 18 6' : 'M4 8h16M4 16h11'} /></svg><span>Menu</span>

@@ -39,7 +39,7 @@ function ActivityDetailsModal({ activity, onClose, demonstration = false }) {
         </header>
 
         <p id="session-data-scope" className={`session-data-scope${demonstration ? ' session-demo' : ''}`}>
-          {demonstration ? 'Démonstration · aperçu fictif — aucune donnée réelle' : 'Vue globale · séance non associée à un compte'}
+          {demonstration ? 'Démonstration · aperçu fictif — aucune donnée réelle' : 'Votre séance personnelle'}
         </p>
 
         <dl className="session-main-metrics">

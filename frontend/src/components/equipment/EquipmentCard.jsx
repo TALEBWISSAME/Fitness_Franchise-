@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
-import EquipmentIcon from './EquipmentIcon.jsx'
 import { equipmentStatusLabel, equipmentTypeLabel } from './equipmentPresentation.js'
+import { equipmentUniverses } from './equipmentUniverses.js'
+import EquipmentMedia from './EquipmentMedia.jsx'
 
 export default function EquipmentCard({ machine, demonstration, onDetails, onReserve }) {
   const lightFrame = useRef(null)
@@ -27,13 +28,15 @@ export default function EquipmentCard({ machine, demonstration, onDetails, onRes
 
   return (
     <article className="equipment-card" onPointerMove={moveLight} onPointerLeave={leaveLight}>
+      <EquipmentMedia machine={machine} />
       <div className="equipment-card-top">
-        <span className="equipment-machine-icon"><EquipmentIcon type={machine.type} /></span>
         <div className="equipment-card-title">
-          {machine.type && <p className="equipment-type">{equipmentTypeLabel(machine.type)}</p>}
+          {machine.type && <p className="equipment-type">{machine.referenceModel ? equipmentUniverses.find(item => item.id === machine.category)?.name : equipmentTypeLabel(machine.type)}</p>}
           <h2>{machine.name || 'Équipement sans nom'}</h2>
         </div>
       </div>
+      {machine.description && <p className="equipment-machine-description">{machine.description}</p>}
+      {machine.referenceModel && <span className="equipment-reference-label">Modèle de référence</span>}
       <div className="equipment-card-summary">
       <div className="equipment-card-meta">
         {machine.location && <span className="equipment-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2" /></svg>{machine.location}</span>}

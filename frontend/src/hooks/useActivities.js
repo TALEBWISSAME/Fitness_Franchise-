@@ -16,7 +16,7 @@ export default function useActivities() {
     async function load() {
       try {
         const data = await getApi('/activities', controller.signal)
-        if (!Array.isArray(data)) throw new Error('RÃ©ponse des activitÃ©s invalide')
+        if (!Array.isArray(data)) throw new Error('Réponse des activités invalide')
         if (!controller.signal.aborted) {
           setActivities(data)
           setError('')
@@ -24,7 +24,7 @@ export default function useActivities() {
       } catch (err) {
         if (!controller.signal.aborted) {
           setError(err instanceof TypeError
-            ? 'Connexion au backend impossible. VÃ©rifie que Spring Boot fonctionne sur le port 8080.'
+            ? 'Vos séances sont momentanément indisponibles. Une nouvelle tentative sera effectuée automatiquement.'
             : err.message)
         }
       } finally {

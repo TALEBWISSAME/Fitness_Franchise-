@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { validateRegistration } from '../validation/registration.js'
 import { writeApi } from '../api.js'
 import { useAuth } from '../authContext.js'
+import gymBanner from '../assets/gym-banner.png'
+import BrandMark from './BrandMark.jsx'
 
 export default function AuthForm({ mode, onNavigate }) {
   const registering = mode === 'register'
@@ -10,6 +12,7 @@ export default function AuthForm({ mode, onNavigate }) {
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
   const fields = [
     ...(registering ? [{ name: 'displayName', label: 'Nom d’affichage', type: 'text', autoComplete: 'nickname' }] : []),
     { name: 'email', label: 'Email', type: 'email', autoComplete: 'email' },
@@ -35,27 +38,40 @@ export default function AuthForm({ mode, onNavigate }) {
         form.reset(); setSuccess(true)
       } else {
         await login(values.email.trim(), values.password)
-        onNavigate('profile')
+        onNavigate('statistics')
       }
-    } catch (err) { setError(err instanceof TypeError ? 'Connexion au serveur impossible.' : err.message) }
+    } catch (err) { setError(err instanceof TypeError ? 'Le service est momentanément inaccessible. Réessayez dans un instant.' : err.message) }
     finally { setBusy(false) }
   }
-  return <section className="card auth-card" aria-busy={busy}>
-    <h1>{registering ? 'Créer mon compte' : 'Se connecter'}</h1>
+  return <div className="auth-layout">
+    <aside className="auth-story" aria-label="Votre espace Fitness Franchise">
+      <img className="auth-story-photo" src={gymBanner} alt="" />
+      <div className="auth-story-content"><p className="auth-eyebrow">FITNESS FRANCHISE</p><h2>Votre énergie.<br /><em>Un nouvel élan.</em></h2><p>Un espace personnel pour retrouver vos séances, comprendre votre rythme et suivre vos objectifs.</p><div className="auth-story-benefits"><span>01 · Vos entraînements</span><span>02 · Votre progression</span><span>03 · Vos objectifs</span></div></div>
+    </aside>
+    <section className="card auth-card auth-form-card" aria-busy={busy} aria-labelledby={`${mode}-title`}>
+    <BrandMark />
+    <p className="auth-eyebrow">{registering ? 'LE PREMIER PAS' : 'HEUREUX DE VOUS RETROUVER'}</p>
+    <h1 id={`${mode}-title`}>{registering ? 'Créer mon espace' : 'Bon retour parmi nous.'}</h1>
+    <p className="auth-description">{registering ? 'Créez votre compte et donnez une place à chaque entraînement.' : 'Connectez-vous pour retrouver votre progression.'}</p>
     <form noValidate onSubmit={submit}>
-      <p className="auth-hint">Tous les champs sont obligatoires.{registering && ' Mot de passe : 12 à 64 caractères.'}</p>
+      <p className="auth-hint">Tous les champs sont obligatoires.</p>
       {fields.map(field => <div className="auth-field" key={field.name}>
         <label htmlFor={`${mode}-${field.name}`}>{field.label}</label>
-        <input {...field} id={`${mode}-${field.name}`} required disabled={busy}
-          aria-invalid={!!errors[field.name]} aria-describedby={errors[field.name] ? `${mode}-${field.name}-error` : undefined} />
+        <div className="auth-input-wrap"><input name={field.name} autoComplete={field.autoComplete} type={field.type === 'password' && showPassword ? 'text' : field.type} id={`${mode}-${field.name}`} required disabled={busy}
+          maxLength={field.name === 'displayName' ? 100 : field.name === 'email' ? 254 : registering ? 64 : undefined}
+          aria-invalid={!!errors[field.name]} aria-describedby={[errors[field.name] ? `${mode}-${field.name}-error` : '', registering && field.name === 'password' ? 'registration-password-help' : ''].filter(Boolean).join(' ') || undefined}
+          onChange={() => { setErrors(previous => ({ ...previous, [field.name]: undefined })); setError(''); setSuccess(false) }} />
+          {field.name === 'password' && <button className="auth-reveal" type="button" disabled={busy} aria-label={showPassword ? 'Masquer les mots de passe' : 'Afficher les mots de passe'} aria-pressed={showPassword} onClick={() => setShowPassword(!showPassword)}>{showPassword ? 'Masquer' : 'Afficher'}</button>}
+        </div>
+        {registering && field.name === 'password' && <p className="auth-hint" id="registration-password-help">12 à 64 caractères, dans la limite de 72 octets UTF-8.</p>}
         {errors[field.name] && <p id={`${mode}-${field.name}-error`} className="auth-error" role="alert">{errors[field.name]}</p>}
       </div>)}
-      <button className="api-button" disabled={busy} type="submit">{busy ? 'En cours…' : registering ? 'Créer mon compte' : 'Se connecter'}</button>
-      {error && <p className="auth-error" role="alert">{error}</p>}
-      {success && <p role="status">Compte créé. Vous pouvez maintenant vous connecter.</p>}
+      <button className="api-button" disabled={busy} type="submit">{busy && <span className="ui-spinner" aria-hidden="true" />}{busy ? 'Veuillez patienter…' : registering ? 'Créer mon compte' : 'Accéder à mon espace'}<span aria-hidden="true">→</span></button>
+      {error && <p className="ui-error" role="alert">{error}</p>}
+      {success && <p className="ui-success" role="status">Compte créé avec succès. Connectez-vous pour commencer.</p>}
     </form>
-    <button className="button-outline" type="button" disabled={busy} onClick={() => onNavigate(registering ? 'login' : 'register')}>
-      {registering ? 'Se connecter' : 'Créer un compte'}
-    </button>
-  </section>
+    <p className="auth-switch">{registering ? 'Vous avez déjà un compte ?' : 'Pas encore de compte ?'} <button type="button" disabled={busy} onClick={() => onNavigate(registering ? 'login' : 'register')}>{registering ? 'Se connecter' : 'Créer mon espace'}</button></p>
+    <button className="auth-back" type="button" disabled={busy} onClick={() => onNavigate('home')}>← Retour à l’accueil</button>
+    </section>
+  </div>
 }

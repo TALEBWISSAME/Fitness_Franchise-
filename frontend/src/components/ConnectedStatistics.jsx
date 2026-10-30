@@ -7,6 +7,7 @@ import WeeklyGoal from './WeeklyGoal.jsx'
 export default function ConnectedStatistics({ onNavigate }) {
   const { user, loading: authLoading } = useAuth()
   const [filters, setFilters] = useState({ from: '', to: '', equipmentType: '' })
+  const [retry, setRetry] = useState(0)
   const [state, setState] = useState({ data: null, loading: true, error: '' })
   useEffect(() => {
     if (!user) return
@@ -29,18 +30,18 @@ export default function ConnectedStatistics({ onNavigate }) {
     }
     load()
     return () => { controller.abort(); clearTimeout(timer) }
-  }, [user, filters])
+  }, [user, filters, retry])
   return <>
-    {user && <section className="card"><h2>PÃ©riode des statistiques</h2>
+    {user && <section className="card statistics-filters"><h2>Période des statistiques</h2>
       <div className="activity-filters-form">
-        {['from', 'to'].map(name => <div className="auth-field" key={name}><label htmlFor={`stats-${name}`}>{name === 'from' ? 'Date de dÃ©but' : 'Date de fin'}</label>
+        {['from', 'to'].map(name => <div className="auth-field" key={name}><label htmlFor={`stats-${name}`}>{name === 'from' ? 'Date de début' : 'Date de fin'}</label>
           <input id={`stats-${name}`} type="date" value={filters[name]} onChange={event => setFilters(previous => ({ ...previous, [name]: event.target.value }))} /></div>)}
-        <div className="auth-field"><label htmlFor="stats-equipment">Ã‰quipement</label><select id="stats-equipment" value={filters.equipmentType} onChange={event => setFilters(previous => ({ ...previous, equipmentType: event.target.value }))}>
-          <option value="">Tous</option><option value="TREADMILL">Tapis</option><option value="BIKE">VÃ©lo</option><option value="ELLIPTICAL">Elliptique</option>
+        <div className="auth-field"><label htmlFor="stats-equipment">Équipement</label><select id="stats-equipment" value={filters.equipmentType} onChange={event => setFilters(previous => ({ ...previous, equipmentType: event.target.value }))}>
+          <option value="">Tous</option><option value="TREADMILL">Tapis</option><option value="BIKE">Vélo</option><option value="ELLIPTICAL">Elliptique</option>
         </select></div>
-        <button className="button-outline" type="button" onClick={() => setFilters({ from: '', to: '', equipmentType: '' })}>RÃ©initialiser</button>
+        <button className="button-outline" type="button" onClick={() => setFilters({ from: '', to: '', equipmentType: '' })}>Réinitialiser</button>
       </div><p>Sans dates : les quatre semaines calendaires, semaine courante incluse.</p></section>}
-    <StatisticsPage onNavigate={onNavigate} user={user} {...(user ? (state.filters === filters ? state : { data: null, loading: true, error: '' }) : { data: null, error: '', loading: authLoading })} />
+    <StatisticsPage onNavigate={onNavigate} onRetry={() => setRetry(previous => previous + 1)} user={user} {...(user ? (state.filters === filters ? state : { data: null, loading: true, error: '' }) : { data: null, error: '', loading: authLoading })} />
     {user && <WeeklyGoal />}
   </>
 }
