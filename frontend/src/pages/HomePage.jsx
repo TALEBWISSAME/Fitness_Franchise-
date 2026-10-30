@@ -6,7 +6,7 @@ import { formatActivityDate } from '../utils/activityFilters.js'
 import './HomePage.css'
 
 const homeLinks = [
-  { page: 'activities', title: 'Mon espace fitness', eyebrow: 'Le suivi sportif', description: 'Chaque séance a sa place. Retrouvez les activités reçues, en vue globale pour le moment.', action: 'Explorer les activités', icon: 'M5 20v-5m5 5V11m5 9V7m5 13V3' },
+  { page: 'activities', title: 'Mon espace fitness', eyebrow: 'Le suivi sportif', description: 'Chaque séance a sa place. Retrouvez les activités reçues, dans votre espace personnel.', action: 'Explorer les activités', icon: 'M5 20v-5m5 5V11m5 9V7m5 13V3' },
   { page: 'equipment', title: 'Équipements', eyebrow: 'Le terrain de votre énergie', description: 'Explorez l’espace machines et réservation, en cours d’intégration.', action: 'Découvrir les machines', icon: 'M4 17h15a2 2 0 0 1 0 4H4a2 2 0 0 1 0-4Zm11 0 3-13h3M13 8h4M7 19h9' },
   { page: 'statistics', title: 'Mes statistiques', eyebrow: 'Une autre perspective', description: 'Prenez du recul sur votre rythme d’entraînement.', action: 'Explorer ma progression', icon: 'M4 19h16M5 14l5-5 4 3 5-7' },
 ]
@@ -148,7 +148,7 @@ function HomePage({ onNavigate }) {
 
       <section className="home-latest" aria-labelledby="activity-title" aria-busy={loading} data-home-reveal="visible">
         <div className="home-section-heading"><h2 id="activity-title">Dernière activité reçue</h2><button className="home-text-action" type="button" onClick={() => onNavigate('activities')}>Toutes les activités<HomeIcon path="m9 5 7 7-7 7" /></button></div>
-        <p className="home-data-scope" id="home-data-scope">Vue globale : ces séances ne sont pas encore associées à un compte adhérent.</p>
+        <p className="home-data-scope" id="home-data-scope">Vos séances personnelles sont accessibles après connexion.</p>
         <div className="home-latest-body">
           {loading ? <p className="home-activity-state" role="status">Chargement de la dernière activité…</p> : latestActivity ? (
             <>

@@ -30,7 +30,8 @@ class ActivityPostgresIntegrationTest {
         ActivityRequest request = new ActivityRequest("TREADMILL", 20, 2.5,
                 LocalDateTime.parse("2026-10-11T14:30:00"));
 
-        Long id = service.save(request);
+        // Legacy ownerless fixture: repository access is test setup, not the POST path.
+        Long id = repository.save(new Activity(request)).getId();
         entityManager.flush();
         entityManager.clear();
 

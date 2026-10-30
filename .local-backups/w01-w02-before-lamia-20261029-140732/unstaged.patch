@@ -1,0 +1,276 @@
+﻿diff --git a/backend/pom.xml b/backend/pom.xml
+index 35fbdf3..3e1e0bb 100644
+--- a/backend/pom.xml
++++ b/backend/pom.xml
+@@ -16,6 +16,15 @@
+         <java.version>21</java.version>
+     </properties>
+     <dependencies>
++        <dependency>
++            <groupId>org.springframework.boot</groupId>
++            <artifactId>spring-boot-starter-security</artifactId>
++        </dependency>
++        <dependency>
++            <groupId>org.springframework.security</groupId>
++            <artifactId>spring-security-test</artifactId>
++            <scope>test</scope>
++        </dependency>
+         <dependency>
+             <groupId>org.springframework.boot</groupId>
+             <artifactId>spring-boot-starter-validation</artifactId>
+diff --git a/backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java b/backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java
+index 5978dca..f1865e5 100644
+--- a/backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java
++++ b/backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java
+@@ -4,14 +4,26 @@ package com.fitnessfranchise.backend.activity;
+ import org.springframework.stereotype.Service;
+ import org.springframework.transaction.annotation.Transactional;
+ import java.util.List;
++import java.util.Optional;
++import com.fitnessfranchise.backend.auth.AccountStore;
++import org.springframework.security.core.context.SecurityContextHolder;
++import org.springframework.security.authentication.AnonymousAuthenticationToken;
++import org.springframework.web.server.ResponseStatusException;
++import org.springframework.http.HttpStatus;
+ 
+ @Service
+ public class ActivityService {
+ 
+     private final ActivityRepository repository;
+ 
+-    public ActivityService(ActivityRepository repository) {
++    private final Optional<AccountStore> accounts;
++    private final Optional<OwnedActivityStore> ownedActivities;
++
++    public ActivityService(ActivityRepository repository, Optional<AccountStore> accounts,
++                           Optional<OwnedActivityStore> ownedActivities) {
+         this.repository = repository;
++        this.accounts = accounts;
++        this.ownedActivities = ownedActivities;
+     }
+ 
+     @Transactional(readOnly = true)
+@@ -21,8 +33,20 @@ public class ActivityService {
+ 
+     @Transactional
+     public Long save(ActivityRequest request) {
+-        Activity activity = new Activity(request);
+-        Activity savedActivity = repository.save(activity);
+-        return savedActivity.getId();
++        var authentication = SecurityContextHolder.getContext().getAuthentication();
++        if (authentication == null || !authentication.isAuthenticated()
++                || authentication instanceof AnonymousAuthenticationToken) {
++            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
++        }
++        var accountStore = accounts.orElseThrow(() ->
++                new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE));
++        var owner = accountStore.findByEmail(authentication.getName()).orElseThrow(() ->
++                new ResponseStatusException(HttpStatus.UNAUTHORIZED));
++        if (owner.id() == null) {
++            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
++        }
++        var store = ownedActivities.orElseThrow(() ->
++                new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE));
++        return store.save(request, owner.id());
+     }
+ }
+diff --git a/backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java b/backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java
+index a717247..f3e9ebc 100644
+--- a/backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java
++++ b/backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java
+@@ -1,18 +1,65 @@
+ package com.fitnessfranchise.backend.config;
+ 
+-import org.springframework.context.annotation.Configuration;
+-import org.springframework.web.servlet.config.annotation.CorsRegistry;
+-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
++import com.fitnessfranchise.backend.auth.AccountService;
++import org.springframework.beans.factory.ObjectProvider;
++import org.springframework.context.annotation.*;
++import org.springframework.security.config.annotation.web.builders.HttpSecurity;
++import org.springframework.security.core.userdetails.*;
++import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
++import org.springframework.security.crypto.password.PasswordEncoder;
++import org.springframework.security.web.SecurityFilterChain;
++import org.springframework.web.cors.*;
++import org.springframework.web.servlet.config.annotation.*;
++import java.util.List;
+ 
+ @Configuration
+ public class WebConfig implements WebMvcConfigurer {
+-    @Override
+-    public void addCorsMappings(CorsRegistry registry) {
+-        registry.addMapping("/api/activities")
+-                .allowedOrigins("http://localhost:5173")
+-                .allowedMethods("GET", "POST");
+-        registry.addMapping("/api/**")
+-                .allowedOrigins("http://localhost:5173")
+-                .allowedMethods("GET");
++    @Bean PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
++    @Bean UserDetailsService userDetailsService(ObjectProvider<AccountService> accounts) {
++        return email -> {
++            AccountService service = accounts.getIfAvailable();
++            if (service == null) throw new UsernameNotFoundException("Invalid credentials");
++            return service.loadUserByUsername(email);
++        };
++    }
++    @Bean SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
++        var cors = new UrlBasedCorsConfigurationSource();
++        var configuration = new CorsConfiguration();
++        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
++        configuration.setAllowedMethods(List.of("GET", "POST"));
++        configuration.setAllowedHeaders(List.of("Content-Type", "X-CSRF-TOKEN"));
++        configuration.setAllowCredentials(true);
++        cors.registerCorsConfiguration("/api/**", configuration);
++        http.cors(c -> c.configurationSource(cors))
++            .authorizeHttpRequests(a -> a
++                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/activities").permitAll()
++                .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/activities").authenticated()
++                .requestMatchers("/api/health", "/api/auth/csrf", "/api/auth/register", "/api/auth/login").permitAll()
++                .anyRequest().authenticated())
++            .requestCache(c -> c.disable())
++            .exceptionHandling(e -> e
++                .authenticationEntryPoint((req, res, ex) -> {
++                    res.setStatus(401); res.setContentType("application/json");
++                    res.getWriter().write("{\"error\":\"UNAUTHENTICATED\"}");
++                })
++                .accessDeniedHandler((req, res, ex) -> {
++                    res.setStatus(403); res.setContentType("application/json");
++                    res.getWriter().write("{\"error\":\"FORBIDDEN\"}");
++                }))
++            .formLogin(f -> f.loginProcessingUrl("/api/auth/login").usernameParameter("email")
++                .successHandler((req, res, auth) -> {
++                    res.setContentType("application/json"); res.getWriter().write("{\"status\":\"AUTHENTICATED\"}");
++                })
++                .failureHandler((req, res, ex) -> {
++                    res.setStatus(401); res.setContentType("application/json");
++                    res.getWriter().write("{\"error\":\"INVALID_CREDENTIALS\"}");
++                }))
++            .logout(l -> l.logoutUrl("/api/auth/logout").invalidateHttpSession(true)
++                .deleteCookies("JSESSIONID").logoutSuccessHandler((req, res, auth) -> res.setStatus(204)));
++        return http.build();
++    }
++    @Override public void addCorsMappings(CorsRegistry registry) {
++        registry.addMapping("/api/activities").allowedOrigins("http://localhost:5173").allowedMethods("GET", "POST").allowCredentials(true);
++        registry.addMapping("/api/**").allowedOrigins("http://localhost:5173").allowedMethods("GET", "POST").allowCredentials(true);
+     }
+ }
+diff --git a/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java b/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java
+index d6f623a..3518de4 100644
+--- a/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java
++++ b/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java
+@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
+ import java.util.List;
+ import org.springframework.test.util.ReflectionTestUtils;
+ import static org.mockito.Mockito.when;
++import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
++import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+ 
+ import static org.mockito.Mockito.verify;
+@@ -60,7 +62,7 @@ class ActivityControllerTest {
+     @ParameterizedTest
+     @ValueSource(doubles = {2.5, 0.0})
+     void acceptsValidActivity(double distance) throws Exception {
+-        mockMvc.perform(post("/api/activities")
++        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
+                         .contentType(MediaType.APPLICATION_JSON)
+                         .content("""
+                                 {"equipmentType":"TREADMILL","durationMinutes":20,
+@@ -89,7 +91,7 @@ class ActivityControllerTest {
+                 """;
+         String fieldName = invalidField.substring(0, invalidField.indexOf(':'));
+         String invalidJson = validJson.replaceFirst(fieldName + ":(?:\"[^\"]*\"|[0-9.]+)", invalidField);
+-        mockMvc.perform(post("/api/activities")
++        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
+                         .contentType(MediaType.APPLICATION_JSON).content(invalidJson))
+                 .andExpect(status().isBadRequest());
+         verifyNoInteractions(activityService);
+@@ -97,7 +99,7 @@ class ActivityControllerTest {
+ 
+     @Test
+     void rejectsMissingFields() throws Exception {
+-        mockMvc.perform(post("/api/activities")
++        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
+                         .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                 .andExpect(status().isBadRequest());
+         verifyNoInteractions(activityService);
+diff --git a/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java b/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java
+index f8061a8..5e6e693 100644
+--- a/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java
++++ b/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java
+@@ -30,7 +30,8 @@ class ActivityPostgresIntegrationTest {
+         ActivityRequest request = new ActivityRequest("TREADMILL", 20, 2.5,
+                 LocalDateTime.parse("2026-10-11T14:30:00"));
+ 
+-        Long id = service.save(request);
++        // Legacy ownerless fixture: repository access is test setup, not the POST path.
++        Long id = repository.save(new Activity(request)).getId();
+         entityManager.flush();
+         entityManager.clear();
+ 
+diff --git a/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java b/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java
+index 03ae11a..481b19c 100644
+--- a/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java
++++ b/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java
+@@ -27,27 +27,44 @@ class ActivityServiceTest {
+         Activity older = new Activity(new ActivityRequest("TREADMILL", 15, 1.0,
+                 LocalDateTime.parse("2026-10-10T14:30:00")));
+         when(repository.findAllByOrderByDateDescIdDesc()).thenReturn(List.of(recent, older));
+-        assertThat(new ActivityService(repository).findAll()).containsExactly(recent, older);
++        assertThat(new ActivityService(repository, java.util.Optional.empty(), java.util.Optional.empty()).findAll()).containsExactly(recent, older);
+         verify(repository).findAllByOrderByDateDescIdDesc();
+     }
+ 
+     @Test
+-    void savesRequestFieldsAndReturnsGeneratedId() {
++    void cannotSaveWithoutAuthenticatedOwner() {
++        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+         ActivityRequest request = new ActivityRequest("TREADMILL", 20, 2.5,
+                 LocalDateTime.parse("2026-10-11T14:30:00"));
+-        Activity savedActivity = mock(Activity.class);
+-        when(savedActivity.getId()).thenReturn(42L);
+-        when(repository.save(any(Activity.class))).thenReturn(savedActivity);
+-
+-        Long id = new ActivityService(repository).save(request);
+-
+-        ArgumentCaptor<Activity> entity = ArgumentCaptor.forClass(Activity.class);
+-        verify(repository).save(entity.capture());
+-        assertThat(id).isEqualTo(42L);
+-        assertThat(entity.getValue()).hasFieldOrPropertyWithValue("equipmentType", request.equipmentType())
+-                .hasFieldOrPropertyWithValue("durationMinutes", request.durationMinutes())
+-                .hasFieldOrPropertyWithValue("distanceKm", request.distanceKm())
+-                .hasFieldOrPropertyWithValue("date", request.date())
+-                .hasFieldOrPropertyWithValue("id", null);
++        org.assertj.core.api.Assertions.assertThatThrownBy(() ->
++                new ActivityService(repository, java.util.Optional.empty(), java.util.Optional.empty()).save(request))
++            .isInstanceOf(org.springframework.web.server.ResponseStatusException.class)
++            .satisfies(ex -> assertThat(((org.springframework.web.server.ResponseStatusException) ex)
++                .getStatusCode().value()).isEqualTo(401));
++        org.mockito.Mockito.verifyNoInteractions(repository);
+     }
++    @Test
++    void missingPersistenceNeverFallsBackToOwnerlessInsert() {
++        var context = org.springframework.security.core.context.SecurityContextHolder.createEmptyContext();
++        context.setAuthentication(org.springframework.security.authentication.UsernamePasswordAuthenticationToken
++                .authenticated("a@example.test", null, java.util.List.of()));
++        org.springframework.security.core.context.SecurityContextHolder.setContext(context);
++        try {
++            var accounts = mock(com.fitnessfranchise.backend.auth.AccountStore.class);
++            when(accounts.findByEmail("a@example.test")).thenReturn(java.util.Optional.of(
++                new com.fitnessfranchise.backend.auth.AccountStore.Account(1L, "a@example.test", "A", "hash")));
++            var request = new ActivityRequest("TREADMILL", 20, 2.5, LocalDateTime.parse("2026-10-11T14:30:00"));
++            for (var availableAccounts : java.util.List.of(java.util.Optional.<com.fitnessfranchise.backend.auth.AccountStore>empty(), java.util.Optional.of(accounts))) {
++                org.assertj.core.api.Assertions.assertThatThrownBy(() ->
++                        new ActivityService(repository, availableAccounts, java.util.Optional.empty()).save(request))
++                    .isInstanceOf(org.springframework.web.server.ResponseStatusException.class)
++                    .satisfies(ex -> assertThat(((org.springframework.web.server.ResponseStatusException) ex)
++                        .getStatusCode().value()).isEqualTo(503));
++            }
++            org.mockito.Mockito.verifyNoInteractions(repository);
++        } finally {
++            org.springframework.security.core.context.SecurityContextHolder.clearContext();
++        }
++    }
++
+ }

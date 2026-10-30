@@ -1,22 +1,16 @@
-
 package com.fitnessfranchise.backend.activity;
 
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/activities")
 public class ActivityController {
-
     private final ActivityService activityService;
 
     public ActivityController(ActivityService activityService) {
@@ -24,21 +18,26 @@ public class ActivityController {
     }
 
     @GetMapping
-    public List<Activity> getActivities() {
-        return activityService.findAll();
+    public List<Activity> getActivities(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) String equipmentType) {
+        return activityService.findMyActivities(from, to, equipmentType);
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> createActivity(
-            @Valid @RequestBody ActivityRequest activity) {
-
+    public ResponseEntity<Map<String, String>> createActivity(@Valid @RequestBody ActivityRequest activity) {
         activityService.save(activity);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(Map.of(
+                "status", "ACCEPTED", "message", "Activite recue et validee"));
+    }
 
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(
-            Map.of(
-                "status", "ACCEPTED",
-                "message", "Activite recue et validee"
-            )
-        );
+    // Compatibility alias for the first dashboard implementation.
+    @GetMapping("/dashboard")
+    public DashboardResponse getDashboard(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) String equipmentType) {
+        return activityService.getDashboard(from, to, equipmentType);
     }
 }

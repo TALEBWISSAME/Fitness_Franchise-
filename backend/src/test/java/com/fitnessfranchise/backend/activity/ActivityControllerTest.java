@@ -13,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.test.util.ReflectionTestUtils;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.mockito.Mockito.verify;
@@ -37,8 +39,8 @@ class ActivityControllerTest {
                 LocalDateTime.parse("2026-10-10T14:30:00")));
         ReflectionTestUtils.setField(recent, "id", 2L);
         ReflectionTestUtils.setField(older, "id", 1L);
-        when(activityService.findAll()).thenReturn(List.of(recent, older));
-        mockMvc.perform(get("/api/activities").header("Origin", "http://localhost:5173"))
+when(activityService.findMyActivities(null, null, null))
+        .thenReturn(List.of(recent, older));        mockMvc.perform(get("/api/activities").with(user("a@example.test")).header("Origin", "http://localhost:5173"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
                 .andExpect(content().json("""
@@ -51,8 +53,8 @@ class ActivityControllerTest {
 
     @Test
     void returnsEmptyArrayWhenNoActivitiesExist() throws Exception {
-        when(activityService.findAll()).thenReturn(List.of());
-        mockMvc.perform(get("/api/activities"))
+when(activityService.findMyActivities(null, null, null))
+        .thenReturn(List.of());        mockMvc.perform(get("/api/activities").with(user("a@example.test")))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]", JsonCompareMode.STRICT));
     }
@@ -60,7 +62,7 @@ class ActivityControllerTest {
     @ParameterizedTest
     @ValueSource(doubles = {2.5, 0.0})
     void acceptsValidActivity(double distance) throws Exception {
-        mockMvc.perform(post("/api/activities")
+        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"equipmentType":"TREADMILL","durationMinutes":20,
@@ -89,7 +91,7 @@ class ActivityControllerTest {
                 """;
         String fieldName = invalidField.substring(0, invalidField.indexOf(':'));
         String invalidJson = validJson.replaceFirst(fieldName + ":(?:\"[^\"]*\"|[0-9.]+)", invalidField);
-        mockMvc.perform(post("/api/activities")
+        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON).content(invalidJson))
                 .andExpect(status().isBadRequest());
         verifyNoInteractions(activityService);
@@ -97,7 +99,7 @@ class ActivityControllerTest {
 
     @Test
     void rejectsMissingFields() throws Exception {
-        mockMvc.perform(post("/api/activities")
+        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isBadRequest());
         verifyNoInteractions(activityService);
@@ -111,7 +113,7 @@ class ActivityControllerTest {
                         .header("Access-Control-Request-Headers", "content-type"))
                 .andExpect(status().isOk())
                 .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
-                .andExpect(header().string("Access-Control-Allow-Methods", "GET,POST"));
+                .andExpect(header().string("Access-Control-Allow-Methods", "GET,POST,PUT"));
     }
 
     @Test

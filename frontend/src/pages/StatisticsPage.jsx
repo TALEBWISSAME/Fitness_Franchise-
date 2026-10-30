@@ -25,7 +25,8 @@ function StatisticsLayout({ children, actions, loading }) {
 function StatisticsContent({ data }) {
   return (
     <div className="statistics-content">
-      <p className="statistics-period"><span>Période analysée</span> Du {formatStatisticsDay(data.weeks[0].startDate, true)} au {formatStatisticsDay(data.weeks[3].endDate, true)}</p>
+      <p className="statistics-period"><span>Période analysée</span> Du {formatStatisticsDay(data.weeks[0].startDate, true)} au {formatStatisticsDay(data.weeks.at(-1).endDate, true)}</p>
+      {data.weeks.some(week => week.partial) && <p>La première ou la dernière semaine est partiellement couverte par les filtres.</p>}
       <StatsCards summary={data.summary} />
       {data.summary.sessionCount === 0 && (
         <p className="statistics-empty-note" role="status">Aucune activité sur cette période. Vos indicateurs sont à zéro.</p>

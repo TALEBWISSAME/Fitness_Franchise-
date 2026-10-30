@@ -11,7 +11,7 @@ const pages = [
   ['register', 'Inscription', 'Préparer votre espace personnel', 'M4 21c0-4.5 3.5-7 8-7m4-7a4 4 0 1 1-8 0 4 4 0 0 1 8 0m2 9v6m-3-3h6'],
 ]
 
-export default function TopNavigation({ currentPage, onNavigate }) {
+export default function TopNavigation({ currentPage, onNavigate, user }) {
   const [open, setOpen] = useState(false)
   const [hidden, setHidden] = useState(false)
   const rootRef = useRef(null)
@@ -120,7 +120,7 @@ export default function TopNavigation({ currentPage, onNavigate }) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true" focusable="false"><path d={open ? 'm6 6 12 12M6 18 18 6' : 'M4 8h16M4 16h11'} /></svg><span>Menu</span>
         </button>
         <span className="topbar-context">{pages.find(page => page[0] === currentPage)?.[1]}</span>
-        <button className="user-avatar topbar-account" type="button" aria-label="Accéder à mon compte" title="Accéder à mon compte" onClick={() => navigate('login')}>
+        <button className="user-avatar topbar-account" type="button" aria-label="Accéder à mon compte" title="Accéder à mon compte" onClick={() => navigate(user ? 'profile' : 'login')}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4" /><path d="M4 21c0-4.5 3.5-7 8-7s8 2.5 8 7" /></svg>
         </button>
       </div>

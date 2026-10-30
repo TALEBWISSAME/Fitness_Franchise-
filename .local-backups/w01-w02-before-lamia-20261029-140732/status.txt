@@ -1,0 +1,42 @@
+﻿ M backend/pom.xml
+ M backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java
+ M backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java
+ M backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java
+ M backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java
+ M backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/W01.md
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/W02.md
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/pom.xml
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/activity/OwnedActivityStore.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/AccountConfiguration.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/AccountProfile.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/AccountService.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/AccountStore.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/AuthController.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/AuthErrors.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/auth/RegistrationRequest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityOwnershipTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/auth/AccountPostgresIntegrationTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/auth/AuthFlowTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/files/backend/src/test/java/com/fitnessfranchise/backend/auth/RegistrationRequestTest.java
+?? .local-backups/w01-w02-before-lamia-20261029-140732/manifest.json
+?? .local-backups/w01-w02-before-lamia-20261029-140732/unstaged.patch
+?? backend/W01.md
+?? backend/W02.md
+?? backend/src/main/java/com/fitnessfranchise/backend/activity/OwnedActivityStore.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/AccountConfiguration.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/AccountProfile.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/AccountService.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/AccountStore.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/AuthController.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/AuthErrors.java
+?? backend/src/main/java/com/fitnessfranchise/backend/auth/RegistrationRequest.java
+?? backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityOwnershipTest.java
+?? backend/src/test/java/com/fitnessfranchise/backend/auth/AccountPostgresIntegrationTest.java
+?? backend/src/test/java/com/fitnessfranchise/backend/auth/AuthFlowTest.java
+?? backend/src/test/java/com/fitnessfranchise/backend/auth/RegistrationRequestTest.java

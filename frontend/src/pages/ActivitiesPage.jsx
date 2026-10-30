@@ -14,7 +14,7 @@ function ActivitiesLayout({ children, actions }) {
       <header className="activities-heading">
         <div>
           <h1 id="activities-title">Mes activités</h1>
-          <p>Journal des séances · vue globale, sans association à un compte</p>
+          <p>Journal de vos séances personnelles</p>
         </div>
         {actions}
       </header>
@@ -37,7 +37,7 @@ function ActivitiesView({ activities, loading, error, demonstration = false }) {
   const filteredActivities = filterActivities(activities, filters)
   const summary = summarizeActivityList(filteredActivities)
   // Seul type actuellement pris en charge par le simulateur du projet.
-  const equipmentTypes = ['TREADMILL']
+  const equipmentTypes = ['TREADMILL', 'BIKE', 'ELLIPTICAL']
 
   function updateFilter(event) {
     const { name, value } = event.target
@@ -83,7 +83,7 @@ function ActivitiesView({ activities, loading, error, demonstration = false }) {
       </section>
 
       {!loading && !filterError && !(error && activities.length === 0) && <section className="activities-summary" aria-labelledby="activities-summary-title">
-        <div className="activities-summary-heading"><h2 id="activities-summary-title">Résumé de la liste affichée</h2><p>{demonstration ? 'Séances fictives uniquement' : 'Séances chargées · vue globale'}</p></div>
+        <div className="activities-summary-heading"><h2 id="activities-summary-title">Résumé de la liste affichée</h2><p>{demonstration ? 'Séances fictives uniquement' : 'Vos séances personnelles'}</p></div>
         <dl>
           <div><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 20v-5m5 5V11m5 9V7m5 13V3" /></svg>Séances affichées</dt><dd>{listNumber.format(summary.count)}</dd></div>
           <div><dt><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>Durée cumulée</dt><dd>{summary.durationMinutes === null ? <span>Non disponible</span> : <>{listNumber.format(summary.durationMinutes)} <span>min</span></>}</dd></div>
@@ -102,7 +102,7 @@ function ActivitiesView({ activities, loading, error, demonstration = false }) {
             <details><summary>Détails de connexion</summary><p>{error}</p></details>
           </div>
         )}
-        <table className="activities-table" role="table" aria-label={demonstration ? 'Liste des séances fictives' : 'Liste des activités globales'}>
+        <table className="activities-table" role="table" aria-label={demonstration ? 'Liste des séances fictives' : 'Liste de vos activités personnelles'}>
           <thead role="rowgroup">
             <tr role="row">
               <th scope="col">Date</th>

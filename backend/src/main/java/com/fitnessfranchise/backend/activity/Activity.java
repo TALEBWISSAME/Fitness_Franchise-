@@ -24,6 +24,12 @@ public class Activity {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "adherent_id", nullable = true,
+            foreignKey = @ForeignKey(name = "activities_adherent_fk"))
+    private com.fitnessfranchise.backend.auth.Adherent adherent;
+
     protected Activity() {
         // Constructeur requis par JPA
     }
@@ -34,6 +40,14 @@ public class Activity {
         this.distanceKm = request.distanceKm();
         this.date = request.date();
     }
+
+    public Activity(ActivityRequest request, com.fitnessfranchise.backend.auth.Adherent owner) {
+        this(request);
+        this.adherent = java.util.Objects.requireNonNull(owner, "Authenticated owner required");
+    }
+
+    @com.fasterxml.jackson.annotation.JsonIgnore
+    public com.fitnessfranchise.backend.auth.Adherent getAdherent() { return adherent; }
 
     public Long getId() {
         return id;

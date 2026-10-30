@@ -1,0 +1,82 @@
+﻿[
+    {
+        "Path":  "backend/W01.md",
+        "SHA256":  "20F245E7724E56DFC7AEBA8E91EAB27B17B07D1FC65C7F0655E87B4CE4AD2938"
+    },
+    {
+        "Path":  "backend/W02.md",
+        "SHA256":  "C170FE5C4DABAEE7DD8FE17970847A4A4BD1C14CFF2E6950E204AAD9D47D7011"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/activity/OwnedActivityStore.java",
+        "SHA256":  "88632A1FF2CA33966003FED11418A2CD4B13EB9599C43CDEF9EB90F27B470E59"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/AccountConfiguration.java",
+        "SHA256":  "E91E661098030F90B602D6516B2AE56A737967BC2E2B915A7108C5DF168C462E"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/AccountProfile.java",
+        "SHA256":  "B88BA1382D73C86039CA0A636CF57526A146E855B94ABE55B892C892AA9F895B"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/AccountService.java",
+        "SHA256":  "3261AD54B7464F91C90F01F5674B90BA56A76328DA73EBF27928EF2B485B68EE"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/AccountStore.java",
+        "SHA256":  "BEE7B55178A9E0DCB6EA07A02B0B78FD83AF8094DBC8CF302FE6D7DB711B8CA6"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/AuthController.java",
+        "SHA256":  "6866215EF94A0B4B2EE411E45AFF83E764D0926521DE41D4CE17DE461B2F6C64"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/AuthErrors.java",
+        "SHA256":  "240233431FC1DB259DEE4D233855E5E895F4E168B922AEDA997EAC9A87D0068F"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/auth/RegistrationRequest.java",
+        "SHA256":  "F25E1DF21D27309F671DCF9EB9463647B70A4BF787B0594869608C00DC2803A9"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityOwnershipTest.java",
+        "SHA256":  "213623D27E53B9B5D6C6D58CEC353BA21FDCC5FE6D753AC12D8E8DF8FA5BFBE9"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/auth/AccountPostgresIntegrationTest.java",
+        "SHA256":  "FF3BD274F7322C50BD823E50DF1EBC0C7728380F98FADC5420B8A0501DA1C165"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/auth/AuthFlowTest.java",
+        "SHA256":  "20A10E588ABD1C17FBB6CCF4E3B96776A0D9CC3298480D5CDCBD78D7F9260FFC"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/auth/RegistrationRequestTest.java",
+        "SHA256":  "33F99D2560AC3A33BAC4990A0075172019A1320802F12E86BD8D0A10408A378C"
+    },
+    {
+        "Path":  "backend/pom.xml",
+        "SHA256":  "0C84255F5C519F958224BF196A5485A4D8DD3F79A7C504F82CF5B53118846413"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/activity/ActivityService.java",
+        "SHA256":  "437099499078C70188096DD7A59A871CA414F1471D7918981FD9BC20E1125AB3"
+    },
+    {
+        "Path":  "backend/src/main/java/com/fitnessfranchise/backend/config/WebConfig.java",
+        "SHA256":  "E40CE765FDEB93368D49AAD27BD68B124B110FDE048B0A6DF16A2B1B4F72DBC0"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityControllerTest.java",
+        "SHA256":  "AE827758694168CD2F6B4EE7044DCC596ABFFA6DBB427F724AB784989BD89A8E"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityPostgresIntegrationTest.java",
+        "SHA256":  "35A4A0E512B4D862436CF51270323BC005D7E83F0C6D418CF61251C41F8AA357"
+    },
+    {
+        "Path":  "backend/src/test/java/com/fitnessfranchise/backend/activity/ActivityServiceTest.java",
+        "SHA256":  "447799C59C502042B73FE7B41E9F110ECA61541D648571971BBF8DC56C2ECE46"
+    }
+]

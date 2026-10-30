@@ -1,36 +1,13 @@
-// Validation locale de la proposition d’inscription, sans stockage ni appel API.
-export function validateRegistration(values, today) {
+export function validateRegistration(values) {
   const errors = {}
-  const required = {
-    displayName: 'Nom d’affichage',
-    email: 'Adresse email',
-    birthDate: 'Date de naissance',
-    password: 'Mot de passe',
-    passwordConfirmation: 'Confirmer le mot de passe',
+  for (const name of ['displayName', 'email', 'password', 'passwordConfirmation']) {
+    if (!values[name]?.trim()) errors[name] = 'Ce champ est obligatoire.'
   }
-
-  for (const [name, label] of Object.entries(required)) {
-    if (!values[name]?.trim()) errors[name] = `${label} : ce champ est obligatoire.`
+  if (values.displayName?.trim().length > 100) errors.displayName = '100 caractères maximum.'
+  if (values.email?.trim().length > 254 || !/^[^\s@]+@[^\s@]+$/.test(values.email?.trim() || '')) errors.email = 'Saisissez une adresse email valide.'
+  if (values.password && (values.password.length < 12 || values.password.length > 64 || new TextEncoder().encode(values.password).length > 72)) {
+    errors.password = 'Utilisez 12 à 64 caractères (72 octets UTF-8 maximum).'
   }
-
-  if (!errors.email && !/^[^\s@]+@[^\s@]+$/.test(values.email.trim())) {
-    errors.email = 'Saisissez une adresse email valide.'
-  }
-  if (!errors.birthDate) {
-    const value = values.birthDate
-    const date = new Date(`${value}T00:00:00Z`)
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(value) || value.startsWith('0000') ||
-        !Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== value) {
-      errors.birthDate = 'Saisissez une date de naissance valide.'
-    } else if (value > today) {
-      errors.birthDate = 'La date de naissance ne peut pas être dans le futur.'
-    }
-  }
-  if (!errors.password && values.password.length < 8) {
-    errors.password = 'Le mot de passe doit contenir au moins 8 caractères.'
-  }
-  if (!errors.passwordConfirmation && values.passwordConfirmation !== values.password) {
-    errors.passwordConfirmation = 'Les mots de passe ne correspondent pas.'
-  }
+  if (values.passwordConfirmation !== values.password) errors.passwordConfirmation = 'Les mots de passe ne correspondent pas.'
   return errors
 }
