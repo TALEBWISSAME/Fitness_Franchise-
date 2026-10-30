@@ -1,0 +1,154 @@
+/* Accueil : composition éditoriale, effets locaux, aucune donnée simulée. */
+.home-dashboard { display: grid; gap: 18px; min-width: 0; }
+.home-hero { position: relative; isolation: isolate; overflow: hidden; display: flex; align-items: center; min-height: 378px; border: 1px solid rgba(255,117,24,.17); border-radius: 14px; background: #101217; }
+.home-hero-media { position: absolute; inset: -4px; z-index: -2; pointer-events: none; transform: translate3d(var(--hero-shift-x, 0px), var(--hero-shift-y, 0px), 0); transition: transform 220ms ease-out; }
+.home-hero-photo { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; transform-origin: 76% 44%; animation: home-photo-enter 900ms cubic-bezier(.2,.65,.3,1) backwards; }
+.home-hero::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, rgba(9,11,15,.98), rgba(9,11,15,.9) 29%, rgba(9,11,15,.35) 57%, transparent 80%), linear-gradient(0deg, rgba(9,11,15,.72), transparent 50%), radial-gradient(ellipse at 68% 40%, transparent 30%, rgba(9,11,15,.28)); }
+.home-hero-light { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 4% 100%, rgba(255,117,24,.14), transparent 46%), radial-gradient(ellipse at 88% 12%, rgba(255,150,76,.09), transparent 38%); }
+.home-hero::after { content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; background: radial-gradient(300px circle at var(--hero-light-x, 70%) var(--hero-light-y, 40%), rgba(255,157,80,.16), transparent 72%); transition: opacity 260ms ease; }
+.home-hero[data-illuminated="true"]::after { opacity: 1; }
+.home-hero-content { position: relative; z-index: 1; width: 61%; padding: 28px 32px; }
+.home-hero-content .home-eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 16px; color: #c5c9d2; font-size: 10px; line-height: 1.5; font-weight: var(--weight-medium); letter-spacing: .12em; text-transform: uppercase; animation: home-content-enter 400ms ease-out 20ms backwards; }
+.home-eyebrow > span { width: 22px; height: 1px; flex-shrink: 0; background: var(--accent); }
+.home-hero h1 { margin: 0; font-size: clamp(46px, 3.7vw, 54px); font-weight: 700; line-height: 1.03; letter-spacing: -.055em; animation: home-content-enter 480ms ease-out 70ms backwards; }
+.home-hero h1 > span { color: #ff9049; }
+.home-hero-content > p:not(.home-eyebrow) { max-width: 350px; margin: 16px 0 0; color: #c5c9d2; font-size: var(--font-sm); line-height: 1.7; animation: home-content-enter 480ms ease-out 130ms backwards; }
+.home-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-top: 20px; animation: home-content-enter 480ms ease-out 190ms backwards; }
+.home-hero-actions button { min-height: 38px; padding: 9px 13px; font-size: var(--font-xs); }
+.home-hero-actions button svg { width: 14px; height: 14px; transition: transform 180ms ease; }
+.home-hero-actions .button-secondary { background: rgba(20,22,28,.82); border-color: rgba(197,201,210,.3); color: var(--text-primary); }
+.home-hero-signature { position: absolute; right: 24px; bottom: 22px; z-index: 1; display: grid; gap: 6px; padding-left: 12px; border-left: 1px solid rgba(255,117,24,.5); pointer-events: none; }
+.home-hero-signature span:first-child { font-size: 9px; letter-spacing: .14em; color: #e5e7eb; }
+.home-hero-signature span:last-child { font-size: 12px; color: #bdc2cb; }
+
+.home-section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.home-section-heading h2 { margin: 0; font-size: 15px; line-height: 1.4; font-weight: var(--weight-semibold); letter-spacing: -.025em; }
+.home-section-heading > span { color: var(--text-secondary); font-size: var(--font-xs); }
+.home-quick-access { display: grid; gap: 10px; }
+.home-shortcuts { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 10px; }
+.home-shortcut { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 16px 18px; border: 1px solid var(--border); border-radius: 11px; background: linear-gradient(125deg, #22252d, #1c1f26); transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease; }
+.home-shortcut-activities { border-color: rgba(255,117,24,.22); background: linear-gradient(130deg, #292a30, #1c2028); }
+.home-shortcut-icon { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0; color: var(--text-secondary); border: 1px solid var(--border); border-radius: 8px; background: var(--surface-inset); }
+.home-shortcut-icon svg { width: 17px; height: 17px; }
+.home-shortcut-activities > .home-shortcut-icon { color: var(--accent); }
+.home-shortcut-index { position: absolute; right: 18px; top: 19px; font-size: 11px; color: var(--text-secondary); font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.home-shortcut > .home-shortcut-eyebrow { margin: 12px 0 6px; color: #aeb5c2; font-size: 9px; line-height: 1.5; letter-spacing: .09em; text-transform: uppercase; }
+.home-shortcut h3 { margin: 0 0 8px; font-size: 19px; line-height: 1.2; letter-spacing: -.035em; font-weight: var(--weight-semibold); }
+.home-shortcut-activities h3 { font-size: 23px; }
+.home-shortcut > p:not(.home-shortcut-eyebrow) { max-width: 270px; margin: 0 0 12px; color: #aeb5c2; font-size: var(--font-xs); line-height: 1.6; }
+.home-shortcut-action, .home-text-action { display: inline-flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 32px; padding: 4px 0; border: 0; border-radius: var(--radius-sm); background: transparent; color: var(--text-primary); font-size: var(--font-xs); font-weight: var(--weight-medium); text-align: left; cursor: pointer; }
+.home-shortcut-action { margin-top: auto; width: 100%; }
+.home-shortcut-action::after { content: ''; position: absolute; inset: 0; z-index: 3; border-radius: 11px; }
+.home-shortcut-action svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--accent); transition: transform 180ms ease; }
+.home-shortcut:has(.home-shortcut-action:focus-visible) { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
+.home-shortcut-action:focus-visible { outline: none; }
+.home-shortcut-art { position: absolute; right: 12px; bottom: 42px; z-index: -1; pointer-events: none; color: var(--accent); }
+.home-shortcut-art > svg { width: 48px; height: 48px; stroke-width: 1; opacity: .12; }
+.home-shortcut-activities .home-shortcut-art { right: -30px; bottom: -42px; }
+.home-shortcut-art > .home-motion-art { width: 160px; height: 160px; opacity: 1; }
+.home-motion-art circle { stroke: rgba(157,164,179,.1); stroke-width: 1; }
+.home-motion-art path { stroke: rgba(255,117,24,.2); stroke-width: 1.2; }
+.home-text-action { color: var(--text-secondary); }
+.home-text-action svg { width: 14px; height: 14px; }
+
+.home-latest { min-width: 0; }
+.home-data-scope { margin: 4px 0 10px; color: var(--text-secondary); font-size: var(--font-xs); line-height: 1.6; }
+.home-latest-body { padding: 13px 16px; border: 1px solid var(--border); border-radius: 11px; background: linear-gradient(110deg, #20232b, #1b1e25); }
+.home-activity-state { display: flex; align-items: center; gap: 12px; margin: 0; color: var(--text-secondary); font-size: var(--font-sm); line-height: 1.6; }
+.home-activity-state h3 { margin: 0 0 3px; color: var(--text-primary); font-size: var(--font-sm); font-weight: var(--weight-medium); }
+.home-activity-state p { margin: 0; font-size: var(--font-xs); }
+.home-state-symbol { display: inline-flex; flex-shrink: 0; padding: 7px; border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); background: var(--surface-inset); }
+.home-state-symbol svg { width: 19px; height: 19px; }
+.home-recent-session { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.home-recent-machine { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.home-recent-machine > div > span { color: var(--text-secondary); font-size: var(--font-xs); }
+.home-recent-machine h3 { margin: 3px 0 0; font-size: var(--font-sm); font-weight: var(--weight-medium); overflow-wrap: anywhere; }
+.home-recent-machine .home-shortcut-icon { color: var(--accent); }
+.home-recent-session dl { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; margin: 0; }
+.home-recent-session dl > div { min-width: 0; }
+.home-recent-session dt { margin-bottom: 3px; color: var(--text-secondary); font-size: var(--font-xs); }
+.home-recent-session dd { margin: 0; font-size: 18px; font-weight: var(--weight-semibold); font-variant-numeric: tabular-nums; }
+.home-recent-session dd > span { color: var(--text-secondary); font-size: var(--font-xs); font-weight: 400; }
+.home-recent-session dd.home-session-date { font-size: var(--font-xs); font-weight: 400; }
+.home-refresh-warning { margin: 0 0 8px; color: var(--error); font-size: var(--font-xs); }
+.home-services { min-width: 0; padding-top: 6px; border-top: 1px solid var(--border); }
+.home-services > summary { display: flex; align-items: center; gap: 12px; min-height: 44px; padding: 8px 0; list-style: none; color: var(--text-secondary); font-size: var(--font-xs); cursor: pointer; }
+.home-services > summary::-webkit-details-marker { display: none; }
+.home-services-label { display: inline-flex; align-items: center; gap: 8px; margin-right: auto; }
+.home-services svg { width: 16px; height: 16px; flex-shrink: 0; }
+.home-services > summary > svg { transition: transform 180ms ease; }
+.home-services[open] > summary > svg { transform: rotate(180deg); }
+.home-service-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; }
+.home-service-status::before { content: ''; width: 5px; height: 5px; flex-shrink: 0; background: currentColor; border-radius: 50%; }
+.home-service-status[data-state="unavailable"]::before { background: var(--error); }
+.home-services-content { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; padding: 14px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-inset); }
+.home-services-content h3 { margin: 0 0 8px; font-size: var(--font-sm); font-weight: var(--weight-medium); }
+.home-services-content p { margin: 8px 0; color: var(--text-secondary); font-size: var(--font-xs); line-height: 1.6; overflow-wrap: anywhere; }
+.home-services-content p.home-service-error { color: var(--error); }
+.home-api-test { margin-top: 8px; font-size: var(--font-xs); }
+
+/* Déclenché une seule fois par IntersectionObserver ; visible sans JavaScript. */
+.home-dashboard [data-home-reveal="pending"] { opacity: 0; transform: translateY(8px); }
+.home-dashboard [data-home-reveal="visible"] { animation: home-section-enter 440ms ease-out backwards; }
+@keyframes home-section-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes home-photo-enter { from { transform: scale(1.025); } to { transform: scale(1); } }
+@keyframes home-content-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (hover: hover) {
+  .home-shortcut:hover { transform: translateY(-2px); border-color: rgba(255,117,24,.32); box-shadow: 0 5px 20px rgba(255,117,24,.045); }
+  .home-shortcut:hover .home-shortcut-icon { color: var(--accent); }
+  .home-shortcut:hover .home-shortcut-action svg, .home-hero-actions button:hover svg { transform: translateX(2px); }
+  .home-hero-actions .button-primary:hover { box-shadow: 0 4px 18px rgba(255,117,24,.2); }
+  .home-shortcut-action:hover, .home-text-action:hover, .home-services > summary:hover { color: var(--accent); }
+}
+@media (max-width: 1100px) {
+  .home-hero-content { width: 72%; padding: 26px; }
+  .home-shortcut { padding: 14px; }
+  .home-shortcut h3 { font-size: 17px; }
+  .home-shortcut-activities h3 { font-size: 20px; }
+  .home-recent-session { align-items: flex-start; flex-direction: column; gap: 14px; }
+}
+@media (max-width: 1023px), (hover: none), (pointer: coarse) {
+  .home-hero-media { inset: 0; transform: none; transition: none; }
+}
+@media (max-width: 1000px) {
+  .home-hero { min-height: 350px; }
+  .home-hero h1 { font-size: clamp(38px, 5vw, 48px); }
+}
+@media (max-width: 700px) {
+  .home-dashboard { gap: 16px; }
+  .home-hero { min-height: 0; border-radius: 12px; }
+  .home-hero-content { width: 100%; padding: 24px 20px; }
+  .home-hero h1 { font-size: clamp(34px, 8vw, 42px); }
+  .home-hero-photo { object-position: 67% center; transform-origin: 67% center; }
+  .home-hero::before { background: linear-gradient(90deg, rgba(9,11,15,.94), rgba(9,11,15,.6) 67%, rgba(9,11,15,.24)), linear-gradient(0deg, rgba(9,11,15,.86), transparent 74%); }
+  .home-hero-content .home-eyebrow { font-size: 9px; letter-spacing: .07em; }
+  .home-hero-content > p:not(.home-eyebrow) { max-width: 300px; }
+  .home-hero-signature { display: none; }
+  .home-hero-actions button { min-height: 44px; }
+  .home-section-heading > span { display: none; }
+  .home-shortcuts { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .home-shortcut { padding: 14px 16px 10px 60px; }
+  .home-shortcut > .home-shortcut-icon { position: absolute; left: 16px; top: 16px; }
+  .home-shortcut > .home-shortcut-eyebrow { margin: 0 24px 5px 0; }
+  .home-shortcut-index { right: 14px; top: 14px; }
+  .home-shortcut h3, .home-shortcut-activities h3 { font-size: 19px; }
+  .home-shortcut > p:not(.home-shortcut-eyebrow) { margin-bottom: 4px; }
+  .home-shortcut-activities .home-shortcut-art { right: -30px; bottom: -55px; }
+  .home-shortcut-action, .home-text-action { min-height: 44px; }
+  .home-services-content { grid-template-columns: minmax(0, 1fr); }
+  .home-service-status { max-width: 45%; }
+  .home-recent-session dl { gap: 14px; }
+}
+@media (max-width: 420px) {
+  .home-hero-actions { align-items: stretch; }
+  .home-hero-actions button { flex: 1 1 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-photo, .home-hero-content > .home-eyebrow, .home-hero h1, .home-hero-content > p:not(.home-eyebrow), .home-hero-actions,
+  .home-dashboard [data-home-reveal] { animation: none; }
+  .home-dashboard [data-home-reveal="pending"] { opacity: 1; transform: none; }
+  .home-hero-media { inset: 0; transform: none; transition: none; }
+  .home-hero::after { display: none; transition: none; }
+  .home-shortcut, .home-shortcut-action svg, .home-hero-actions button svg, .home-services > summary > svg { transition: none; }
+  .home-shortcut:hover, .home-shortcut:hover .home-shortcut-action svg, .home-hero-actions button:hover svg { transform: none; }
+}

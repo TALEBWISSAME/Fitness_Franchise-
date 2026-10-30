@@ -1,7 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getApi } from '../api.js'
+import useDialogFocus from '../hooks/useDialogFocus.js'
 
 function ApiTestModal({ onClose }) {
+  const dialogRef = useRef(null)
+  useDialogFocus(dialogRef, onClose)
   const [response, setResponse] = useState(null)
   const [error, setError] = useState('')
   useEffect(() => {
@@ -19,6 +22,8 @@ function ApiTestModal({ onClose }) {
   return (
     <div className="api-modal-overlay">
       <div
+        ref={dialogRef}
+        tabIndex={-1}
         className="api-modal"
         role="dialog"
         aria-modal="true"
