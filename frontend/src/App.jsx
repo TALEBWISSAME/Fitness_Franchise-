@@ -3,7 +3,9 @@ import { useState } from 'react'
 import './App.css'
 import { useAuth } from './authContext.js'
 import ConnectedStatistics from './components/ConnectedStatistics.jsx'
+import MemberExperienceShell from './components/MemberExperienceShell.jsx'
 import TopNavigation from './components/TopNavigation.jsx'
+import { PublicHeader } from './components/PublicSiteChrome.jsx'
 import HomePage from './pages/PublicHomePage.jsx'
 import ActivitiesPage from './pages/ActivitiesPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
@@ -14,6 +16,7 @@ import EquipmentPage from './pages/EquipmentPage.jsx'
 import './design-system.css'
 import './pages/FitnessPremiumHome.css'
 import './pages/FitnessPremiumEquipment.css'
+import './pages/FitnessPremiumLogin.css'
 
 function App() {
   const { user, loading, error, logout } = useAuth()
@@ -23,6 +26,7 @@ function App() {
 
   const [equipmentCategory, setEquipmentCategory] = useState('')
   const publicPage = currentPage === 'home' || currentPage === 'equipment'
+  const authPage = currentPage === 'login' || currentPage === 'register'
 
   function navigate(page, category = '') {
     if (page === 'equipment') setEquipmentCategory(category)
@@ -34,12 +38,13 @@ function App() {
   }
 
   return (
-    <div className={`app app-shell${publicPage ? ' app-home' : ''}`}>
+    <div className={`app app-shell${publicPage ? ' app-home' : ''}${currentPage === 'login' ? ' app-login' : ''}${currentPage === 'register' ? ' app-register' : ''}`}>
       <a className="skip-link" href="#main-content">
         Aller au contenu
       </a>
 
-      {!publicPage && <TopNavigation user={user}
+      {authPage && <PublicHeader currentPage={currentPage} onNavigate={navigate} compact />}
+      {!publicPage && !authPage && <TopNavigation user={user}
         currentPage={currentPage}
         onNavigate={navigate}
       />}
@@ -55,7 +60,7 @@ function App() {
           <div key={user?.id ?? 'anonymous'}>
           {currentPage === 'home' && <HomePage onNavigate={navigate} />}
           {currentPage === 'equipment' && <EquipmentPage onNavigate={navigate} initialCategory={equipmentCategory} />}
-          {currentPage === 'activities' && <ActivitiesPage />}
+          {currentPage === 'activities' && <MemberExperienceShell activePage="activities" onNavigate={navigate}><ActivitiesPage /></MemberExperienceShell>}
           {currentPage === 'login' && <LoginPage onNavigate={navigate} />}
           {currentPage === 'register' && <RegisterPage onNavigate={navigate} />}
           {currentPage === 'profile' && <ProfilePage onNavigate={navigate} user={user} loading={loading} error={error} />}
@@ -72,5 +77,4 @@ function App() {
 }
 
 export default App
-
 

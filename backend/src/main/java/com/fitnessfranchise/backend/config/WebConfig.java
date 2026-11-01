@@ -33,6 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
         http.cors(c -> c.configurationSource(cors))
             .authorizeHttpRequests(a -> a
                 .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/activities").authenticated()
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/equipments").authenticated()
                 .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/activities").authenticated()
                 .requestMatchers("/api/health", "/api/auth/csrf", "/api/auth/register", "/api/auth/login").permitAll()
                 .anyRequest().authenticated())

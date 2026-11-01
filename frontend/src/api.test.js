@@ -15,6 +15,18 @@ test('login and service failures return understandable messages without server d
   } finally { globalThis.fetch = original }
 })
 
+test('registration authorization failures are not reported as expired sessions', async () => {
+  const originalFetch = globalThis.fetch
+  const originalWindow = globalThis.window
+  let expired = false
+  globalThis.window = { dispatchEvent: event => { expired = event.type === 'session-expired' } }
+  globalThis.fetch = async () => ({ ok: false, status: 401 })
+  try {
+    await assert.rejects(requestApi('/auth/register'), /Inscription refusée/)
+    assert.equal(expired, false)
+  } finally { globalThis.fetch = originalFetch; globalThis.window = originalWindow }
+})
+
 test('session cookie and cancellation signal accompany personal reads', async () => {
   const original = globalThis.fetch
   const controller = new AbortController()
@@ -25,6 +37,17 @@ test('session cookie and cancellation signal accompany personal reads', async ()
     return { ok: true, status: 200, json: async () => [] }
   }
   try { assert.deepEqual(await getApi('/activities', controller.signal), []) }
+  finally { globalThis.fetch = original }
+})
+test('equipment catalog reads use the authenticated API client', async () => {
+  const original = globalThis.fetch
+  const catalog = [{ id: 1, name: 'Tapis de course', type: 'TREADMILL', category: 'cardio' }]
+  globalThis.fetch = async (url, options) => {
+    assert.equal(url, 'http://localhost:8080/api/equipments')
+    assert.equal(options.credentials, 'include')
+    return { ok: true, status: 200, json: async () => catalog }
+  }
+  try { assert.deepEqual(await getApi('/equipments'), catalog) }
   finally { globalThis.fetch = original }
 })
 test('each write obtains a fresh CSRF token and login sends email form field', async () => {

@@ -155,7 +155,7 @@ function HomePage({ onNavigate }) {
               {error && <p className="home-refresh-warning" role="alert">Actualisation indisponible. La dernière séance reçue reste affichée.</p>}
               <div className="home-recent-session">
                 <div className="home-recent-machine"><span className="home-shortcut-icon"><HomeIcon path={homeLinks.find(link => link.page === 'equipment').icon} /></span><div><span>Équipement</span><h3>{latestActivity.equipmentType === 'TREADMILL' ? 'Tapis de course' : latestActivity.equipmentType}</h3></div></div>
-                <dl><div><dt>Durée</dt><dd>{latestActivity.durationMinutes} <span>min</span></dd></div><div><dt>Distance</dt><dd>{latestActivity.distanceKm} <span>km</span></dd></div><div><dt>Date · Europe/Paris</dt><dd className="home-session-date">{formatActivityDate(latestActivity.date)}</dd></div></dl>
+                <dl><div><dt>Durée</dt><dd>{latestActivity.durationMinutes} <span>min</span></dd></div><div><dt>Distance</dt><dd>{latestActivity.distanceKm == null ? 'Non applicable' : <>{latestActivity.distanceKm} <span>km</span></>}</dd></div><div><dt>Date · Europe/Paris</dt><dd className="home-session-date">{formatActivityDate(latestActivity.date)}</dd></div></dl>
               </div>
             </>
           ) : error ? (

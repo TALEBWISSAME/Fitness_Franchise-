@@ -1,6 +1,7 @@
 package com.fitnessfranchise.backend.activity;
 
 import com.fitnessfranchise.backend.auth.AccountStore;
+import com.fitnessfranchise.backend.equipment.EquipmentRepository;
 import java.time.*;
 import java.util.*;
 import org.junit.jupiter.api.*;
@@ -13,7 +14,9 @@ import static org.mockito.Mockito.*;
 class PersonalActivityServiceTest {
     ActivityRepository repository = mock(ActivityRepository.class);
     AccountStore accounts = mock(AccountStore.class);
+    EquipmentRepository equipmentRepository = mock(EquipmentRepository.class);
     ActivityService service = new ActivityService(repository, Optional.of(accounts), Optional.empty(),
+            Optional.of(equipmentRepository),
             Clock.fixed(Instant.parse("2026-10-25T23:30:00Z"), ZoneOffset.UTC));
 
     @BeforeEach void login() {
@@ -30,6 +33,11 @@ class PersonalActivityServiceTest {
         service.findMyActivities(from, to, "BIKE");
         verify(repository).findMyActivitiesFiltered(7L, from.atStartOfDay(), to.plusDays(1).atStartOfDay(), "BIKE");
         verify(repository, never()).findAllByOrderByDateDescIdDesc();
+    }
+    @Test void catalogEquipmentTypesAreAcceptedAsActivityFilters() {
+        when(equipmentRepository.existsByType("LEG_PRESS")).thenReturn(true);
+        service.findMyActivities(null, null, "LEG_PRESS");
+        verify(repository).findMyActivitiesFiltered(7L, null, null, "LEG_PRESS");
     }
     @Test void changingAccountChangesQueryOwner() {
         service.findMyActivities(null, null, null);
@@ -60,14 +68,15 @@ class PersonalActivityServiceTest {
     }
     @Test void summaryUsesSameFiltersAndReturnsZerosForEmptyAccount() {
         when(repository.findMyActivitiesFiltered(7L, null, null, "BIKE"))
-                .thenReturn(List.of(activity("2026-10-05T10:00:00", 20, 2.5), activity("2026-10-06T10:00:00", 30, 4.0)));
-        assertThat(service.getDashboard(null, null, "BIKE")).isEqualTo(new DashboardResponse(2, 50, 6.5));
+                .thenReturn(List.of(activity("2026-10-05T10:00:00", 20, 2.5),
+                        activity("2026-10-06T10:00:00", 30, null)));
+        assertThat(service.getDashboard(null, null, "BIKE")).isEqualTo(new DashboardResponse(2, 50, 2.5));
         assertThat(service.getDashboard(null, null, "TREADMILL")).isEqualTo(new DashboardResponse(0, 0, 0));
     }
     @Test void defaultWeeksFollowParisMondayEvenWhenUtcIsSundayAndIncludeZeros() {
         when(repository.findMyActivitiesFiltered(7L, LocalDateTime.parse("2026-10-05T00:00:00"),
                 LocalDateTime.parse("2026-11-02T00:00:00"), null))
-                .thenReturn(List.of(activity("2026-10-11T23:59:59", 20, 2), activity("2026-10-12T00:00:00", 20, 2)));
+                .thenReturn(List.of(activity("2026-10-11T23:59:59", 20, 2.0), activity("2026-10-12T00:00:00", 20, 2.0)));
         var result = service.getTrend(null, null, null);
         assertThat(result.timezone()).isEqualTo("Europe/Paris");
         assertThat(result.weeks()).extracting(ActivityTrendResponse.Week::totalSessions).containsExactly(1L, 1L, 0L, 0L);
@@ -80,7 +89,7 @@ class PersonalActivityServiceTest {
         verify(repository).findMyActivitiesFiltered(7L, LocalDateTime.parse("2026-10-07T00:00:00"),
                 LocalDateTime.parse("2026-10-21T00:00:00"), "BIKE");
     }
-    private static Activity activity(String date, int duration, double distance) {
+    private static Activity activity(String date, int duration, Double distance) {
         return new Activity(new ActivityRequest("BIKE", duration, distance, LocalDateTime.parse(date)));
     }
     private static void assertBadRequest(Runnable action) {

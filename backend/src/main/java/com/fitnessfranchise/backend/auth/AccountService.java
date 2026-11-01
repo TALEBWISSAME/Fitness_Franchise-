@@ -20,6 +20,10 @@ public class AccountService {
         return AccountProfile.from(store.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Account unavailable")));
     }
+    public AccountProfile updateProfile(String email, ProfileUpdateRequest request) {
+        return AccountProfile.from(store.updateProfile(RegistrationRequest.normalizeEmail(email),
+            request.city(), request.gender(), request.sportObjective()));
+    }
     public UserDetails loadUserByUsername(String email) {
         var account = store.findByEmail(RegistrationRequest.normalizeEmail(email))
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid credentials"));

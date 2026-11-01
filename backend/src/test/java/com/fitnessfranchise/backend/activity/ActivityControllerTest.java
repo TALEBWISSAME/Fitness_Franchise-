@@ -45,9 +45,9 @@ when(activityService.findMyActivities(null, null, null))
                 .andExpect(header().string("Access-Control-Allow-Origin", "http://localhost:5173"))
                 .andExpect(content().json("""
                         [{"id":2,"equipmentType":"TREADMILL","durationMinutes":20,
-                          "distanceKm":2.5,"date":"2026-10-11T14:30:00"},
+                          "equipmentId":null,"distanceKm":2.5,"date":"2026-10-11T14:30:00"},
                          {"id":1,"equipmentType":"TREADMILL","durationMinutes":15,
-                          "distanceKm":1.0,"date":"2026-10-10T14:30:00"}]
+                          "equipmentId":null,"distanceKm":1.0,"date":"2026-10-10T14:30:00"}]
                         """, JsonCompareMode.STRICT));
     }
 
@@ -77,11 +77,24 @@ when(activityService.findMyActivities(null, null, null))
                 LocalDateTime.parse("2026-10-11T14:30:00")));
     }
 
+    @Test
+    void acceptsEquipmentIdWithoutDistanceForCatalogMachine() throws Exception {
+        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"equipmentId":16,"durationMinutes":20,
+                                 "distanceKm":null,"date":"2026-10-11T14:30:00"}
+                                """))
+                .andExpect(status().isAccepted());
+        verify(activityService).save(new ActivityRequest(16L, null, 20, null,
+                LocalDateTime.parse("2026-10-11T14:30:00")));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {
             "\"equipmentType\":\"\"", "\"equipmentType\":\"   \"", "\"equipmentType\":null",
             "\"durationMinutes\":0", "\"durationMinutes\":-1", "\"durationMinutes\":null",
-            "\"distanceKm\":-0.1", "\"distanceKm\":null", "\"date\":null",
+            "\"distanceKm\":-0.1", "\"date\":null",
             "\"date\":\"invalid-date\""
     })
     void rejectsInvalidActivity(String invalidField) throws Exception {
@@ -101,6 +114,18 @@ when(activityService.findMyActivities(null, null, null))
     void rejectsMissingFields() throws Exception {
         mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON).content("{}"))
+                .andExpect(status().isBadRequest());
+        verifyNoInteractions(activityService);
+    }
+
+    @Test
+    void rejectsNonPositiveEquipmentId() throws Exception {
+        mockMvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"equipmentId":0,"durationMinutes":20,
+                                 "distanceKm":2.5,"date":"2026-10-11T14:30:00"}
+                                """))
                 .andExpect(status().isBadRequest());
         verifyNoInteractions(activityService);
     }

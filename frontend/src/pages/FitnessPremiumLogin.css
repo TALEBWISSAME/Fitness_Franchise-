@@ -1,0 +1,99 @@
+/* Shared Fitness Premium presentation for login and registration only. */
+.app.app-register .register-page .ui-success { border:1px solid #ff650060; border-left:3px solid #ff6500; border-radius:5px; background:#ff65000c; color:#fff; padding:14px 16px; font-size:13px; line-height:1.8; }
+.app:is(.app-login,.app-register) .fh-header { width:100%; box-sizing:border-box; min-height:74px; padding:12px clamp(22px,5vw,90px); margin-bottom:24px; gap:28px; background:#080a0bf5; border-bottom:1px solid #ffffff18; position:relative; }
+.app:is(.app-login,.app-register) .fh-brand { text-decoration:none; }
+.app:is(.app-login,.app-register) .fh-header .brand-mark-emblem { width:52px; height:43px; }
+.app:is(.app-login,.app-register) .fh-header .brand-mark-emblem img { width:90px; }
+.app:is(.app-login,.app-register) .fh-header .brand-mark-name { font-size:16px; letter-spacing:.1px; }
+.app:is(.app-login,.app-register) .fh-header .brand-mark-name > span { font-size:9px; letter-spacing:1px; }
+.app:is(.app-login,.app-register) .fh-header svg { width:22px; height:22px; flex-shrink:0; }
+.app:is(.app-login,.app-register) .fh-navigation { gap:28px; font-size:12px; font-weight:600; }
+.app:is(.app-login,.app-register) .fh-navigation > a,.app:is(.app-login,.app-register) .fh-nav-link { padding:12px 0; border:0; border-bottom:1px solid transparent; background:none; color:#dedfe0; text-decoration:none; font:inherit; cursor:pointer; }
+.app:is(.app-login,.app-register) .fh-navigation > a:hover,.app:is(.app-login,.app-register) .fh-nav-link:hover { color:#ff8738; border-bottom-color:#ff6500; }
+.app:is(.app-login,.app-register) .fh-account { min-height:45px; padding:13px 21px; gap:17px; border:1px solid #ff7821; border-radius:4px; background:#ff6500; color:#080a0b; font:inherit; cursor:pointer; }
+.app:is(.app-login,.app-register) .fh-account:hover { background:#ff802d; border-color:#ff802d; }
+@media (max-width:800px) {
+  .app:is(.app-login,.app-register) .fh-header { padding:12px 22px; margin-bottom:12px; }
+  .app:is(.app-login,.app-register) .fh-menu-toggle { display:grid; place-items:center; width:44px; height:44px; border:1px solid #ffffff2b; border-radius:4px; background:#15191b; color:#fff; cursor:pointer; }
+  .app:is(.app-login,.app-register) .fh-navigation { display:none; position:absolute; inset:100% 0 auto; padding:15px 24px 23px; background:#101415; border-bottom:1px solid #ffffff20; box-shadow:0 15px 30px #0006; }
+  .app:is(.app-login,.app-register) .fh-navigation.is-open { display:grid; gap:4px; }
+  .app:is(.app-login,.app-register) .fh-navigation > a,.app:is(.app-login,.app-register) .fh-nav-link { padding:15px 0; text-align:left; }
+  .app:is(.app-login,.app-register) .fh-account { margin-top:12px; justify-content:space-between; }
+}
+.app.app-shell:is(.app-login,.app-register) { color-scheme:dark; background:#0b0d0e; color:#fff; --background:#0b0d0e; --surface:#111618; --surface-raised:#171d1f; --surface-inset:#0d1112; --text-primary:#fff; --text-secondary:#abb4b8; --border:#ffffff20; --border-strong:#ffffff38; --input-border:#ffffff26; --accent:#ff6500; --accent-hover:#ff8533; --accent-soft:#ff650012; --overlay:#000b; --text-on-accent:#0b0d0e; }
+.app:is(.app-login,.app-register) .main { max-width:1320px; min-width:0; padding:10px clamp(18px,4vw,64px) 48px; }
+.app:is(.app-login,.app-register) .main > div { min-width:0; }
+.app:is(.app-login,.app-register) .topbar { background:#080a0bf5; border-color:#ffffff1a; box-shadow:none; border-radius:0; margin-bottom:24px; }
+.app:is(.app-login,.app-register) .topbar-inner { padding-inline:clamp(18px,4vw,64px); }
+.app:is(.app-login,.app-register) .brand-mark { color:#fff; }
+.app:is(.app-login,.app-register) .brand-mark-dot,.app:is(.app-login,.app-register) .brand-mark-fallback { color:#ff6500; }
+.app:is(.app-login,.app-register) .topnav-panel { background:#101516; border-color:#ffffff25; box-shadow:0 18px 40px #0006; }
+.app:is(.app-login,.app-register) .topnav-link:hover,.app:is(.app-login,.app-register) .topnav-trigger:hover { background:#1a2123; }
+.app:is(.app-login,.app-register) .topnav-link[aria-current="page"] { background:#ff650012; border-color:#ff650055; }
+.app:is(.app-login,.app-register) .user-avatar { background:#141b1d; color:#fff; }
+.app:is(.app-login,.app-register) .auth-layout:is(.login-page,.register-page) { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); max-width:1120px; min-height:650px; margin:0 auto; background:#0b0d0e; border:1px solid #ffffff22; border-radius:10px; box-shadow:0 25px 75px #0005; overflow:hidden; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story { grid-column:2; grid-row:1; min-height:650px; padding:40px; background:#101415; border-left:1px solid #ffffff12; display:flex; align-items:flex-end; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-photo { object-position:76% center; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story::after { background:linear-gradient(0deg,#080b0df5, #080b0d12 65%),linear-gradient(90deg,#0b0d0e44,transparent 45%); }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-content { position:relative; width:100%; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story .auth-eyebrow { color:#fff; font-size:9px; letter-spacing:3px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story h2 { font-family:Impact,'Arial Narrow','Franklin Gothic Medium',sans-serif; font-weight:400; font-size:clamp(35px,4vw,53px); line-height:1.08; letter-spacing:1.4px; text-transform:uppercase; color:#fff; margin:17px 0; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story h2 em { font-family:inherit; font-weight:inherit; font-style:normal; color:#ff6500; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-content > p:not(.auth-eyebrow) { max-width:330px; color:#d1d6d8; font-size:12px; line-height:1.8; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-benefits { display:flex; flex-wrap:wrap; gap:13px 20px; border-color:#ffffff25; margin-top:24px; padding-top:18px; color:#c7ced1; font-size:9px; line-height:1.7; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card { grid-column:1; grid-row:1; display:flex; flex-direction:column; justify-content:center; align-items:stretch; min-width:0; background:#0b0d0e; color:#fff; padding:45px clamp(28px,4vw,58px); border:0; border-radius:0; box-shadow:none; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card > .brand-mark { display:inline-flex; align-self:flex-start; margin-bottom:38px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card > .auth-eyebrow { font-size:9px; font-weight:650; color:#ff6500; letter-spacing:1.8px; margin-bottom:12px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card h1 { color:#fff; font-size:38px; font-weight:750; line-height:1.15; letter-spacing:-1.3px; margin-bottom:12px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-description { color:#abb4b8; font-size:13px; line-height:1.8; margin-bottom:20px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-hint { color:#929ea4; margin:0 0 18px; line-height:1.8; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field { margin-bottom:20px; min-width:0; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field label { color:#e5e9eb; font-size:12px; font-weight:600; margin-bottom:9px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field input { box-sizing:border-box; width:100%; min-width:0; min-height:52px; padding:14px 15px 14px 45px; border:1px solid #ffffff26; border-radius:5px; background:#13191b; color:#fff; font:inherit; font-size:14px; transition:border-color 180ms,box-shadow 180ms; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-input-wrap:has(.auth-reveal) input { padding-right:90px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .login-field-icon { position:absolute; left:15px; top:17px; width:18px; height:18px; color:#ff6500; pointer-events:none; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field input:focus { border-color:#ff6500; outline:2px solid #ff650030; outline-offset:2px; box-shadow:0 0 0 4px #ff65000d; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field input[aria-invalid="true"] { border-color:#ff6500; background:#ff650008; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field input:-webkit-autofill { -webkit-text-fill-color:#fff; box-shadow:0 0 0 100px #13191b inset; caret-color:#fff; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-reveal { top:4px; right:5px; min-height:44px; color:#d1d7da; padding-inline:10px; border-radius:4px; font-size:11px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-reveal:hover { background:#ffffff0c; color:#fff; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .api-button { display:flex; align-items:center; justify-content:center; gap:14px; min-height:52px; margin-top:7px; padding:14px 19px; border:1px solid #ff6500; border-radius:5px; background:#ff6500; color:#0b0d0e; font-size:13px; font-weight:750; cursor:pointer; transition:background 180ms,box-shadow 180ms,transform 180ms; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .api-button:hover:not(:disabled) { background:#ff8533; border-color:#ff8533; box-shadow:0 5px 20px #ff650025; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .api-button > span:last-child { margin-left:auto; font-size:20px; line-height:1; transition:transform 180ms; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .api-button:hover:not(:disabled) > span:last-child { transform:translateX(3px); }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-error { color:#ffad78; font-size:12px; line-height:1.7; margin-top:8px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .ui-error { color:#fff; background:#ff65000c; border:1px solid #ff650055; border-left:3px solid #ff6500; font-size:12px; line-height:1.8; margin-top:18px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-switch { margin:26px 0 0; padding-top:21px; border-color:#ffffff20; color:#aab4b9; font-size:12px; line-height:1.9; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-switch button { color:#ff8738; font-weight:650; min-height:44px; padding:4px 3px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-switch button:hover { color:#fff; text-decoration:underline; text-underline-offset:4px; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-back { color:#aab4b9; align-self:flex-start; min-height:44px; margin-top:12px; font-size:11px; padding:4px 0; }
+.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-back:hover { color:#fff; }
+.app:is(.app-login,.app-register) :focus-visible { outline:2px solid #ff6500; outline-offset:4px; }
+.app:is(.app-login,.app-register) .footer { color:#8e9a9f; border-color:#ffffff18; }
+@media (max-width:1000px) {
+  .app:is(.app-login,.app-register) .main { padding-inline:24px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card { padding:36px 30px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story { padding:30px; }
+}
+@media (max-width:760px) {
+  .app:is(.app-login,.app-register) .topbar { margin-bottom:12px; }
+  .app:is(.app-login,.app-register) .main { padding:8px 20px 30px; }
+  .app:is(.app-login,.app-register) .auth-layout:is(.login-page,.register-page) { grid-template-columns:minmax(0,1fr); min-height:0; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card { grid-column:1; grid-row:1; padding:33px 30px 27px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card > .brand-mark { margin-bottom:30px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story { grid-column:1; grid-row:2; min-height:285px; padding:28px; border-left:0; border-top:1px solid #ffffff1a; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-photo { object-position:76% 38%; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story::after { background:linear-gradient(90deg,#080b0de8,#080b0d44 65%,transparent),linear-gradient(0deg,#080b0d7a,transparent); }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story h2 { font-size:35px; margin:12px 0; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-content > p:not(.auth-eyebrow),.app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story-benefits { display:none; }
+}
+@media (max-width:400px) {
+  .app:is(.app-login,.app-register) .main { padding-inline:12px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card { padding:28px 20px 23px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-form-card h1 { font-size:33px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-field input { font-size:16px; }
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) .auth-story { padding:23px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  .app:is(.app-login,.app-register) :is(.login-page,.register-page) * { transition:none; animation:none; }
+}

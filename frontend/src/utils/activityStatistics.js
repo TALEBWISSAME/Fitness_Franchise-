@@ -24,6 +24,7 @@ export function buildActivityStatistics(activities, referenceDay) {
     return { startDate, endDate: shiftDay(startDate, 6), sessionCount: 0 }
   })
   const summary = { sessionCount: 0, durationMinutes: 0, distanceKm: 0 }
+  let distanceMeasurements = 0
   for (const activity of activities) {
     const day = getParisActivityDay(activity.date)
     const week = day && weeks.find(item => day >= item.startDate && day <= item.endDate)
@@ -31,9 +32,14 @@ export function buildActivityStatistics(activities, referenceDay) {
     week.sessionCount += 1
     summary.sessionCount += 1
     summary.durationMinutes += activity.durationMinutes
-    summary.distanceKm += activity.distanceKm
+    if (activity.distanceKm != null) {
+      summary.distanceKm += activity.distanceKm
+      distanceMeasurements += 1
+    }
   }
-  summary.distanceKm = Math.round(summary.distanceKm * 100) / 100
+  summary.distanceKm = distanceMeasurements === 0 && summary.sessionCount > 0
+    ? null
+    : Math.round(summary.distanceKm * 100) / 100
   return { summary, weeks }
 }
 

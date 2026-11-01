@@ -1,6 +1,7 @@
 package com.fitnessfranchise.backend.activity;
 
 import com.fitnessfranchise.backend.auth.AccountStore;
+import com.fitnessfranchise.backend.equipment.EquipmentRepository;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -17,22 +18,37 @@ public class ActivityService {
     private final ActivityRepository repository;
     private final Optional<AccountStore> accounts;
     private final Optional<OwnedActivityStore> ownedActivities;
+    private final Optional<EquipmentRepository> equipments;
     private final Clock clock;
     // LocalDateTime database values follow the Europe/Paris demo convention.
     private static final ZoneId DEMO_ZONE = ZoneId.of("Europe/Paris");
-    private static final Set<String> EQUIPMENT_TYPES = Set.of("TREADMILL", "BIKE", "ELLIPTICAL");
+    private static final Set<String> LEGACY_EQUIPMENT_TYPES =
+            Set.of("TREADMILL", "BIKE", "ELLIPTICAL", "ROWING");
 
     @org.springframework.beans.factory.annotation.Autowired
     public ActivityService(ActivityRepository repository, Optional<AccountStore> accounts,
+                           Optional<OwnedActivityStore> ownedActivities,
+                           Optional<EquipmentRepository> equipments) {
+        this(repository, accounts, ownedActivities, equipments, Clock.system(DEMO_ZONE));
+    }
+
+    public ActivityService(ActivityRepository repository, Optional<AccountStore> accounts,
                            Optional<OwnedActivityStore> ownedActivities) {
-        this(repository, accounts, ownedActivities, Clock.system(DEMO_ZONE));
+        this(repository, accounts, ownedActivities, Optional.empty(), Clock.system(DEMO_ZONE));
     }
 
     ActivityService(ActivityRepository repository, Optional<AccountStore> accounts,
                     Optional<OwnedActivityStore> ownedActivities, Clock clock) {
+        this(repository, accounts, ownedActivities, Optional.empty(), clock);
+    }
+
+    ActivityService(ActivityRepository repository, Optional<AccountStore> accounts,
+                    Optional<OwnedActivityStore> ownedActivities, Optional<EquipmentRepository> equipments,
+                    Clock clock) {
         this.repository = repository;
         this.accounts = accounts;
         this.ownedActivities = ownedActivities;
+        this.equipments = equipments;
         this.clock = clock;
     }
 
@@ -61,8 +77,9 @@ public class ActivityService {
         if (to != null && to.equals(LocalDate.MAX)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Date de fin hors limites");
         }
-        if (equipmentType != null && !EQUIPMENT_TYPES.contains(equipmentType)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Type inconnu : TREADMILL, BIKE ou ELLIPTICAL attendu");
+        if (equipmentType != null && !LEGACY_EQUIPMENT_TYPES.contains(equipmentType)
+                && (equipments.isEmpty() || !equipments.get().existsByType(equipmentType))) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Type d'équipement inconnu");
         }
     }
 
@@ -89,7 +106,8 @@ public class ActivityService {
         var activities = findMyActivities(from, to, equipmentType);
         return new DashboardResponse(activities.size(),
                 activities.stream().mapToLong(Activity::getDurationMinutes).sum(),
-                activities.stream().mapToDouble(Activity::getDistanceKm).sum());
+                activities.stream().mapToDouble(activity ->
+                        activity.getDistanceKm() == null ? 0d : activity.getDistanceKm()).sum());
     }
 
     public ActivityTrendResponse getTrend(LocalDate from, LocalDate to, String equipmentType) {

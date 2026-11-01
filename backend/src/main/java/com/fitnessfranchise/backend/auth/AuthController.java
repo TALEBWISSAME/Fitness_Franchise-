@@ -24,5 +24,9 @@ public class AuthController {
     public AccountProfile me(Authentication authentication) {
         return accounts.profile(authentication.getName());
     }
+    @PutMapping("/api/me")
+    public AccountProfile updateMe(Authentication authentication, @Valid @RequestBody ProfileUpdateRequest request) {
+        return accounts.updateProfile(authentication.getName(), request);
+    }
     public record CsrfResponse(String headerName, String token) {}
 }

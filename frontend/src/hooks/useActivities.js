@@ -7,11 +7,14 @@ export default function useActivities() {
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [refreshKey, setRefreshKey] = useState(0)
 
   useEffect(() => {
     if (!user) return
     const controller = new AbortController()
     let timer
+    const refresh = () => setRefreshKey(previous => previous + 1)
+    window.addEventListener('activities-updated', refresh)
 
     async function load() {
       try {
@@ -39,8 +42,9 @@ export default function useActivities() {
     return () => {
       controller.abort()
       clearTimeout(timer)
+      window.removeEventListener('activities-updated', refresh)
     }
-  }, [user])
+  }, [user, refreshKey])
 
   return user ? { activities, loading, error } : { activities: [], loading: false, error: 'Connectez-vous pour consulter vos activités.' }
 }

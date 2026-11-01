@@ -20,11 +20,7 @@ export default function WeeklyActivityChart({ weeks }) {
   const plotBottom = 172
   const y = value => plotBottom - value / maximum * (plotBottom - plotTop)
   const points = weeks.map((week, index) => ({ x: (index + 0.5) * 800 / weeks.length, y: y(week.sessionCount) }))
-  // Segments droits : aucune interpolation ne modifie la lecture des valeurs.
-  const linePath = points.map((point, index) => `${index === 0 ? 'M' : 'L'} ${point.x} ${point.y}`).join(' ')
-  const areaPath = points.length
-    ? `${linePath} L ${points.at(-1).x} ${plotBottom} L ${points[0].x} ${plotBottom} Z`
-    : ''
+  const barWidth = Math.min(92, 800 / weeks.length * .42)
 
   function handleKeyDown(event, index) {
     if (event.key === 'Escape') {
@@ -57,19 +53,20 @@ export default function WeeklyActivityChart({ weeks }) {
           <svg className="training-chart-svg" viewBox="0 0 800 190" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <defs>
               <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="100%">
-                <stop offset="0%" stopColor="var(--accent)" stopOpacity=".18" />
-                <stop offset="100%" stopColor="var(--accent)" stopOpacity=".015" />
+                <stop offset="0%" stopColor="var(--accent)" />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity=".62" />
               </linearGradient>
             </defs>
             {ticks.map(value => <line className="training-chart-grid" key={value} x1="0" x2="800" y1={y(value)} y2={y(value)} />)}
-            <path className="training-chart-area" d={areaPath} fill={`url(#${gradientId})`} />
             {activeWeek && <line className="training-chart-guide" x1={points[activeIndex].x} x2={points[activeIndex].x} y1={plotTop - 8} y2={plotBottom} />}
-            <path className="training-chart-line" d={linePath} />
+            {points.map((point, index) => (
+              <rect key={weeks[index].startDate} className="training-chart-bar"
+                data-active={activeIndex === index}
+                x={point.x - barWidth / 2} y={point.y} width={barWidth}
+                height={Math.max(0, plotBottom - point.y)} rx="7"
+                fill={`url(#${gradientId})`} />
+            ))}
           </svg>
-          {points.map((point, index) => (
-            <span key={weeks[index].startDate} className="training-chart-point" data-active={activeIndex === index}
-              style={{ left: `${point.x / 800 * 100}%`, top: `${point.y}px` }} aria-hidden="true" />
-          ))}
           <div className="training-chart-targets" role="group" aria-label="Explorer les quatre semaines">
             {weeks.map((week, index) => (
               <button

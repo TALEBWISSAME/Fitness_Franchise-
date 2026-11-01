@@ -3,7 +3,6 @@ import { validateRegistration } from '../validation/registration.js'
 import { writeApi } from '../api.js'
 import { useAuth } from '../authContext.js'
 import gymBanner from '../assets/gym-banner.png'
-import BrandMark from './BrandMark.jsx'
 
 export default function AuthForm({ mode, onNavigate }) {
   const registering = mode === 'register'
@@ -43,21 +42,20 @@ export default function AuthForm({ mode, onNavigate }) {
     } catch (err) { setError(err instanceof TypeError ? 'Le service est momentanément inaccessible. Réessayez dans un instant.' : err.message) }
     finally { setBusy(false) }
   }
-  return <div className="auth-layout">
+  return <div className={`auth-layout ${registering ? 'register-page' : 'login-page'}`}>
     <aside className="auth-story" aria-label="Votre espace Fitness Franchise">
       <img className="auth-story-photo" src={gymBanner} alt="" />
-      <div className="auth-story-content"><p className="auth-eyebrow">FITNESS FRANCHISE</p><h2>Votre énergie.<br /><em>Un nouvel élan.</em></h2><p>Un espace personnel pour retrouver vos séances, comprendre votre rythme et suivre vos objectifs.</p><div className="auth-story-benefits"><span>01 · Vos entraînements</span><span>02 · Votre progression</span><span>03 · Vos objectifs</span></div></div>
+      <div className="auth-story-content"><p className="auth-eyebrow">FITNESS FRANCHISE</p><h2>{registering ? <>Votre énergie.<br /><em>Un nouvel élan.</em></> : <>Discipline.<br />Progression.<br /><em>Résultats.</em></>}</h2><p>Un espace personnel pour retrouver vos séances, comprendre votre rythme et suivre vos objectifs.</p><div className="auth-story-benefits"><span>01 · Vos entraînements</span><span>02 · Votre progression</span><span>03 · Vos objectifs</span></div></div>
     </aside>
     <section className="card auth-card auth-form-card" aria-busy={busy} aria-labelledby={`${mode}-title`}>
-    <BrandMark />
     <p className="auth-eyebrow">{registering ? 'LE PREMIER PAS' : 'HEUREUX DE VOUS RETROUVER'}</p>
-    <h1 id={`${mode}-title`}>{registering ? 'Créer mon espace' : 'Bon retour parmi nous.'}</h1>
+    <h1 id={`${mode}-title`}>{registering ? 'Créer mon espace' : 'Connexion'}</h1>
     <p className="auth-description">{registering ? 'Créez votre compte et donnez une place à chaque entraînement.' : 'Connectez-vous pour retrouver votre progression.'}</p>
     <form noValidate onSubmit={submit}>
       <p className="auth-hint">Tous les champs sont obligatoires.</p>
       {fields.map(field => <div className="auth-field" key={field.name}>
         <label htmlFor={`${mode}-${field.name}`}>{field.label}</label>
-        <div className="auth-input-wrap"><input name={field.name} autoComplete={field.autoComplete} type={field.type === 'password' && showPassword ? 'text' : field.type} id={`${mode}-${field.name}`} required disabled={busy}
+        <div className="auth-input-wrap"><svg className="login-field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={field.name === 'displayName' ? 'M4 21c0-4 3-7 8-7s8 3 8 7M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0' : field.name === 'email' ? 'M4 5h16v14H4zM4 6l8 6 8-6' : 'M5 10h14v11H5zM8 10V6a4 4 0 0 1 8 0v4m-4 5v2'} /></svg><input name={field.name} autoComplete={field.autoComplete} type={field.type === 'password' && showPassword ? 'text' : field.type} id={`${mode}-${field.name}`} required disabled={busy}
           maxLength={field.name === 'displayName' ? 100 : field.name === 'email' ? 254 : registering ? 64 : undefined}
           aria-invalid={!!errors[field.name]} aria-describedby={[errors[field.name] ? `${mode}-${field.name}-error` : '', registering && field.name === 'password' ? 'registration-password-help' : ''].filter(Boolean).join(' ') || undefined}
           onChange={() => { setErrors(previous => ({ ...previous, [field.name]: undefined })); setError(''); setSuccess(false) }} />

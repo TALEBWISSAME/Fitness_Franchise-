@@ -15,6 +15,7 @@ CSRF_URL = f"{API_BASE_URL}/api/auth/csrf"
 LOGIN_URL = f"{API_BASE_URL}/api/auth/login"
 ME_URL = f"{API_BASE_URL}/api/me"
 ACTIVITIES_URL = f"{API_BASE_URL}/api/activities"
+EQUIPMENTS_URL = f"{API_BASE_URL}/api/equipments"
 MINUTES_PAR_SECONDE = 5
 REQUEST_TIMEOUT = 10
 LOGIN_EMAIL_FIELD = os.getenv("FITNESS_LOGIN_EMAIL_FIELD", "email")
@@ -63,9 +64,8 @@ def ouvrir_reponse_json(opener, requete, description):
             except json.JSONDecodeError:
                 return reponse.status, {}, contenu
     except HTTPError as erreur:
-        details = erreur.read().decode("utf-8", errors="replace")
         raise RuntimeError(
-            f"{description} refusee (HTTP {erreur.code}) : {details}"
+            f"{description} refusee (HTTP {erreur.code})."
         ) from erreur
     except URLError as erreur:
         raise RuntimeError(f"Connexion impossible pendant {description} : {erreur.reason}") from erreur
@@ -87,8 +87,7 @@ def obtenir_csrf(opener):
     if not jeton:
         raise RuntimeError(
             "La route CSRF doit renvoyer un JSON contenant le jeton, par exemple "
-            "{\"headerName\": \"X-CSRF-TOKEN\", \"token\": \"...\"}. "
-            f"Reponse recue : {contenu}"
+            "{\"headerName\": \"X-CSRF-TOKEN\", \"token\": \"...\"}."
         )
 
     return nom_entete or CSRF_HEADER_FALLBACK, str(jeton)
@@ -127,6 +126,26 @@ def se_connecter(opener, email, mot_de_passe):
     print("Compte connecte.")
 
 
+def obtenir_id_tapis(opener):
+    requete = Request(EQUIPMENTS_URL, headers={"Accept": "application/json"}, method="GET")
+    _, equipements, _ = ouvrir_reponse_json(opener, requete, "le chargement des equipements")
+    if not isinstance(equipements, list):
+        raise RuntimeError("Le catalogue d'equipements a renvoye un format invalide.")
+
+    tapis = next(
+        (equipment for equipment in equipements
+         if isinstance(equipment, dict) and equipment.get("type") == "TREADMILL"),
+        None,
+    )
+    if tapis is None:
+        raise RuntimeError("Aucun equipement de type TREADMILL n'est present dans le catalogue.")
+
+    equipment_id = tapis.get("id")
+    if isinstance(equipment_id, bool) or not isinstance(equipment_id, int) or equipment_id <= 0:
+        raise RuntimeError("L'equipement TREADMILL du catalogue a un identifiant invalide.")
+    return equipment_id
+
+
 def envoyer_activite(opener, activite):
     # Get a fresh token after login and immediately before the protected write.
     nom_entete, jeton = obtenir_csrf(opener)
@@ -143,25 +162,40 @@ def envoyer_activite(opener, activite):
     )
     statut, _, contenu = ouvrir_reponse_json(opener, requete, "l'envoi de la seance")
     print("Code HTTP :", statut)
-    if contenu:
-        print("Reponse :", contenu)
     print("La seance est envoyee pour le compte connecte ; aucun adherent_id n'est fourni par le simulateur.")
+
+
+def preparer_activite(activite, equipment_id):
+    if isinstance(equipment_id, bool) or not isinstance(equipment_id, int) or equipment_id <= 0:
+        raise RuntimeError("L'identifiant de l'equipement TREADMILL est invalide.")
+    return {
+        **activite,
+        "equipmentId": equipment_id,
+        "equipmentType": "TREADMILL",
+    }
 
 
 def main():
     print("===================================")
     print("FITNESS FRANCHISE - SIMULATEUR DE TAPIS DE COURSE")
     print("===================================")
-    print("API :", API_BASE_URL)
 
     email, mot_de_passe = identifiants_compte()
     jar = http.cookiejar.CookieJar()
     opener = build_opener(HTTPCookieProcessor(jar))
     se_connecter(opener, email, mot_de_passe)
 
-    activite = generer_activite()
+    equipment_id = obtenir_id_tapis(opener)
+    print("Equipement TREADMILL trouve dans le catalogue.")
+
+    activite = preparer_activite(generer_activite(), equipment_id)
     print("\nJSON final :")
-    print(json.dumps(activite, indent=4, ensure_ascii=False))
+    print(json.dumps(
+        {key: value for key, value in activite.items() if key != "equipmentId"},
+        indent=4,
+        ensure_ascii=False,
+    ))
+    print("Identifiant de l'equipement masque dans les logs.")
     print("\nEnvoi vers Spring Boot...")
     envoyer_activite(opener, activite)
 

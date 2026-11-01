@@ -30,7 +30,15 @@ public class PostgresAccountStore implements AccountStore {
             throw ex;
         }
     }
+    @Override @Transactional
+    public Account updateProfile(String normalizedEmail, String city, String gender, String sportObjective) {
+        Adherent adherent = repository.findByNormalizedEmail(RegistrationRequest.normalizeEmail(normalizedEmail))
+            .orElseThrow(() -> new org.springframework.security.core.userdetails.UsernameNotFoundException("Account unavailable"));
+        adherent.updateProfile(city, gender, sportObjective);
+        return account(repository.saveAndFlush(adherent));
+    }
     private static Account account(Adherent adherent) {
-        return new Account(adherent.getId(), adherent.getEmail(), adherent.displayName(), adherent.getPasswordHash());
+        return new Account(adherent.getId(), adherent.getEmail(), adherent.displayName(), adherent.getPasswordHash(),
+            adherent.getCity(), adherent.getGender(), adherent.getSportObjective());
     }
 }

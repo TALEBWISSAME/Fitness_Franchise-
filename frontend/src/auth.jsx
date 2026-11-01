@@ -26,5 +26,11 @@ export function AuthProvider({ children }) {
     await writeApi('/auth/logout', {})
     setUser(null); setError('')
   }
-  return <AuthContext.Provider value={{ user, loading, error, login, logout }}>{children}</AuthContext.Provider>
+  async function updateProfile(profile) {
+    const updatedProfile = await writeApi('/me', profile, 'PUT')
+    setUser(updatedProfile)
+    setError('')
+    return updatedProfile
+  }
+  return <AuthContext.Provider value={{ user, loading, error, login, logout, updateProfile }}>{children}</AuthContext.Provider>
 }

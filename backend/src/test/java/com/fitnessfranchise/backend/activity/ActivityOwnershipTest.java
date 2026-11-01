@@ -43,6 +43,20 @@ class ActivityOwnershipTest {
         verify(ownedActivities, never()).save(any(), eq(999L));
         verifyNoInteractions(legacyRepository);
     }
+    @Test void catalogEquipmentIdIsStillAssociatedWithTheAuthenticatedOwner() throws Exception {
+        mvc.perform(post("/api/activities").with(user("a@example.test")).with(csrf())
+            .contentType(MediaType.APPLICATION_JSON)
+            .content("""
+                {"equipmentId":16,"durationMinutes":20,"distanceKm":null,
+                 "date":"2026-10-11T14:30:00"}
+                """))
+            .andExpect(status().isAccepted());
+        verify(ownedActivities).save(
+            eq(new ActivityRequest(16L, null, 20, null,
+                java.time.LocalDateTime.parse("2026-10-11T14:30:00"))),
+            eq(1L));
+        verifyNoInteractions(legacyRepository);
+    }
     @Test void anonymousWithCsrfIsRejected() throws Exception {
         mvc.perform(post("/api/activities").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(BODY))
             .andExpect(status().isUnauthorized());

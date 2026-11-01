@@ -16,6 +16,12 @@ public class Adherent {
     private String passwordHash;
     @Column(name = "role", nullable = false, length = 20)
     private String role;
+    @Column(name = "city", length = 100)
+    private String city;
+    @Column(name = "gender", length = 32)
+    private String gender;
+    @Column(name = "sport_objective", length = 64)
+    private String sportObjective;
 
     protected Adherent() {}
     public Adherent(String email, String displayName, String passwordHash) {
@@ -29,6 +35,19 @@ public class Adherent {
     public String getEmail() { return email; }
     @JsonIgnore public String getPasswordHash() { return passwordHash; }
     public String getRole() { return role; }
+    public String getCity() { return city; }
+    public String getGender() { return gender; }
+    public String getSportObjective() { return sportObjective; }
     public String displayName() { return displayName; }
+    public void updateProfile(String city, String gender, String sportObjective) {
+        this.city = optionalText(city);
+        this.gender = optionalText(gender);
+        this.sportObjective = optionalText(sportObjective);
+    }
+    private static String optionalText(String value) {
+        if (value == null) return null;
+        String trimmed = value.trim();
+        return trimmed.isEmpty() ? null : trimmed;
+    }
     @Override public String toString() { return "Adherent[id=" + id + "]"; }
 }

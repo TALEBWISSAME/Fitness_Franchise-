@@ -53,3 +53,19 @@ test('jour de référence invalide refusé et dates d’activité invalides igno
   assert.throws(() => buildActivityStatistics([], '2026-02-30'))
   assert.equal(buildActivityStatistics([activity('invalid')], '2026-10-29').summary.sessionCount, 0)
 })
+
+test('distances nulles exclues du total mais séances et durées conservées', () => {
+  const { summary, weeks } = buildActivityStatistics([
+    { date: '2026-10-12T12:00:00', durationMinutes: 30, distanceKm: null },
+    { date: '2026-10-13T12:00:00', durationMinutes: 20, distanceKm: 4.5 },
+  ], '2026-10-29')
+  assert.deepEqual(summary, { sessionCount: 2, durationMinutes: 50, distanceKm: 4.5 })
+  assert.equal(weeks[1].sessionCount, 2)
+})
+
+test('distance statistique non applicable lorsque toutes les séances sont sans distance', () => {
+  const { summary } = buildActivityStatistics([
+    { date: '2026-10-12T12:00:00', durationMinutes: 30, distanceKm: null },
+  ], '2026-10-29')
+  assert.deepEqual(summary, { sessionCount: 1, durationMinutes: 30, distanceKm: null })
+})

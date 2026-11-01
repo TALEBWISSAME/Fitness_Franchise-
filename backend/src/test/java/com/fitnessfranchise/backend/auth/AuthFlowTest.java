@@ -49,6 +49,14 @@ class AuthFlowTest {
         mvc.perform(post("/api/auth/register").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(BODY))
             .andExpect(status().isConflict());
     }
+    @Test void persistenceConstraintFailureIsNotReportedAsAuthenticationFailure() throws Exception {
+        when(store.findByEmail("a@example.test")).thenReturn(Optional.empty());
+        when(store.create(any(), any(), any()))
+            .thenThrow(new org.springframework.dao.DataIntegrityViolationException("database details"));
+        mvc.perform(post("/api/auth/register").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(BODY))
+            .andExpect(status().isInternalServerError())
+            .andExpect(content().json("{\"error\":\"PERSISTENCE_ERROR\"}"));
+    }
     @Test void invalidRegistrationReturns400() throws Exception {
         for (String body : new String[] {"{}", BODY.replace("example-password", "short"), BODY.replace("A@EXAMPLE.TEST", "bad"), BODY.replace(" Compte A ", "   "), BODY.replace("example-password", "\u00e9".repeat(40))}) {
             mvc.perform(post("/api/auth/register").with(csrf()).contentType(MediaType.APPLICATION_JSON).content(body))
@@ -75,6 +83,36 @@ class AuthFlowTest {
     }
     @Test void profileRequiresSession() throws Exception {
         mvc.perform(get("/api/me")).andExpect(status().isUnauthorized());
+    }
+    @Test void profileUpdateRequiresSessionAndCsrfAndUsesAuthenticatedAccount() throws Exception {
+        mvc.perform(put("/api/me").with(csrf()).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"city\":\"Paris\",\"gender\":\"Femme\",\"sportObjective\":\"Endurance\"}"))
+            .andExpect(status().isUnauthorized());
+
+        var login = mvc.perform(post("/api/auth/login").with(csrf())
+            .param("email", "a@example.test").param("password", "example-password"))
+            .andExpect(status().isOk()).andReturn();
+        var session = (MockHttpSession) login.getRequest().getSession(false);
+        var body = "{\"city\":\"Paris\",\"gender\":\"Femme\",\"sportObjective\":\"Endurance\",\"id\":999}";
+        mvc.perform(put("/api/me").session(session).contentType(MediaType.APPLICATION_JSON).content(body))
+            .andExpect(status().isForbidden());
+
+        when(store.updateProfile("a@example.test", "Paris", "Femme", "Endurance")).thenReturn(
+            new AccountStore.Account(1L, "a@example.test", "Compte A", "hash", "Paris", "Femme", "Endurance"));
+        mvc.perform(put("/api/me").session(session).with(csrf()).contentType(MediaType.APPLICATION_JSON).content(body))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.city").value("Paris"))
+            .andExpect(jsonPath("$.gender").value("Femme"))
+            .andExpect(jsonPath("$.sportObjective").value("Endurance"))
+            .andExpect(jsonPath("$.passwordHash").doesNotExist());
+        verify(store).updateProfile("a@example.test", "Paris", "Femme", "Endurance");
+
+        clearInvocations(store);
+        mvc.perform(put("/api/me").session(session).with(csrf()).contentType(MediaType.APPLICATION_JSON)
+                .content("{\"gender\":\"Unknown\"}"))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().json("{\"error\":\"INVALID_REQUEST\"}"));
+        verifyNoInteractions(store);
     }
     @Test void csrfIsExposedAndRequiredForWrites() throws Exception {
         mvc.perform(get("/api/auth/csrf")).andExpect(status().isOk())

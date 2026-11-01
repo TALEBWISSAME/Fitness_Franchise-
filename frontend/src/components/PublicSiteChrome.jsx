@@ -17,8 +17,8 @@ function useSiteNavigation(onNavigate, currentPage) {
   return { user, section, account: () => onNavigate(user ? 'profile' : 'login') }
 }
 
-export function PublicHeader({ onNavigate, currentPage = 'home' }) {
-  const { section, account } = useSiteNavigation(onNavigate, currentPage)
+export function PublicHeader({ onNavigate, currentPage = 'home', compact = false }) {
+  const { section, account, user } = useSiteNavigation(onNavigate, currentPage)
   const [menuOpen, setMenuOpen] = useState(false)
   const menuButton = useRef(null)
   const header = useRef(null)
@@ -37,10 +37,10 @@ export function PublicHeader({ onNavigate, currentPage = 'home' }) {
     </button>
     <nav className={`fh-navigation ${menuOpen ? 'is-open' : ''}`} id="fh-navigation" aria-label="Navigation principale">
       <a href="#accueil" onClick={event => linkTo(event, 'accueil')}>Accueil</a>
-      <a href="#nos-espaces" onClick={event => linkTo(event, 'nos-espaces')}>Nos espaces</a>
+      {!compact && <a href="#nos-espaces" onClick={event => linkTo(event, 'nos-espaces')}>Nos espaces</a>}
       <button type="button" className="fh-nav-link" aria-current={currentPage === 'equipment' ? 'page' : undefined} onClick={() => navigate('equipment')}>Équipements</button>
-      <a href="#notre-concept" onClick={event => linkTo(event, 'notre-concept')}>À propos</a>
-      <button type="button" className="fh-account" onClick={() => { setMenuOpen(false); account() }}>Mon espace <SiteArrow /></button>
+      {!compact && <a href="#notre-concept" onClick={event => linkTo(event, 'notre-concept')}>À propos</a>}
+      <button type="button" className="fh-account" onClick={() => { setMenuOpen(false); if (compact && !user) onNavigate(currentPage === 'register' ? 'login' : 'register'); else account() }}>{compact && !user ? currentPage === 'register' ? 'Se connecter' : 'Créer mon compte' : 'Mon espace'} <SiteArrow /></button>
     </nav>
   </header>
 }

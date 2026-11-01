@@ -12,7 +12,9 @@ export default function StatsCards({ summary }) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false"><path d={iconPath} /></svg>
           </div>
           <p className="statistics-value">
-            {value.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} <span>{unit}</span>
+            {value == null
+              ? 'Non applicable'
+              : <>{value.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} <span>{unit}</span></>}
           </p>
         </section>
       ))}
