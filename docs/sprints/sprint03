@@ -1,0 +1,82 @@
+# FITNESS FRANCHISE — SPRINT 3
+
+**Durée :** 1 semaine  
+**Équipe :** Wissame, Lamia et Meriem
+
+## Objectif du Sprint 3
+
+Améliorer l'application Fitness Franchise en ajoutant la gestion des adhérents, des coachs et des administrateurs, ainsi que de nouvelles fonctionnalités pour le suivi sportif, la santé et la nutrition.
+
+## WISSAME — Comptes, administrateur et sécurité
+
+1. Ajouter trois types de comptes : adhérent, coach et administrateur.
+2. Créer un espace personnel adapté à chaque type de compte.
+3. Sécuriser l'accès aux pages et aux données selon le rôle.
+4. Envoyer un e-mail de confirmation après l'inscription.
+5. Permettre aux adhérents de confirmer leur adresse e-mail.
+6. Ajouter un bouton pour renvoyer l'e-mail de confirmation.
+7. Créer un tableau de bord administrateur.
+8. Permettre à l'administrateur de gérer les comptes des adhérents.
+9. Permettre à l'administrateur de gérer les comptes des coachs.
+10. Permettre à l'administrateur d'attribuer un coach à un adhérent.
+11. Permettre à l'administrateur de gérer les machines de sport.
+12. Tester la gestion des comptes et la sécurité.
+
+## LAMIA — Coachs et programmes sportifs
+
+1. Créer un espace personnel pour les coachs.
+2. Afficher les adhérents suivis par chaque coach.
+3. Permettre au coach de créer des programmes sportifs personnalisés.
+4. Permettre aux adhérents de consulter leurs programmes.
+5. Permettre aux adhérents de marquer les exercices terminés.
+6. Ajouter les séries, répétitions et poids utilisés pour les exercices.
+7. Ajouter des graphiques pour suivre les performances sportives.
+8. Créer un calendrier des entraînements.
+9. Permettre aux adhérents de comparer leurs progrès.
+10. Tester les programmes sportifs et le suivi des exercices.
+11. Vérifier que les fonctionnalités existantes des séances fonctionnent toujours.
+
+## MERIEM — Santé, nutrition et badges
+
+1. Créer un espace pour enregistrer la taille, le poids et les informations médicales.
+2. Permettre aux adhérents d'ajouter leurs blessures, allergies et limitations physiques.
+3. Permettre aux adhérents de modifier ou supprimer leurs informations médicales.
+4. Permettre aux adhérents de choisir les informations médicales partagées avec leur coach.
+5. Protéger les informations médicales contre les accès non autorisés.
+6. Créer une page « Ma nutrition ».
+7. Permettre aux adhérents d'enregistrer leurs repas.
+8. Afficher les calories, protéines, glucides et lipides.
+9. Créer un système de badges sportifs.
+10. Débloquer automatiquement les badges lorsque les objectifs sont atteints.
+11. Afficher les badges obtenus dans le profil.
+12. Tester les fonctionnalités médicales, nutritionnelles et les badges.
+
+## TÂCHES COMMUNES
+
+1. Préparer les nouvelles tables PostgreSQL.
+2. Vérifier ensemble les modifications de la base de données.
+3. Tester les échanges entre React, Spring Boot et PostgreSQL.
+4. Vérifier le fonctionnement des nouvelles fonctionnalités.
+5. Vérifier que les fonctionnalités du Sprint 2 fonctionnent toujours.
+6. Mettre à jour la documentation.
+7. Prendre des captures d'écran des fonctionnalités développées.
+8. Mettre à jour GitHub Projects.
+9. Préparer la démonstration pour le professeur.
+
+## Organisation du Sprint 3
+
+**Jour 1 :** Gestion des rôles, permissions et préparation de la base de données.
+
+**Jour 2 :** Développement des espaces administrateur et coach.
+
+**Jour 3 :** Développement des programmes sportifs et des fonctionnalités médicales.
+
+**Jour 4 :** Développement de la nutrition, des badges, des statistiques et du calendrier.
+
+**Jour 5 :** Tests, corrections, documentation et préparation de la démonstration.
+
+## Règle de fin de sprint
+
+À la fin de la semaine, les tâches développées et testées seront placées dans la colonne **Done** de GitHub Projects.
+
+Les tâches non terminées seront conservées dans le backlog et reportées au **Sprint 4**.
