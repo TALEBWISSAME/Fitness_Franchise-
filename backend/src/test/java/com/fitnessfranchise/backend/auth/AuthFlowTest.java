@@ -28,6 +28,21 @@ class AuthFlowTest {
         when(store.findByEmail("a@example.test")).thenReturn(Optional.of(
             new AccountStore.Account(1L, "a@example.test", "Compte A", encoder.encode("example-password"))));
     }
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.EnumSource(Role.class)
+    void loginUsesStoredRole(Role role) throws Exception {
+        when(store.findByEmail("a@example.test")).thenReturn(Optional.of(
+            new AccountStore.Account(1L, "a@example.test", "Compte A", encoder.encode("example-password"),
+                null, null, null, role)));
+        var result = mvc.perform(post("/api/auth/login").with(csrf())
+            .param("email", "a@example.test").param("password", "example-password"))
+            .andExpect(status().isOk()).andReturn();
+        var session = (MockHttpSession) result.getRequest().getSession(false);
+        var context = (org.springframework.security.core.context.SecurityContext)
+            session.getAttribute("SPRING_SECURITY_CONTEXT");
+        assertThat(context.getAuthentication().getAuthorities()).extracting("authority")
+            .containsExactly("ROLE_" + role.name());
+    }
     @Test void registersNormalizedAccountAndHashesPassword() throws Exception {
         when(store.findByEmail("a@example.test")).thenReturn(Optional.empty());
         when(store.create(eq("a@example.test"), eq("Compte A"), anyString())).thenAnswer(i -> {

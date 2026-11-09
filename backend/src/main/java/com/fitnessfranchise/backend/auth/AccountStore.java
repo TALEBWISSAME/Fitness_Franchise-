@@ -10,7 +10,14 @@ public interface AccountStore {
     // create must atomically enforce email uniqueness, persist role MEMBER, and throw DuplicateEmailException on email conflict.
     class DuplicateEmailException extends RuntimeException {}
     record Account(Long id, String email, String displayName, @com.fasterxml.jackson.annotation.JsonIgnore String passwordHash,
-                   String city, String gender, String sportObjective) {
+                   String city, String gender, String sportObjective, Role role) {
+        public Account {
+            java.util.Objects.requireNonNull(role, "role");
+        }
+        public Account(Long id, String email, String displayName, String passwordHash,
+                       String city, String gender, String sportObjective) {
+            this(id, email, displayName, passwordHash, city, gender, sportObjective, Role.MEMBER);
+        }
         public Account(Long id, String email, String displayName, String passwordHash) {
             this(id, email, displayName, passwordHash, null, null, null);
         }

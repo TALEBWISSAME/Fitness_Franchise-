@@ -39,6 +39,6 @@ public class PostgresAccountStore implements AccountStore {
     }
     private static Account account(Adherent adherent) {
         return new Account(adherent.getId(), adherent.getEmail(), adherent.displayName(), adherent.getPasswordHash(),
-            adherent.getCity(), adherent.getGender(), adherent.getSportObjective());
+            adherent.getCity(), adherent.getGender(), adherent.getSportObjective(), adherent.getRole());
     }
 }

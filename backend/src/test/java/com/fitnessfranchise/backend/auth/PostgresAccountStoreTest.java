@@ -8,12 +8,25 @@ import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 
 class PostgresAccountStoreTest {
+    @org.junit.jupiter.params.ParameterizedTest
+    @org.junit.jupiter.params.provider.EnumSource(Role.class)
+    void preservesStoredRoleWhenLoadingAccount(Role role) {
+        var repository = mock(AdherentRepository.class);
+        var adherent = mock(Adherent.class);
+        when(adherent.getRole()).thenReturn(role);
+        when(repository.findByNormalizedEmail("a@example.test"))
+            .thenReturn(java.util.Optional.of(adherent));
+
+        var account = new PostgresAccountStore(repository).findByEmail("a@example.test").orElseThrow();
+
+        assertThat(account.role()).isEqualTo(role);
+    }
     @Test void displayNameMappingIsReversibleAndRoleIsOrdinary() {
         for (String name : new String[] {"Compte A", "Wissame", "Ali Ali", "Jean  Dupont", "a".repeat(100)}) {
             var account = new Adherent(" A@EXAMPLE.TEST ", name, "private-hash");
             assertThat(account.displayName()).isEqualTo(name);
             assertThat(account.getDisplayName()).isEqualTo(name).hasSizeLessThanOrEqualTo(100);
-            assertThat(account.getRole()).isEqualTo("MEMBER");
+            assertThat(account.getRole()).isEqualTo(Role.MEMBER);
             assertThat(account.getEmail()).isEqualTo("a@example.test");
             assertThat(account.toString()).doesNotContain("private-hash");
         }

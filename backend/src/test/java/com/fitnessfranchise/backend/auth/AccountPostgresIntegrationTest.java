@@ -3,11 +3,15 @@ package com.fitnessfranchise.backend.auth;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
@@ -17,7 +21,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /** Real PostgreSQL tests using Lamia's schema and the JPA adapters.
- * No SQL, schema generation, test account mock or automatic migrations here.
+ * SQL fixtures exercise persisted role strings without using the entity constructor.
+ * No schema generation, test account mock or automatic migrations here.
  * Transactions roll back rows except the explicit commit test, which cleans up its own email.
  * PostgreSQL identity sequences may advance.
  */
@@ -91,6 +96,64 @@ class AccountPostgresIntegrationTest {
     @Autowired EntityManager entityManager;
     @Autowired JdbcTemplate jdbc;
     @Autowired org.springframework.security.crypto.password.PasswordEncoder encoder;
+
+    @ParameterizedTest
+    @EnumSource(value = Role.class, names = {"COACH", "ADMIN"})
+    void persistedStaffAccountCanLoginWithStoredRole(Role role) throws Exception {
+        String email = "role-" + UUID.randomUUID() + "@example.test";
+        String hash = encoder.encode("example-password");
+        jdbc.update("""
+                INSERT INTO public.adherents (email, display_name, password_hash, role)
+                VALUES (?, ?, ?, ?)
+                """, email, "Compte " + role.name(), hash, role.name());
+        entityManager.clear();
+
+        var account = store.findByEmail(email).orElseThrow();
+        assertThat(account.role()).isEqualTo(role);
+        assertThat(adherents.findById(account.id()).orElseThrow().getRole()).isEqualTo(role);
+        assertLoginRoleAndProfile(email, role);
+        assertThat(jdbc.queryForObject("SELECT role FROM public.adherents WHERE email = ?",
+                String.class, email)).isEqualTo(role.name());
+    }
+
+    @Test void legacyMemberStringCanBeReadAndAuthenticateWithoutRewritingAccount() throws Exception {
+        String email = "legacy-member-" + UUID.randomUUID() + "@example.test";
+        String hash = encoder.encode("example-password");
+        // Simulate a row written before Role became an enum, independently of current JPA creation.
+        jdbc.update("""
+                INSERT INTO public.adherents (email, display_name, password_hash, role)
+                VALUES (?, ?, ?, 'MEMBER')
+                """, email, "Ancien membre", hash);
+        var originalRow = jdbc.queryForMap("SELECT * FROM public.adherents WHERE email = ?", email);
+        entityManager.clear();
+
+        var account = store.findByEmail(email).orElseThrow();
+        assertThat(account.role()).isEqualTo(Role.MEMBER);
+        assertThat(account.displayName()).isEqualTo("Ancien membre");
+        assertThat(account.passwordHash()).isEqualTo(hash);
+        assertThat(adherents.findById(account.id()).orElseThrow().getRole()).isEqualTo(Role.MEMBER);
+        assertLoginRoleAndProfile(email, Role.MEMBER);
+
+        entityManager.flush();
+        entityManager.clear();
+        assertThat(jdbc.queryForMap("SELECT * FROM public.adherents WHERE email = ?", email))
+                .isEqualTo(originalRow);
+    }
+
+    private void assertLoginRoleAndProfile(String email, Role role) throws Exception {
+        var result = mvc.perform(post("/api/auth/login").with(csrf())
+                .param("email", email).param("password", "example-password"))
+                .andExpect(status().isOk()).andReturn();
+        var session = (MockHttpSession) result.getRequest().getSession(false);
+        assertThat(session).isNotNull();
+        var context = (SecurityContext) session.getAttribute("SPRING_SECURITY_CONTEXT");
+        assertThat(context).isNotNull();
+        assertThat(context.getAuthentication().getAuthorities()).extracting("authority")
+                .containsExactly("ROLE_" + role.name());
+        mvc.perform(get("/api/me").session(session))
+                .andExpect(status().isOk()).andExpect(jsonPath("$.email").value(email));
+    }
+
     @Test void registrationIsPersistedAndCanAuthenticate() throws Exception {
         assertThat(jdbc.execute((java.sql.Connection connection) ->
                 connection.getMetaData().getDatabaseProductName())).isEqualTo("PostgreSQL");
@@ -105,7 +168,7 @@ class AccountPostgresIntegrationTest {
         assertThat(saved.displayName()).isEqualTo("Compte test");
         var row = adherents.findById(saved.id()).orElseThrow();
         assertThat(row.getDisplayName()).isEqualTo("Compte test");
-        assertThat(row.getRole()).isEqualTo("MEMBER");
+        assertThat(row.getRole()).isEqualTo(Role.MEMBER);
         assertThat(encoder.matches("example-password", saved.passwordHash())).isTrue();
         var result = mvc.perform(post("/api/auth/login").with(csrf())
                 .param("email", email).param("password", "example-password"))

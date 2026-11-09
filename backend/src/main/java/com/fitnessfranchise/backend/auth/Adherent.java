@@ -14,8 +14,9 @@ public class Adherent {
     private String email;
     @JsonIgnore @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, length = 20)
-    private String role;
+    private Role role;
     @Column(name = "city", length = 100)
     private String city;
     @Column(name = "gender", length = 32)
@@ -28,13 +29,13 @@ public class Adherent {
         this.email = RegistrationRequest.normalizeEmail(email);
         this.displayName = displayName;
         this.passwordHash = passwordHash;
-        this.role = "MEMBER";
+        this.role = Role.MEMBER;
     }
     public Long getId() { return id; }
     public String getDisplayName() { return displayName; }
     public String getEmail() { return email; }
     @JsonIgnore public String getPasswordHash() { return passwordHash; }
-    public String getRole() { return role; }
+    public Role getRole() { return role; }
     public String getCity() { return city; }
     public String getGender() { return gender; }
     public String getSportObjective() { return sportObjective; }

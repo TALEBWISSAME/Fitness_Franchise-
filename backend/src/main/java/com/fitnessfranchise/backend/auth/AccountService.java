@@ -27,6 +27,6 @@ public class AccountService {
     public UserDetails loadUserByUsername(String email) {
         var account = store.findByEmail(RegistrationRequest.normalizeEmail(email))
                 .orElseThrow(() -> new UsernameNotFoundException("Invalid credentials"));
-        return User.withUsername(account.email()).password(account.passwordHash()).roles("MEMBER").build();
+        return User.withUsername(account.email()).password(account.passwordHash()).roles(account.role().name()).build();
     }
 }
